@@ -17,11 +17,12 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-//    @Autowired
-//    private PasswordEncoder passwordEncoder;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @PostMapping(path = "/add")
     public ResponseEntity<User> save(@RequestBody User user){
-        //TODO add the encoding of the password
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userService.save(user);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
