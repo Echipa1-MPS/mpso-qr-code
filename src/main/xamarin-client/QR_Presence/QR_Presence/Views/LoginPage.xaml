@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="QR_Presence.Views.LoginPage">
+             x:Class="QR_Presence.Views.LoginPage"
+             xmlns:fa ="clr-namespace:FontAwesome">
     <ContentPage.Content>
         <StackLayout Padding="16,40,16,16" >
             <Image Source="login.png" VerticalOptions="StartAndExpand"/>
@@ -21,20 +22,21 @@
                        OutlineColor="{Binding Source={x:Reference outerFrame}, Path=OutlineColor}" 
                        BackgroundColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundDark}}" >
                     <StackLayout VerticalOptions="CenterAndExpand" Spacing="80">
-                        <Label Text="User Login"
+                        <Label Text="Login Page"
                                 FontAttributes="Bold"
                                 FontSize="24"   
                                 HorizontalOptions="CenterAndExpand" />  
+                          
                         <StackLayout Spacing="12">
                             <Frame BackgroundColor="{AppThemeBinding Light={StaticResource LiteGray}, Dark={StaticResource DarkGray}}" Padding="12,4,12,4" CornerRadius="10" >
-                                <Entry Placeholder="Email" Keyboard="Email"/>
+                                <Entry Placeholder="User  Email" FontFamily="FAS" Keyboard="Email"/>
                             </Frame>
                             <Frame BackgroundColor="{AppThemeBinding Light={StaticResource LiteGray}, Dark={StaticResource DarkGray}}" Padding="12,4,12,4" CornerRadius="10" >
-                                <Entry Placeholder="Password" IsPassword="True"/>
+                                <Entry Placeholder="Key  Password" FontFamily="FAS" IsPassword="True"/>
                             </Frame>
                         </StackLayout>
                         <StackLayout Padding="20,0,20,0">
-                            <Button Text="Login" Style="{StaticResource MainButtonUnChecked}" HeightRequest="52"/>
+                            <Button Text="Login"  Style="{StaticResource MainButtonUnChecked}" HeightRequest="52"/>
                             <Button Text="Cancel" Style="{StaticResource MainButtonUnChecked}" HeightRequest="52"/>
                         </StackLayout>
                     </StackLayout>
