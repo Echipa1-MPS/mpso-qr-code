@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="QR_Presence.Views.LoginPage">
+    <ContentPage.Content>
+        <StackLayout Padding="16,40,16,16" >
+            <Image Source="login.png" VerticalOptions="StartAndExpand"/>
+
+            <Frame x:Name="outerFrame" 
+                   HasShadow="False" 
+                   Padding="0"
+                   HorizontalOptions="FillAndExpand" 
+                   CornerRadius="20" 
+                   OutlineColor="#DDC0CC" 
+                   BackgroundColor="{Binding Source={RelativeSource Self}, Path=OutlineColor}" >
+                <Frame x:Name="innerFrame" 
+                       Margin="2" 
+                       Padding="16,32,16,36" 
+                       HasShadow="False" 
+                       HorizontalOptions="FillAndExpand" CornerRadius="20" 
+                       OutlineColor="{Binding Source={x:Reference outerFrame}, Path=OutlineColor}" 
+                       BackgroundColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundDark}}" >
+                    <StackLayout VerticalOptions="CenterAndExpand" Spacing="80">
+                        <Label Text="User Login"
+                                FontAttributes="Bold"
+                                FontSize="24"   
+                                HorizontalOptions="CenterAndExpand" />  
+                        <StackLayout Spacing="12">
+                            <Frame BackgroundColor="{AppThemeBinding Light={StaticResource LiteGray}, Dark={StaticResource DarkGray}}" Padding="12,4,12,4" CornerRadius="10" >
+                                <Entry Placeholder="Email" Keyboard="Email"/>
+                            </Frame>
+                            <Frame BackgroundColor="{AppThemeBinding Light={StaticResource LiteGray}, Dark={StaticResource DarkGray}}" Padding="12,4,12,4" CornerRadius="10" >
+                                <Entry Placeholder="Password" IsPassword="True"/>
+                            </Frame>
+                        </StackLayout>
+                        <StackLayout Padding="20,0,20,0">
+                            <Button Text="Login" Style="{StaticResource MainButtonUnChecked}" HeightRequest="52"/>
+                            <Button Text="Cancel" Style="{StaticResource MainButtonUnChecked}" HeightRequest="52"/>
+                        </StackLayout>
+                    </StackLayout>
+                </Frame>
+            </Frame>
+            
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
