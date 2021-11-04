@@ -2,7 +2,18 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="QR_Presence.Views.LoginPage"
-             xmlns:fa ="clr-namespace:FontAwesome">
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:fa ="clr-namespace:FontAwesome"
+             NavigationPage.HasNavigationBar="False"
+             >
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="InvaildEmail" TargetType="Entry">
+                <Setter Property="TextColor" Value="Red"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ContentPage.Content>
         <StackLayout Padding="16,40,16,16" >
             <Image Source="login.png" VerticalOptions="StartAndExpand"/>
@@ -29,14 +40,19 @@
                           
                         <StackLayout Spacing="12">
                             <Frame BackgroundColor="{AppThemeBinding Light={StaticResource LiteGray}, Dark={StaticResource DarkGray}}" Padding="12,4,12,4" CornerRadius="10" >
-                                <Entry Placeholder="User  Email" FontFamily="FAS" Keyboard="Email"/>
+                                <Entry Placeholder="User  Email" FontFamily="FAR" Keyboard="Email" ClearButtonVisibility="WhileEditing" IsSpellCheckEnabled="True">
+                                    <Entry.Behaviors>
+                                        <xct:EmailValidationBehavior DecorationFlags="Trim" InvalidStyle="{StaticResource InvaildEmail}"/>
+                                    </Entry.Behaviors>
+                                </Entry>
                             </Frame>
                             <Frame BackgroundColor="{AppThemeBinding Light={StaticResource LiteGray}, Dark={StaticResource DarkGray}}" Padding="12,4,12,4" CornerRadius="10" >
-                                <Entry Placeholder="Key  Password" FontFamily="FAS" IsPassword="True"/>
+                                <Entry Placeholder="ellipsis-h  Password" FontFamily="FAS" IsPassword="True" ClearButtonVisibility="WhileEditing"/>
+
                             </Frame>
                         </StackLayout>
                         <StackLayout Padding="20,0,20,0">
-                            <Button Text="Login"  Style="{StaticResource MainButtonUnChecked}" HeightRequest="52"/>
+                            <Button Text="Login"  Style="{StaticResource MainButtonUnChecked}" HeightRequest="52" Clicked="Button_Clicked"/>
                             <Button Text="Cancel" Style="{StaticResource MainButtonUnChecked}" HeightRequest="52"/>
                         </StackLayout>
                     </StackLayout>
