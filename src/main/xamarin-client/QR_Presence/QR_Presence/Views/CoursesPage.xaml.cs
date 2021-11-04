@@ -10,16 +10,11 @@ using Xamarin.Forms.Xaml;
 namespace QR_Presence.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class LoginPage : ContentPage
+    public partial class CoursesPage : ContentPage
     {
-        public LoginPage()
+        public CoursesPage()
         {
             InitializeComponent();
-        }
-
-        private async void Button_Clicked(object sender, EventArgs e)
-        {
-           await Navigation.PushAsync(new CoursesPage());
         }
     }
 }
