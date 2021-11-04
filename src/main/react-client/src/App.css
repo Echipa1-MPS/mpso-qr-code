@@ -1,0 +1,27 @@
+.dark-blue-background {
+    background-color: #006BA6;
+}
+
+.light-blue-background {
+    background-color: #0496FF;
+}
+
+.accent-yellow-background {
+    background-color: #FFBC42;
+}
+
+.dark-pink-background {
+    background-color: #D81159;
+}
+
+.rose-budget-background {
+    background-color: #8F2D56;
+}
+
+.white-text-font {
+    color: white;
+}
+
+.header-options-text-size {
+    font-size: 1.2rem;
+}
