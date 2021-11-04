@@ -1,5 +1,7 @@
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Header from "./components/Header/Header";
+import Login from "./components/Login/Login";
+import About from "./components/About/About";
 
 export default function App() {
   return (
@@ -8,6 +10,9 @@ export default function App() {
       <Router>
         <div>
           <Switch>
+            <Route path="/login">
+              <Login />
+            </Route>
             <Route path="/about">
               <About />
             </Route>
@@ -26,10 +31,6 @@ export default function App() {
 
 function Home() {
   return <h2>Home</h2>;
-}
-
-function About() {
-  return <h2>About</h2>;
 }
 
 function Users() {
