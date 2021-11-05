@@ -27,7 +27,7 @@
                            CharacterSpacing="2"
                            VerticalOptions="CenterAndExpand" 
                            HorizontalOptions="StartAndExpand" />
-                        <Button Text="pencil-alt" FontFamily="FAS" FontSize="Large" BackgroundColor="Transparent" WidthRequest="46" />
+                        <Button FontFamily="FAS" FontSize="Large" BackgroundColor="Transparent" WidthRequest="46" />
                     </StackLayout>
                 </Frame>
             </Frame>
@@ -119,7 +119,7 @@
                                     VerticalOptions="CenterAndExpand"
                                     TextColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundDark}}"
                                     FontAttributes="Bold"
-                                    FontSize="Medium"
+                                    FontSize="18"
                                     Style="{StaticResource TitleStyle}"/>
                         </Frame>
                     </ContentView>
