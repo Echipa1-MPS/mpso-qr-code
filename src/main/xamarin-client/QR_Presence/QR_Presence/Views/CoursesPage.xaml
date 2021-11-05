@@ -4,10 +4,36 @@
              x:Class="QR_Presence.Views.CoursesPage"
              NavigationPage.HasNavigationBar="False">
     <ContentPage.Content>
-        <StackLayout>
+        <StackLayout Padding="8,16,8,16" Spacing="16">
+
+            <Frame x:Name="outerFrame" 
+                   HasShadow="False" 
+                   Padding="0"
+                   HorizontalOptions="FillAndExpand" 
+                   CornerRadius="15" 
+                   OutlineColor="#DDC0CC" 
+                   BackgroundColor="{Binding Source={RelativeSource Self}, Path=OutlineColor}" >
+                <Frame x:Name="innerFrame" 
+                       Margin="3" 
+                       Padding="8,4,8,4" 
+                       HasShadow="False" 
+                       HorizontalOptions="FillAndExpand" CornerRadius="15" 
+                       OutlineColor="{Binding Source={x:Reference outerFrame}, Path=OutlineColor}" 
+                       BackgroundColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundDark}}" >
+                    <StackLayout Orientation="Horizontal" Padding="8,0,0,0">
+                        <Label Text="Courses List"
+                           FontSize="24"
+                           FontAttributes="Bold"
+                           CharacterSpacing="2"
+                           VerticalOptions="CenterAndExpand" 
+                           HorizontalOptions="StartAndExpand" />
+                        <Button Text="pencil-alt" FontFamily="FAS" FontSize="Large" BackgroundColor="Transparent" WidthRequest="46" />
+                    </StackLayout>
+                </Frame>
+            </Frame>
             <CollectionView x:Name="accountsList"
                             SelectionMode="Single"
-                            ItemsSource="{Binding AccountsList}"
+                            ItemsSource="{Binding CourseList}"
                             >
 
                 <CollectionView.ItemsLayout>
@@ -36,7 +62,7 @@
 
                                 <Label Grid.Column="1"
                                        HorizontalOptions="EndAndExpand"
-                                       Text="{Binding Path=Balance,StringFormat='{0:F2} Lei'}"
+                                       Text="{Binding Prof}"
                                        TextColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundDark}}"
                                        FontAttributes="Bold"
                                        FontSize="Medium"
@@ -54,7 +80,7 @@
                                  VerticalOptions="CenterAndExpand">
                             <Label Text="Go to Bill Page and "
                                    FontAttributes="Bold"
-                                   TextColor="{AppThemeBinding Light={StaticResource BackgroundDark}, Dark={StaticResource BackgroundLight}}"
+                                   TextColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundDark}}"
                                    FontSize="18"
                                    HorizontalOptions="Center"
                                    VerticalOptions="Center"/>
@@ -84,8 +110,21 @@
                         </StackLayout>
                     </ContentView>
                 </CollectionView.EmptyView>
-                
-                
+
+                <CollectionView.Header>
+                    <ContentView>
+                        <Frame BackgroundColor="{StaticResource AccentDarkBlue} " CornerRadius="15" Padding="0" HeightRequest="45">
+                            <Label Text="Number of courses enroled: 3"
+                                    HorizontalOptions="CenterAndExpand"
+                                    VerticalOptions="CenterAndExpand"
+                                    TextColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundDark}}"
+                                    FontAttributes="Bold"
+                                    FontSize="Medium"
+                                    Style="{StaticResource TitleStyle}"/>
+                        </Frame>
+                    </ContentView>
+                </CollectionView.Header>
+
             </CollectionView>
         </StackLayout>
     </ContentPage.Content>

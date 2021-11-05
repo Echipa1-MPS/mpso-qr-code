@@ -37,10 +37,12 @@
             </Style>
 
             <Style x:Key="FrameList" TargetType="Frame">
-                <Setter Property="CornerRadius" Value="15"/>
-                <Setter Property="Padding" Value="10"/>
                 <Setter Property="BorderColor" Value="{AppThemeBinding Dark={StaticResource AccentLiteBlue}, Light={StaticResource AccentLiteBlue}}" />
-                <Setter Property="BackgroundColor" Value="Transparent"/>
+                <Setter Property="Padding" Value="10,10,10,10" />
+                <Setter Property="CornerRadius" Value="10"/>
+                <Setter Property="BackgroundColor" Value="{AppThemeBinding Dark={StaticResource AccentLiteBlue}, Light={StaticResource AccentLiteBlue}}" />
+                <Setter Property="Opacity" Value="1"/>
+                <Setter Property="HasShadow" Value="True"/>
             </Style>
 
             <Style x:Key="TitleStyle" TargetType="Label">
