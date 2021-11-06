@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="QR_Presence.Views.Course.PresencePage"
+             xmlns:microcharts="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms"
              NavigationPage.HasNavigationBar="False"
              >
     <ContentPage.Content>
@@ -53,7 +54,7 @@
                 </Grid>
                 <Frame Grid.Row="1" CornerRadius="15" BackgroundColor="{StaticResource LiteGray}">
                     <StackLayout>
-
+                        <microcharts:ChartView x:Name="chartView" HeightRequest ="250" WidthRequest="350" HorizontalOptions="Center" VerticalOptions="Center" Chart="{Binding Graf}"/>
                     </StackLayout>
                 </Frame>
 
@@ -111,7 +112,6 @@
 
                     <StackLayout>
                         <Frame Style="{StaticResource FrameList}" BackgroundColor="{StaticResource AccentDarkRed}" BorderColor="{StaticResource AccentDarkRed}" Padding="1">
-
                             <StackLayout Orientation="Horizontal" Padding="12,0,0,0">
                                 <Label Text="Student Attentive"  TextColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundDark}}" FontSize="Medium" FontAttributes="Bold"  VerticalOptions="CenterAndExpand"/>
                                 <Button x:Name="attentiveButton"  TextColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundDark}}" Text="chevron-down" FontFamily="FAS"  WidthRequest="50" VerticalOptions="CenterAndExpand" BackgroundColor="Transparent" HorizontalOptions="EndAndExpand" Clicked="Button_Clicked"/>

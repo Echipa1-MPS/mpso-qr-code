@@ -1,4 +1,6 @@
-﻿using QR_Presence.Models;
+﻿using Microcharts;
+using QR_Presence.Models;
+using SkiaSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,13 +9,15 @@ using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using Entry = Microcharts.ChartEntry;
+
 
 namespace QR_Presence.Views.Course
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class PresencePage : ContentPage
     {
-        public List<Models.UserModel> PersonsPresents { get; set; } = new List<Models.UserModel>
+        public List<UserModel> PersonsPresents { get; set; } = new List<Models.UserModel>
         {
             new Models.UserModel
             {
@@ -176,7 +180,7 @@ namespace QR_Presence.Views.Course
                 Privilege = 1
             }
         };
-        public List<Models.UserModel> PersonsAttentive { get; set; } = new List<Models.UserModel>
+        public List<UserModel> PersonsAttentive { get; set; } = new List<Models.UserModel>
         {
             new Models.UserModel
             {
@@ -211,7 +215,7 @@ namespace QR_Presence.Views.Course
                 Privilege = 1
             }
         };
-        public List<Models.UserModel> PersonsActives { get; set; } = new List<Models.UserModel>
+        public List<UserModel> PersonsActives { get; set; } = new List<Models.UserModel>
         {
             new Models.UserModel
             {
@@ -283,8 +287,47 @@ namespace QR_Presence.Views.Course
             }
         };
 
-
         public Button CurrentListSelected { get; set; } = new Button { Text = "-" };
+
+        public static List<Entry>  Entrys { get; set; } = new List<Entry>
+        {
+            new Entry(50)
+            {
+                Color = SKColor.Parse(Color.Red.ToHex()),
+                ValueLabelColor = SKColor.Parse(Color.Red.ToHex()),
+                Label = "Presence",
+                TextColor = SKColor.Parse(Color.Red.ToHex()),
+                ValueLabel = $"50"
+            },
+            new Entry(30)
+            {
+                Color = SKColor.Parse(Color.Green.ToHex()),
+                ValueLabelColor = SKColor.Parse(Color.Green.ToHex()),
+                Label = "Attentive",
+                TextColor = SKColor.Parse(Color.Green.ToHex()),
+
+                ValueLabel = $"30"
+            },
+            new Entry(25)
+            {
+                Color = SKColor.Parse(Color.Blue.ToHex()),
+                ValueLabelColor = SKColor.Parse(Color.Blue.ToHex()),
+                Label = "Actives",
+                TextColor = SKColor.Parse(Color.Blue.ToHex()),
+                
+                ValueLabel = $"25"
+            },
+        };
+        public Chart Graf { get; set; } = new PointChart
+        {
+            Entries = Entrys,
+            LabelTextSize = 40f,
+           
+           
+            LabelOrientation = Orientation.Horizontal,
+            ValueLabelOrientation = Orientation.Horizontal,
+            BackgroundColor = SKColor.Parse(Color.Transparent.ToHex())
+        };
 
         public PresencePage()
         {
