@@ -162,17 +162,19 @@
 
                         <Grid>
                             <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="0.7*"/>
                                 <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="0.3*"/>
+
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
                             <Frame Style="{StaticResource FrameList}" Padding="0">
                                 <StackLayout Spacing="0" Grid.Row="0" Grid.Column="0" Padding="12,0,12,0">
-                                    <Picker Title="Select a Interval " 
-                                    TextColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundDark}}"
-                                    TitleColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundDark}}"
+                                    <Picker Title="Select Interval" 
+                                    TextColor="{AppThemeBinding Light={StaticResource BackgroundDark}, Dark={StaticResource BackgroundLight}}"
+                                    TitleColor="{AppThemeBinding Light={StaticResource BackgroundDark}, Dark={StaticResource BackgroundLight}}"
                                         
                                     ItemsSource="{Binding Course.Intervals}"
                                     ItemDisplayBinding="{Binding IntervalHE}"
@@ -182,14 +184,27 @@
                             <Frame Style="{StaticResource FrameList}"  Grid.Row="0" Grid.Column="1" Padding="0">
 
                                 <StackLayout Spacing="0" Grid.Row="0" Grid.Column="1" Padding="12,0,12,0">
-                                    <Picker Title="Select a Date" 
-                                    TextColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundDark}}"
-                                    TitleColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundDark}}"
+                                    <Picker Title="Select Date" 
+                                    TextColor="{AppThemeBinding Light={StaticResource BackgroundDark}, Dark={StaticResource BackgroundLight}}"
+                                    TitleColor="{AppThemeBinding Light={StaticResource BackgroundDark}, Dark={StaticResource BackgroundLight}}"
                                     ItemsSource="{Binding Dates}"
                                     ItemDisplayBinding="{Binding .}"
                                     SelectedItem="{Binding SelectedDate}" />
                                 </StackLayout>
                             </Frame>
+                            <Frame Style="{StaticResource FrameList}" Grid.Row="0" Grid.Column="2" Padding="0">
+                                <Button Text="file-download"
+                                        Grid.Row="0" Grid.Column="2"
+                                        Style="{StaticResource MainButtonUnChecked}"
+                                        BackgroundColor="{StaticResource AccentLiteBlue}"
+                                        BorderColor="{StaticResource AccentLiteBlue}"
+                                        TextColor="{AppThemeBinding Light={StaticResource BackgroundDark}, Dark={StaticResource BackgroundLight}}"
+                                        CornerRadius="10"
+                                        FontFamily="FAS" FontSize="24"  
+                                        VerticalOptions="CenterAndExpand" 
+                                        HorizontalOptions="CenterAndExpand" />
+                            </Frame>
+
                         </Grid>
                         <Frame Grid.Row="1" CornerRadius="15" BackgroundColor="Transparent">
                             <StackLayout>
@@ -353,25 +368,7 @@
                         </StackLayout>
                     </Grid>
 
-                    <Frame Style="{StaticResource FrameList}" BackgroundColor="{StaticResource AccentDarkRed}" BorderColor="{StaticResource AccentDarkRed}">
-                        <StackLayout VerticalOptions="EndAndExpand">
-                            <StackLayout Orientation="Horizontal" Padding="12,0,0,0">
-                                <Label Text="Export attendance list" 
-                               FontSize="Large" 
-                               FontAttributes="Bold" 
-                               VerticalOptions="CenterAndExpand" 
-                               TextColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundDark}}"/>
-                                <Button Text="file-download"
-                                FontFamily="FAS" FontSize="24"  
-                                WidthRequest="50" 
-                                BorderColor="Black"
-                                VerticalOptions="CenterAndExpand" 
-                                BackgroundColor="Transparent"
-                                HorizontalOptions="EndAndExpand" 
-                                TextColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundDark}}"/>
-                            </StackLayout>
-                        </StackLayout>
-                    </Frame>
+                    
                 </StackLayout>
 
             </xct:TabViewItem>
