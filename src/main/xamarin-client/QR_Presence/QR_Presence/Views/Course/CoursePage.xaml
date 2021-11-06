@@ -156,11 +156,12 @@
             <xct:TabViewItem
                 Text="Participants"
                 Icon="users"
-                
                 TextColor="{StaticResource BackgroundDark}"
                 TextColorSelected="{StaticResource AccentYellow}"
                 ControlTemplate="{StaticResource TabItemTEmplaied}"
-                FontSize="16">
+                FontSize="16"
+                
+                >
                 <Grid 
                     BackgroundColor="Gray">
                     <Label
