@@ -1,52 +1,150 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              x:Class="QR_Presence.Views.CoursePage"
-             NavigationPage.HasNavigationBar="False"
-             >
+             NavigationPage.HasNavigationBar="False">
 
     <ContentPage.Resources>
         <ResourceDictionary>
             <ControlTemplate x:Key="TabItemTEmplaied">
-                <Frame CornerRadius="15" Padding="4" BackgroundColor="Red">
-                    <Label HorizontalOptions="Center" VerticalOptions="Center" 
-                           FontSize="{TemplateBinding FontSize}"
-                           Text="{TemplateBinding Text}"
-                           TextColor="{TemplateBinding CurrentTextColor}"/>
+                <Frame x:Name="outerFrame" 
+                       HasShadow="False" 
+                       Padding="0"
+                       HorizontalOptions="FillAndExpand" 
+                       CornerRadius="15" 
+                       BorderColor="Transparent" 
+                       BackgroundColor="{Binding Source={RelativeSource Self}, Path=OutlineColor}" >
+
+                    <StackLayout HorizontalOptions="Center" VerticalOptions="CenterAndExpand"   >
+                        <Label HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" 
+                               FontAttributes="Bold"
+                               FontFamily="FAS" 
+                               FontSize="20"
+                               Text="{TemplateBinding CurrentIcon}"
+                               TextColor="{TemplateBinding CurrentTextColor}"/>
+                        <Label HorizontalOptions="Center" VerticalOptions="Center" 
+                               FontAttributes="Bold"
+                               FontFamily="FAS" 
+                               FontSize="{TemplateBinding FontSize}"
+                               Text="{TemplateBinding Text}"
+                               TextColor="{TemplateBinding CurrentTextColor}"/>
+                    </StackLayout>
                 </Frame>
+
             </ControlTemplate>
+
+            <Style x:Key="TextStyle" TargetType="Label">
+                <Setter Property="FontAttributes" Value="Bold"/>
+                <Setter Property="FontSize" Value="Large"/>
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundDark}}"/>
+                <Setter Property="CharacterSpacing" Value="2"/>
+
+            </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
+
     <Grid>
         <xct:TabView
             TabStripPlacement="Top"
             TabStripBackgroundColor="Transparent"
-            TabStripHeight="60"
-            TabContentBackgroundColor="Yellow">
+            TabStripHeight="70" >
+
+            <xct:TabView.TabStripBackgroundView>
+                <Frame x:Name="outerFrame1" 
+                       HasShadow="False" 
+                       Padding="0"
+                       HorizontalOptions="FillAndExpand" 
+                       CornerRadius="15" 
+                       OutlineColor="Transparent" 
+                       BackgroundColor="{Binding Source={RelativeSource Self}, Path=OutlineColor}" >
+                    <Frame x:Name="innerFrame1" 
+                           Margin="5" 
+                           Padding="16,32,16,36" 
+                           HasShadow="False" 
+                           HorizontalOptions="FillAndExpand" CornerRadius="15" 
+                           OutlineColor="{Binding Source={x:Reference outerFrame1}, Path=OutlineColor}" 
+                           BorderColor="LightGray"
+                           BackgroundColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundDark}}" />
+                </Frame>
+            </xct:TabView.TabStripBackgroundView>
+
             <xct:TabViewItem
-                Text="Tab 1"
-                TextColor="White"
-                TextColorSelected="Yellow"
-                ControlTemplate="{StaticResource TabItemTEmplaied}"
+                    Text="OverView"
+                    Icon="info-circle"
+                    TextColor="{StaticResource BackgroundDark}"
+                    TextColorSelected="{StaticResource AccentYellow}"
+                    ControlTemplate="{StaticResource TabItemTEmplaied}"
+                    FontSize="16">
+
                 
-                FontSize="12"
-                >
-                <Grid 
-                    BackgroundColor="Gray">
-                    <Label
-                        HorizontalOptions="Center"
-                        VerticalOptions="Center"
-                        Text="TabContent1" />
-                </Grid>
+                <StackLayout Padding="8,80,8,8">
+
+                    <Frame CornerRadius="15" BackgroundColor="{StaticResource AccentLiteBlue}" Padding="16,12,16,16">
+                        <Grid RowSpacing="12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="0.6*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="0.5*"/>
+                                <RowDefinition Height="0.5*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <StackLayout Grid.Row="0" Grid.Column="0" Spacing="2" HorizontalOptions="Start" VerticalOptions="Start" Padding="4,16,0,0" >
+                                <Label Text="{Binding Course.Name_C}" FontSize="40" CharacterSpacing="1" Style="{StaticResource TextStyle}"/>
+                                <Label Text="{Binding Course.Professor}" FontSize="20" CharacterSpacing="1" Style="{StaticResource TextStyle}"/>
+                            </StackLayout>
+
+                            <StackLayout Grid.Row="0" Grid.Column="1" Padding="8,40,0,0">
+                                <Image Source="course.png" />
+                            </StackLayout>
+
+                            <StackLayout  Grid.Row="1" Grid.ColumnSpan="2" >
+                                <Label Text="Description" CharacterSpacing="1" FontSize="24" Style="{StaticResource TextStyle}" Padding="4,0,0,0"/>
+                                <Label Text="{Binding Course.Desc}" CharacterSpacing="0" FontSize="15" Style="{StaticResource TextStyle}" Padding="4,0,0,0"/>
+                            </StackLayout>
+
+                            <StackLayout  Grid.Row="2" Grid.ColumnSpan="2" >
+                                <Label Text="Grading" CharacterSpacing="1" FontSize="24" Style="{StaticResource TextStyle}" Padding="4,0,0,0"/>
+                                <Label Text="{Binding Course.Grading}" CharacterSpacing="0" FontSize="15" Style="{StaticResource TextStyle}" Padding="4,0,0,0"/>
+                            </StackLayout>
+
+                            <StackLayout Grid.Row="3" Grid.ColumnSpan="2"  Spacing="15">
+                                <Label Text="Intervals" CharacterSpacing="1" FontSize="24" Style="{StaticResource TextStyle}" Padding="4,0,0,0"/>
+                                <ScrollView Orientation="Both">
+                                    <StackLayout Orientation="Horizontal"  BindableLayout.ItemsSource="{Binding Course.Intervals}"  Spacing="12">
+                                        <BindableLayout.ItemTemplate>
+                                            <DataTemplate>
+
+                                                <Frame CornerRadius="15" BackgroundColor="{StaticResource LiteGray}" HorizontalOptions="Center" VerticalOptions="Center" WidthRequest="100" Padding="12">
+                                                    <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                                                        <Label Text="{Binding Day}" TextColor="{AppThemeBinding Dark={StaticResource BackgroundDark}}" FontSize="Large" FontAttributes="Bold" CharacterSpacing="0" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"/>
+                                                        <Label Text="{Binding StartH}" TextColor="{AppThemeBinding Dark={StaticResource BackgroundDark}}" FontSize="Large" FontAttributes="Bold" CharacterSpacing="0" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"/>
+                                                        <Label Text="{Binding StartE}" TextColor="{AppThemeBinding Dark={StaticResource BackgroundDark}}" FontSize="Large" FontAttributes="Bold" CharacterSpacing="0" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"/>
+                                                    </StackLayout>
+                                                </Frame>
+
+                                            </DataTemplate>
+                                        </BindableLayout.ItemTemplate>
+                                    </StackLayout>
+                                </ScrollView>
+                            </StackLayout>
+                        </Grid>
+                    </Frame>
+
+                </StackLayout>
             </xct:TabViewItem>
+
             <xct:TabViewItem
-                Text="Tab 2"
-                TextColor="White"
-                TextColorSelected="Yellow"
-                BackgroundColor="Transparent"
+                Text="Presence"
+                Icon="chart-bar"
+                TextColor="{StaticResource BackgroundDark}"
+                TextColorSelected="{StaticResource AccentYellow}"
                 ControlTemplate="{StaticResource TabItemTEmplaied}"
-                FontSize="12">
+                FontSize="16">
                 <Grid BackgroundColor="AliceBlue">
                     <Label    
                         HorizontalOptions="Center"
@@ -55,14 +153,14 @@
                 </Grid>
             </xct:TabViewItem>
 
-
             <xct:TabViewItem
-                Text="Tab 3"
-                TextColor="White"
-                TextColorSelected="Yellow"
-                ControlTemplate="{StaticResource TabItemTEmplaied}"
+                Text="Participants"
+                Icon="users"
                 
-                FontSize="12">
+                TextColor="{StaticResource BackgroundDark}"
+                TextColorSelected="{StaticResource AccentYellow}"
+                ControlTemplate="{StaticResource TabItemTEmplaied}"
+                FontSize="16">
                 <Grid 
                     BackgroundColor="Gray">
                     <Label

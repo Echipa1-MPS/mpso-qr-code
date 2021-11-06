@@ -11,7 +11,7 @@ using Xamarin.Forms.Xaml;
 namespace QR_Presence.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class CoursePage : ContentPage
+    public partial class OverViewPage : ContentPage
     {
         public CourseInfoModel Course { get; set; } = new CourseInfoModel
         {
@@ -38,7 +38,7 @@ namespace QR_Presence.Views
                 }
             }
         };
-        public CoursePage()
+        public OverViewPage()
         {
             InitializeComponent();
             BindingContext = this;
