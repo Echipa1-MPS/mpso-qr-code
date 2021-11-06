@@ -277,6 +277,7 @@ namespace QR_Presence.Views
             }
         };
 
+
         public List<string> Dates { get; set; } = new List<string>
         {
             new DateTime(2021,12,23).ToString("MMMM dd, yyyy"),
