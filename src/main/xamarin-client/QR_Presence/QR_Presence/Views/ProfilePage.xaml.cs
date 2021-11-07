@@ -35,14 +35,14 @@ namespace QR_Presence.Views
                 StartHour=8,
                 Step=2
             },
-             new Models.IntervalModel
+            new Models.IntervalModel
             {
                 Name="UBD",
                 Day="Joi",
                 StartHour=8,
                 Step=2
             },
-              new Models.IntervalModel
+            new Models.IntervalModel
             {
                 Name="UBD",
                 Day="Joi",
@@ -54,13 +54,6 @@ namespace QR_Presence.Views
         {
             InitializeComponent();
             BindingContext = this;
-        }
-
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-
-
         }
     }
 }

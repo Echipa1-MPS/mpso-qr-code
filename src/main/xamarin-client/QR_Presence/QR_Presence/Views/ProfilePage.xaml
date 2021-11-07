@@ -11,7 +11,6 @@
                 <Setter Property="FontSize" Value="Large"/>
                 <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundDark}}"/>
                 <Setter Property="CharacterSpacing" Value="2"/>
-
             </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
