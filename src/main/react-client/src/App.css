@@ -70,3 +70,15 @@
 .avatar-border {
     border: 5px solid #FFBC42;
 }
+
+.home-sections-width {
+    width: 350px;
+}
+
+.aliceblue-background {
+    background-color: aliceblue;
+}
+
+.cornsilk-background {
+    background-color: cornsilk;
+}

@@ -3,7 +3,9 @@ import Header from "./components/Header/Header";
 import Login from "./components/Login/Login";
 import About from "./components/About/About";
 import CreateQR from "./components/CreateQR/CreateQR";
-import React, {useContext} from 'react';
+import Home from './components/Home/Home';
+
+import React, {useState, useContext} from 'react';
 
 const themes = {
   light: {
@@ -18,10 +20,17 @@ const themes = {
 const ThemeContext = React.createContext(themes.light);
 
 export default function App() {
+
+  const [loggedIn, setLoggedIn] = useState(false);
+
+  const onLoginSuccesful = (user) => {
+    setLoggedIn(true);
+  }
+
   return (
     <ThemeContext.Provider value={themes.light}>
       <div>
-        <Header />
+        <Header loggedIn = {loggedIn}/>
         <Router>
           <div>
             <Switch>
@@ -43,9 +52,4 @@ export default function App() {
       </div>
     </ThemeContext.Provider>
   );
-}
-
-function Home() {
-  const theme = useContext(ThemeContext);
-  return <h2 style={{color: theme.accent_yellow}}>Home</h2>;
 }
