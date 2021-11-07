@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Objects;
+
 @RestController
 @RequestMapping(path = "/user")
 public class UserController {
@@ -30,13 +32,15 @@ public class UserController {
     @PostMapping(path = "/register")
     public ResponseEntity<?> registerUser(@RequestBody User user) {
         try {
-            if (user.getEmail() != null && user.getPassword() != null) {
-                user.setId(user.getEmail().hashCode() + user.getPassword().hashCode() * 1000L);
-                user.setPassword(passwordEncoder.encode(user.getPassword()));
-                userService.save(user);
-                return ResponseEntity.status(HttpStatus.CREATED).body("You have been successfully registered!");
-            } else if (userService.isPresent(user.getEmail())) {
-                return ResponseEntity.status(HttpStatus.CONFLICT).body("This e-mail already exists!");
+            if (((user.getEmail() != null && !Objects.equals(user.getEmail(), ""))
+                    && (user.getPassword() != null && !Objects.equals(user.getPassword(), "")))) {
+                if (!userService.isPresent(user.getEmail())) {
+                    user.setPassword(passwordEncoder.encode(user.getPassword()));
+                    userService.save(user);
+                    return ResponseEntity.status(HttpStatus.CREATED).body("You have been successfully registered!");
+                } else {
+                    return ResponseEntity.status(HttpStatus.CONFLICT).body("This e-mail already exists!");
+                }
             } else {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Missing required credentials!");
             }
