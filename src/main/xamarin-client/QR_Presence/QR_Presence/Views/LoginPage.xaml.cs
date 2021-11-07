@@ -19,7 +19,7 @@ namespace QR_Presence.Views
 
         private async void Button_Clicked(object sender, EventArgs e)
         {
-           await Navigation.PushAsync(new ProfilePage());
+           await Navigation.PushAsync(new CoursesPage());
         }
     }
 }
