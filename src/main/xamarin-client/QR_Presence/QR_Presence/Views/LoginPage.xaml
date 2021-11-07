@@ -40,7 +40,7 @@
                           
                         <StackLayout Spacing="12">
                             <Frame BackgroundColor="{AppThemeBinding Light={StaticResource LiteGray}, Dark={StaticResource DarkGray}}" Padding="12,4,12,4" CornerRadius="10" >
-                                <Entry Placeholder="User  Email" FontFamily="FAR" Keyboard="Email" ClearButtonVisibility="WhileEditing" IsSpellCheckEnabled="True">
+                                <Entry Placeholder="User  Email"  FontFamily="FAR" Keyboard="Email" ClearButtonVisibility="WhileEditing" IsSpellCheckEnabled="True">
                                     <Entry.Behaviors>
                                         <xct:EmailValidationBehavior DecorationFlags="Trim" InvalidStyle="{StaticResource InvaildEmail}"/>
                                     </Entry.Behaviors>

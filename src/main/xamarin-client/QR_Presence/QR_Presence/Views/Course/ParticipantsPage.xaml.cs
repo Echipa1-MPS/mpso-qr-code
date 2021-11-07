@@ -7,19 +7,14 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace QR_Presence.Views
+namespace QR_Presence.Views.Course
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class LoginPage : ContentPage
+    public partial class ParticipantsPage : ContentPage
     {
-        public LoginPage()
+        public ParticipantsPage()
         {
             InitializeComponent();
-        }
-
-        private async void Button_Clicked(object sender, EventArgs e)
-        {
-           await Navigation.PushAsync(new CoursePage());
         }
     }
 }
