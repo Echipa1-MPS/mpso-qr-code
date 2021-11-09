@@ -82,8 +82,9 @@
 
                 
                 <StackLayout Padding="8,70,8,8">
-                    <Frame CornerRadius="15" BackgroundColor="{StaticResource AccentLiteBlue}" Padding="16,12,16,16">
+                    <Frame CornerRadius="15" BackgroundColor="{StaticResource AccentDarkBlue}" Padding="16,12,16,16">
                         <Grid RowSpacing="12">
+
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="0.6*"/>
                                 <ColumnDefinition Width="*"/>
@@ -95,19 +96,25 @@
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
 
-                            <StackLayout Grid.Row="0" Grid.Column="0" Spacing="2" HorizontalOptions="Start" VerticalOptions="Start" Padding="4,16,0,0" >
+                            <StackLayout Grid.Row="0" Grid.Column="0" Spacing="2" HorizontalOptions="Start" VerticalOptions="Center" Padding="4,16,0,0" >
                                 <Label Text="{Binding Course.Name_C}" FontSize="30" CharacterSpacing="1" Style="{StaticResource TextStyle}"/>
                                 <Label Text="{Binding Course.Professor}" FontSize="20" CharacterSpacing="1" Style="{StaticResource TextStyle}"/>
                             </StackLayout>
+                            
+                            <Button Text="arrow-left" BackgroundColor="Transparent" TextColor="{StaticResource BackgroundLight}" HorizontalOptions="Start" VerticalOptions="Start" FontFamily="FAS" Grid.Row="0" Grid.Column="0" FontSize="Large"  WidthRequest="50"  Clicked="Button_Clicked_2" Padding="1" />
+
 
                             <StackLayout Grid.Row="0" Grid.Column="1" Padding="8,40,0,0">
                                 <Image Source="course.png" />
                             </StackLayout>
 
+                            <Button Text="pencil-alt" BackgroundColor="Transparent" TextColor="{StaticResource BackgroundLight}" HorizontalOptions="End" VerticalOptions="Start" FontFamily="FAS" Grid.Row="0" Grid.Column="1" FontSize="Large"  WidthRequest="50"  Clicked="Button_Clicked_1" Padding="1" />
+
                             <StackLayout  Grid.Row="1" Grid.ColumnSpan="2" >
                                 <Label Text="Description" CharacterSpacing="1" FontSize="24" Style="{StaticResource TextStyle}" Padding="4,0,0,0"/>
                                 <Label Text="{Binding Course.Desc}" CharacterSpacing="0" FontSize="15" Style="{StaticResource TextStyle}" Padding="4,0,0,0"/>
                             </StackLayout>
+                            
 
                             <StackLayout  Grid.Row="2" Grid.ColumnSpan="2" >
                                 <Label Text="Grading" CharacterSpacing="1" FontSize="24" Style="{StaticResource TextStyle}" Padding="4,0,0,0"/>
