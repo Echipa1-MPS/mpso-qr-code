@@ -33,8 +33,7 @@
             </Frame>
             <CollectionView x:Name="accountsList"
                             SelectionMode="Single"
-                            ItemsSource="{Binding CourseList}"
-                            >
+                            ItemsSource="{Binding CourseList}">
 
                 <CollectionView.ItemsLayout>
                     <GridItemsLayout Orientation="Vertical" Span="1" HorizontalItemSpacing="7" VerticalItemSpacing="7"/>
@@ -72,8 +71,6 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
 
-             
-
                 <CollectionView.EmptyView>
                     <ContentView>
                         <StackLayout HorizontalOptions="CenterAndExpand"
@@ -102,9 +99,9 @@
                             </StackLayout>
                             <Label Text="for adding new Transaction"
                                    FontAttributes="Bold"
-                               TextColor="{AppThemeBinding Light={StaticResource BackgroundDark}, Dark={StaticResource BackgroundLight}}"
+                                   TextColor="{AppThemeBinding Light={StaticResource BackgroundDark}, Dark={StaticResource BackgroundLight}}"
                                    FontSize="18"
-                                    VerticalOptions="Center"
+                                   VerticalOptions="Center"
                                    HorizontalOptions="Center" />
 
                         </StackLayout>

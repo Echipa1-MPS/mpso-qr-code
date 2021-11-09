@@ -12,10 +12,13 @@
 
   <ItemGroup>
     <None Remove="Img\course.svg" />
+    <None Remove="Img\list.svg" />
     <None Remove="Img\login.svg" />
     <None Remove="Img\no_data.svg" />
     <None Remove="Img\profilef.svg" />
     <None Remove="Img\profilem.svg" />
+    <None Remove="Img\settings.svg" />
+    <None Remove="Img\user.svg" />
     <None Remove="Resources\Fonts\fa-brands-400.ttf" />
     <None Remove="Resources\Fonts\fa-regular-400.ttf" />
     <None Remove="Resources\Fonts\fa-solid-900.ttf" />
@@ -46,10 +49,13 @@
 
   <ItemGroup>
     <SharedImage Include="Img\course.svg" BaseSize="211,164" />
+    <SharedImage Include="Img\list.svg" />
     <SharedImage Include="Img\login.svg" BaseSize="349,197" />
     <SharedImage Include="Img\no_data.svg" />
     <SharedImage Include="Img\profilef.svg" BaseSize="136,136" />
     <SharedImage Include="Img\profilem.svg" BaseSize="136,136" />
+    <SharedImage Include="Img\settings.svg" />
+    <SharedImage Include="Img\user.svg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -68,6 +74,12 @@
     <EmbeddedResource Update="Views\Course\PresencePage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Views\EditPages\EditCoursePage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\EditPages\EditProfile.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\LoginPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -75,6 +87,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\CoursesPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\MainTabs\MainTabbedPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\ProfilePage.xaml">

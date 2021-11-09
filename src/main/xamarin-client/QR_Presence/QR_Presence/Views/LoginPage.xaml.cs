@@ -19,7 +19,7 @@ namespace QR_Presence.Views
 
         private async void Button_Clicked(object sender, EventArgs e)
         {
-           await Navigation.PushAsync(new CoursePage());
+           await Navigation.PushAsync(new MainTabs.MainTabbedPage());
         }
 
         private async void Button_Clicked_1(object sender, EventArgs e)
