@@ -336,6 +336,13 @@ namespace QR_Presence.Views
             BindingContext = this;
         }
 
+        public CoursePage(CourseInfoModel course)
+        {
+            InitializeComponent();
+            Course = course;
+            BindingContext = this;
+        }
+
         private void Button_Clicked(object sender, EventArgs e)
         {
             Button btn = sender as Button;

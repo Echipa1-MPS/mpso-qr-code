@@ -10,6 +10,9 @@
             <Color x:Key="AccentLiteRed">#D81159</Color>
             <Color x:Key="AccentDarkRed">#8F2D56</Color>
 
+            <Color x:Key="AccentDarkBlue70">#4d97c1</Color>
+
+
             <Color x:Key="ChartColor1">#FF0000</Color>
             <Color x:Key="ChartColor2">#FF8700</Color>
             <Color x:Key="ChartColor3">#FFD300</Color>

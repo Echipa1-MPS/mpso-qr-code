@@ -33,6 +33,7 @@
             </Frame>
             <CollectionView x:Name="accountsList"
                             SelectionMode="Single"
+                            SelectionChanged="AccountsList_SelectionChanged"
                             ItemsSource="{Binding CourseList}">
 
                 <CollectionView.ItemsLayout>
@@ -52,7 +53,7 @@
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
 
-                                <Label Text="{Binding Name}"
+                                <Label Text="{Binding Name_C}"
                                        Grid.Row="0"
                                        FontAttributes="Bold"
                                        FontSize="Medium"
@@ -61,7 +62,7 @@
 
                                 <Label Grid.Column="1"
                                        HorizontalOptions="EndAndExpand"
-                                       Text="{Binding Prof}"
+                                       Text="{Binding Professor}"
                                        TextColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundDark}}"
                                        FontAttributes="Bold"
                                        FontSize="Medium"

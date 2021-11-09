@@ -71,7 +71,7 @@
 
             <StackLayout Orientation="Horizontal" Spacing="20" HorizontalOptions="Center">
                 <Button x:Name="SaveBtn" Text="Save" Style="{StaticResource ButtonCheckedStyle}" />
-                <Button x:Name="CancelBtn" Text="Cancel" Style="{StaticResource ButtonUnCheckStyle}"  />
+                <Button x:Name="CancelBtn" Text="Cancel" Style="{StaticResource ButtonUnCheckStyle}" Clicked="CancelBtn_Clicked" />
             </StackLayout>
         </StackLayout>
     </ContentPage.Content>

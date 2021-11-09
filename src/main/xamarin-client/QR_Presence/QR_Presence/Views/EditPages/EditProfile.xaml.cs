@@ -16,5 +16,10 @@ namespace QR_Presence.Views.EditPages
         {
             InitializeComponent();
         }
+
+        private async void CancelBtn_Clicked(object sender, EventArgs e)
+        {
+           await Navigation.PopAsync();
+        }
     }
 }
