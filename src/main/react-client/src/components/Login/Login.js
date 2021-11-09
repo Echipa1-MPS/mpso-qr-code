@@ -6,9 +6,9 @@ export default function Login() {
     const [password, setPassword] = useState("");
 
     useEffect(() => {
-        if (localStorage.getItem('user')) {
-            window.location.href = '/';
-        }
+        // if (localStorage.getItem('user')) {
+        //     window.location.href = '/';
+        // }
     });
 
     const handleSubmit = (e) => {

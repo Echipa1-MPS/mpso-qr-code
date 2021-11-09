@@ -38,10 +38,12 @@ export default function Home() {
         fetchPpcomingCourses();
     }, []);
 
+    const navigateToCreateQr = () => window.location.href = "/create-qr";
+
     return(
-        <div className="flex-container-row-center home-section-page-height">
+        <div className="flex-container-row-center">
             <div className="flex-container-row home-sections-margin-top">
-                <div className="light-blue-background home-sections-width">
+                <div className="light-blue-background home-sections-width home-section-page-height">
                     <div className="flex-container-row white-text-font" style={{alignItems: "center", justifyContent: "space-evenly", paddingTop: "20px"}}>
                         { profile ? (
                             <div className="flex-container-column">
@@ -61,7 +63,7 @@ export default function Home() {
                             {
                                 upcomingCourses.length > 0 && upcomingCourses.map((course ) => {
                                     return (
-                                        <div className="upcoming-courses-item" key={courses.name}>
+                                        <div className="upcoming-courses-item" key={course.interval}>
                                             <div style={{fontWeight: "bold"}}>{course.name}</div>
                                             <div>{course.interval}</div>
                                         </div>
@@ -71,7 +73,9 @@ export default function Home() {
                         </div>
                     </div>
 
-                    <div className="white-text-font create-qr-button-width" style={{marginLeft: "20px", fontWeight: "bold", fontSize: "1.3rem", marginTop: "60px", textAlign: "center", padding: "5px", borderRadius: "20px", backgroundColor: theme.rose_budget}}>
+                    <div className="white-text-font create-qr-button-width create-qr-button-style" 
+                        style={{ backgroundColor: theme.rose_budget}}
+                        onClick = {navigateToCreateQr}>
                         Create QR
                     </div>
                 </div>
