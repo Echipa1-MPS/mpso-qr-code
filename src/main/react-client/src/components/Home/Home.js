@@ -42,11 +42,11 @@ export default function Home() {
         <div className="flex-container-row-center home-section-page-height">
             <div className="flex-container-row home-sections-margin-top">
                 <div className="light-blue-background home-sections-width">
-                    <div className="flex-container-row white-text-font" style={{alignItems: "center", justifyContent: "space-evenly", paddingTop: "30px"}}>
+                    <div className="flex-container-row white-text-font" style={{alignItems: "center", justifyContent: "space-evenly", paddingTop: "20px"}}>
                         { profile ? (
                             <div className="flex-container-column">
                                 <div style={{fontSize: '1.5rem'}}>Welcome Back,</div>
-                                <div style={{fontSize: '1.3rem'}}>{profile.name}</div>
+                                <div style={{fontSize: '1.3rem', fontWeight: "bold"}}>{profile.name}</div>
                             </div>) : (<div style={{fontSize: "1.5rem"}}>No profile :(</div>)
                         }
                         <div>
@@ -57,7 +57,7 @@ export default function Home() {
 
                     <div className="upcoming-courses-container">
                         <div className="white-text-font" style={{fontSize: "1.2rem", marginBottom: "20px"}}>Next courses list</div>
-                        <div className="flex-container-row" style={{justifyContent: "space-between"}}>
+                        <div className="flex-container-row" style={{justifyContent: "space-between", flexWrap: "wrap"}}>
                             {
                                 upcomingCourses.length > 0 && upcomingCourses.map((course ) => {
                                     return (
@@ -69,6 +69,10 @@ export default function Home() {
                                 })
                             }
                         </div>
+                    </div>
+
+                    <div className="white-text-font create-qr-button-width" style={{marginLeft: "20px", fontWeight: "bold", fontSize: "1.3rem", marginTop: "60px", textAlign: "center", padding: "5px", borderRadius: "20px", backgroundColor: theme.rose_budget}}>
+                        Create QR
                     </div>
                 </div>
                 <div className="cornsilk-background home-sections-width">

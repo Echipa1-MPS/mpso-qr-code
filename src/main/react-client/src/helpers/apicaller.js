@@ -14,7 +14,7 @@ export function getCourses(params, success, failure) {
 }
 
 export function getProfile(params, success, failure) {
-    return { name: 'Stefan P.', email: 'stefan.popa@gmail.com' };
+    return { name: 'Stefan Popa', email: 'stefan.popa@gmail.com' };
     // axios.get(getHomeProfileUrl, { params })
     //     .then(success)
     //     .catch(failure);
