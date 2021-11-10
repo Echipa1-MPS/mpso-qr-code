@@ -36,29 +36,29 @@
                         <Label Text="Login Page"
                                 FontAttributes="Bold"
                                 FontSize="24"   
-                                HorizontalOptions="CenterAndExpand" />  
-                          
+                                HorizontalOptions="CenterAndExpand" />
+
                         <StackLayout Spacing="12">
-                            <Frame BackgroundColor="{AppThemeBinding Light={StaticResource LiteGray}, Dark={StaticResource DarkGray}}" Padding="12,4,12,4" CornerRadius="10" >
+                            <Frame Style="{StaticResource FrameAddNews}" Padding="12,4,12,4" CornerRadius="10" >
                                 <Entry Placeholder="User  Email"  FontFamily="FAR" Keyboard="Email" ClearButtonVisibility="WhileEditing" IsSpellCheckEnabled="True">
                                     <Entry.Behaviors>
                                         <xct:EmailValidationBehavior DecorationFlags="Trim" InvalidStyle="{StaticResource InvaildEmail}"/>
                                     </Entry.Behaviors>
                                 </Entry>
                             </Frame>
-                            <Frame BackgroundColor="{AppThemeBinding Light={StaticResource LiteGray}, Dark={StaticResource DarkGray}}" Padding="12,4,12,4" CornerRadius="10" >
+                            <Frame Style="{StaticResource FrameAddNews}" Padding="12,4,12,4" CornerRadius="10" >
                                 <Entry Placeholder="ellipsis-h  Password" FontFamily="FAS" IsPassword="True" ClearButtonVisibility="WhileEditing"/>
 
                             </Frame>
                         </StackLayout>
                         <StackLayout Padding="20,0,20,0">
-                            <Button Text="Login"  Style="{StaticResource MainButtonUnChecked}" HeightRequest="52" Clicked="Button_Clicked"/>
-                            <Button Text="Cancel" Style="{StaticResource MainButtonUnChecked}" HeightRequest="52" Clicked="Button_Clicked_1"/>
+                            <Button Text="Login"  Style="{StaticResource MainButtonUnChecked}" TextTransform="None" FontSize="Medium" HeightRequest="52" Clicked="Button_Clicked"/>
+                            <Button Text="Register" Style="{StaticResource ButtonUnCheckStyle}" TextTransform="None" FontSize="Medium" HeightRequest="52" Clicked="Button_Clicked_1"/>
                         </StackLayout>
                     </StackLayout>
                 </Frame>
             </Frame>
-            
+
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

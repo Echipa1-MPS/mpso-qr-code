@@ -68,13 +68,13 @@
             <Style x:Key="FrameAddNews" TargetType="Frame">
                 <Setter Property="CornerRadius" Value="5"/>
                 <Setter Property="Padding" Value="10"/>
-                <Setter Property="BorderColor" Value="{StaticResource AccentLiteBlue}"/>
+                <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource BackgroundDark}, Dark={StaticResource BackgroundLight}}"/>
                 <Setter Property="BackgroundColor" Value="Transparent"/>
                 <Setter Property="Padding" Value="16,4,16,4"/>
             </Style>
 
             <Style x:Key="ButtonUnCheckStyle" TargetType="Button">
-                <Setter Property="CornerRadius" Value="30" />
+                <Setter Property="CornerRadius" Value="20" />
                 <Setter Property="BackgroundColor" Value="Transparent" />
                 <Setter Property="TextColor" Value="{StaticResource AccentLiteBlue}"/>
                 <Setter Property="BorderColor" Value="{StaticResource AccentLiteBlue}"/>
@@ -84,7 +84,7 @@
             </Style>
 
             <Style x:Key="ButtonCheckedStyle" TargetType="Button">
-                <Setter Property="CornerRadius" Value="30" />
+                <Setter Property="CornerRadius" Value="20" />
                 <Setter Property="TextColor" Value="White"/>
                 <Setter Property="FontAttributes" Value="Bold"/>
                 <Setter Property="BackgroundColor" Value="{StaticResource AccentLiteBlue}"/>

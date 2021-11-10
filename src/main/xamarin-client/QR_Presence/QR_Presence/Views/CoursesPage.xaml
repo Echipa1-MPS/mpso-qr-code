@@ -4,7 +4,7 @@
              x:Class="QR_Presence.Views.CoursesPage"
              NavigationPage.HasNavigationBar="False">
     <ContentPage.Content>
-        <StackLayout Padding="8,16,8,16" Spacing="16">
+        <StackLayout Padding="8,4,8,16" Spacing="16">
 
             <Frame x:Name="outerFrame" 
                    HasShadow="False" 
@@ -57,13 +57,13 @@
                                        Grid.Row="0"
                                        FontAttributes="Bold"
                                        FontSize="Medium"
-                                       TextColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundDark}}"
+                                       TextColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundLight}}"
                                        Style="{StaticResource TitleStyle}"/>
 
                                 <Label Grid.Column="1"
                                        HorizontalOptions="EndAndExpand"
                                        Text="{Binding Professor}"
-                                       TextColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundDark}}"
+                                       TextColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundLight}}"
                                        FontAttributes="Bold"
                                        FontSize="Medium"
                                        Style="{StaticResource TitleStyle}"/>
@@ -115,7 +115,7 @@
                             <Label Text="Number of courses enroled: 3"
                                     HorizontalOptions="CenterAndExpand"
                                     VerticalOptions="CenterAndExpand"
-                                    TextColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundDark}}"
+                                    TextColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundLight}}"
                                     FontAttributes="Bold"
                                     FontSize="18"
                                     Style="{StaticResource TitleStyle}"/>
