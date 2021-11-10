@@ -5,6 +5,7 @@
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              xmlns:fa ="clr-namespace:FontAwesome"
              NavigationPage.HasNavigationBar="False"
+             BackgroundColor="{AppThemeBinding Dark={StaticResource BackgroundDark}, Light={StaticResource BackgroundLight}}"
              >
 
     <ContentPage.Resources>
@@ -36,18 +37,28 @@
                         <Label Text="Login Page"
                                 FontAttributes="Bold"
                                 FontSize="24"   
-                                HorizontalOptions="CenterAndExpand" />
+                                HorizontalOptions="CenterAndExpand"
+                                TextColor="{AppThemeBinding Dark={StaticResource BackgroundLight}, Light={StaticResource BackgroundDark}}"/>
 
                         <StackLayout Spacing="12">
                             <Frame Style="{StaticResource FrameAddNews}" Padding="12,4,12,4" CornerRadius="10" >
-                                <Entry Placeholder="User  Email"  FontFamily="FAR" Keyboard="Email" ClearButtonVisibility="WhileEditing" IsSpellCheckEnabled="True">
+                                <Entry Placeholder="User  Email" 
+                                       FontFamily="FAR" Keyboard="Email"
+                                       ClearButtonVisibility="WhileEditing" 
+                                       IsSpellCheckEnabled="True" 
+                                       TextColor="{AppThemeBinding Dark={StaticResource BackgroundLight}, Light={StaticResource BackgroundDark}}" 
+                                       PlaceholderColor="{AppThemeBinding Dark={StaticResource BackgroundLight}, Light={StaticResource DarkGray}}">
                                     <Entry.Behaviors>
                                         <xct:EmailValidationBehavior DecorationFlags="Trim" InvalidStyle="{StaticResource InvaildEmail}"/>
                                     </Entry.Behaviors>
                                 </Entry>
                             </Frame>
                             <Frame Style="{StaticResource FrameAddNews}" Padding="12,4,12,4" CornerRadius="10" >
-                                <Entry Placeholder="ellipsis-h  Password" FontFamily="FAS" IsPassword="True" ClearButtonVisibility="WhileEditing"/>
+                                <Entry Placeholder="ellipsis-h  Password" FontFamily="FAS" 
+                                       IsPassword="True" 
+                                       ClearButtonVisibility="WhileEditing" 
+                                       TextColor="{AppThemeBinding Dark={StaticResource BackgroundLight}, Light={StaticResource BackgroundDark}}"
+                                       PlaceholderColor="{AppThemeBinding Dark={StaticResource BackgroundLight}, Light={StaticResource DarkGray}}"/>
 
                             </Frame>
                         </StackLayout>

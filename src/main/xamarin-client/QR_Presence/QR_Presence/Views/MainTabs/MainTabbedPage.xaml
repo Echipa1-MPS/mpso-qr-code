@@ -6,7 +6,8 @@
             android:TabbedPage.ToolbarPlacement="Bottom" 
             android:TabbedPage.IsSwipePagingEnabled="False"
             NavigationPage.HasNavigationBar="False" 
-            xmlns:view="clr-namespace:QR_Presence.Views">
+            xmlns:view="clr-namespace:QR_Presence.Views"
+            xmlns:tabs="clr-namespace:QR_Presence.Views.MainTabs">
     <NavigationPage Title="Profile" IconImageSource="user.png" >
         <x:Arguments>
             <view:ProfilePage/>
@@ -21,7 +22,7 @@
 
     <NavigationPage Title="Settings" IconImageSource="settings.png" >
         <x:Arguments>
-            <view:RegisterPage/>
+            <tabs:SettingsPage/>
         </x:Arguments>
     </NavigationPage>
 

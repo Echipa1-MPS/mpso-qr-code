@@ -2,7 +2,9 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="QR_Presence.Views.CoursesPage"
-             NavigationPage.HasNavigationBar="False">
+             NavigationPage.HasNavigationBar="False"
+             BackgroundColor="{AppThemeBinding Dark={StaticResource BackgroundDark}, Light={StaticResource BackgroundLight}}"
+             >
     <ContentPage.Content>
         <StackLayout Padding="8,4,8,16" Spacing="16">
 
@@ -25,6 +27,7 @@
                            FontSize="24"
                            FontAttributes="Bold"
                            CharacterSpacing="2"
+                           TextColor="{AppThemeBinding Dark={StaticResource BackgroundLight}, Light={StaticResource BackgroundDark}}"
                            VerticalOptions="CenterAndExpand" 
                            HorizontalOptions="StartAndExpand" />
                         <Button FontFamily="FAS" FontSize="Large" BackgroundColor="Transparent" WidthRequest="46" />

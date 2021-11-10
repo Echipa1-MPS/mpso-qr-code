@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="QR_Presence.Views.ProfilePage"
              NavigationPage.HasNavigationBar="False"
+             BackgroundColor="{AppThemeBinding Dark={StaticResource BackgroundDark}, Light={StaticResource BackgroundLight}}"
              >
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -44,7 +45,7 @@
                         <Label Text="Profile"
                            FontSize="24"
                            FontAttributes="Bold"
-                           
+                           TextColor="{AppThemeBinding Dark={StaticResource BackgroundLight}, Light={StaticResource BackgroundDark}}"
                            CharacterSpacing="2"
                            VerticalOptions="CenterAndExpand" 
                            HorizontalOptions="StartAndExpand" />
