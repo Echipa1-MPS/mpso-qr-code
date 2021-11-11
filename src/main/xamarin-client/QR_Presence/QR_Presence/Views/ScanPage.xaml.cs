@@ -29,7 +29,7 @@ namespace QR_Presence.Views
                     string[] vars = result.Text.Split('/');
                     isScanned = 1;
                 }
-               // await DisplayAlert("Scanned Barcode", $"{result.Text} (type: {result.BarcodeFormat.ToString()})", "OK");
+
                 await Navigation.PopAsync();
             });
         }

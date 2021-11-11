@@ -1,10 +1,11 @@
-﻿using QR_Presence.Models;
+﻿using QR_Presence.Helpers;
+using QR_Presence.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -18,9 +19,7 @@ namespace QR_Presence.Views
             "Student",
             "Professor"
         };
-        
         public string SelectedRole { get; set; }
-
 
         public string Name { get; set; }
         public string SecondName { get; set; }
@@ -30,7 +29,7 @@ namespace QR_Presence.Views
         public string Group { get; set; }
 
 
-        public UserModel User { get; set; } 
+        public UserModel User { get; set; }
 
         public RegisterPage()
         {
@@ -47,29 +46,35 @@ namespace QR_Presence.Views
                 await DisplayAlert("Alert!", "Conf Pass Incorect", "OK");
                 return;
             }
-            
-            if (!IsValidEmail(Email) || !words[1].Equals("stud.acs.upb.ro") )
+
+            if (!IsValidEmail(Email) || !words[1].Equals("stud.acs.upb.ro"))
             {
                 await DisplayAlert("Alert!", "Incomplet Email address", "OK");
                 return;
             }
 
-            int role = 2;
+            RoleEnum role = RoleEnum.Student;
             switch (SelectedRole)
             {
                 case "Admin":
-                    role = 0;
+                    role = RoleEnum.Admin;
                     break;
                 case "Professor":
-                    role = 1;
+                    role = RoleEnum.Professor;
                     break;
                 case "Student":
-                    role = 2;
+                    role = RoleEnum.Student;
                     break;
                 default:
                     break;
             }
 
+            if (Preferences.ContainsKey("Role"))
+            {
+                Preferences.Remove("Role");
+            }
+
+            Preferences.Set("Role", $"{(int)role}");
 
             User = new UserModel
             {
@@ -78,7 +83,7 @@ namespace QR_Presence.Views
                 LDAP = words[0],
                 Email = Email,
                 Group = Group,
-                Privilege = role,
+                Privilege = (int) role,
             };
 
         }
@@ -98,7 +103,7 @@ namespace QR_Presence.Views
 
         private async void CancelBtn_Clicked(object sender, EventArgs e)
         {
-           await Navigation.PopAsync();
+            await Navigation.PopAsync();
         }
     }
 }

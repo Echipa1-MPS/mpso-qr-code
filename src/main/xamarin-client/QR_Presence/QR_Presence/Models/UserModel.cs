@@ -12,6 +12,6 @@ namespace QR_Presence.Models
         public string Email { get; set; }
         public string Group { get; set; }
         public int Privilege { get; set; }
-        public string FullName => $"{Name} {SecondName}";
+        public string FullName => $"Name:{Name} {SecondName} Group:{Group}";
     }
 }
