@@ -1,0 +1,136 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="QR_Presence.Views.RegisterPage"
+             NavigationPage.HasNavigationBar="False"
+             BackgroundColor="{AppThemeBinding Dark={StaticResource BackgroundDark}, Light={StaticResource BackgroundLight}}"
+             >
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="StackEntry" TargetType="StackLayout">
+                <Setter Property="Orientation" Value="Horizontal"/>
+                <Setter Property="HorizontalOptions" Value="Start"/>
+                <Setter Property="VerticalOptions" Value="CenterAndExpand"/>
+            </Style>
+
+            <Style x:Key="InfoTextSy" TargetType="Label">
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource BackgroundDark}, Dark={StaticResource BackgroundLight}}"/>
+                <Setter Property="FontSize" Value="Medium"/>
+                <Setter Property="FontAttributes" Value="Bold"/>
+            </Style>
+
+            <Style x:Key="RequierSy" TargetType="Label">
+                <Setter Property="TextColor" Value="Red"/>
+                <Setter Property="FontSize" Value="Medium"/>
+                <Setter Property="FontAttributes" Value="Bold"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <ScrollView Padding="4,16,4,16">
+            <Frame x:Name="outerFrame" 
+                   HasShadow="False" 
+                   Padding="2"
+                   HorizontalOptions="FillAndExpand" 
+                   CornerRadius="20" 
+                   OutlineColor="#DDC0CC" 
+                   BackgroundColor="{Binding Source={RelativeSource Self}, Path=OutlineColor}" >
+                <Frame x:Name="innerFrame" 
+                       Margin="2" 
+                       Padding="16,32,16,12" 
+                       HasShadow="False" 
+                       HorizontalOptions="FillAndExpand" CornerRadius="20" 
+                       OutlineColor="{Binding Source={x:Reference outerFrame}, Path=OutlineColor}" 
+                       BackgroundColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundDark}}" >
+
+                    <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="Center" Padding="16,4,16,4" Spacing="56">
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="Register Users" Style="{StaticResource InfoTextSy}" FontFamily="FAS" FontSize="40" HorizontalOptions="CenterAndExpand" />
+                        </StackLayout>
+                        <Grid ColumnSpacing="10" RowSpacing="15" Padding="0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height=".65*" />
+                                <RowDefinition Height=".65*" />
+                                <RowDefinition Height=".65*" />
+                                <RowDefinition Height=".65*" />
+                                <RowDefinition Height=".65*" />
+                            </Grid.RowDefinitions>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width=".5*" />
+                                <ColumnDefinition Width=".5*" />
+
+                            </Grid.ColumnDefinitions>
+                            <Frame Style="{StaticResource FrameAddNews}">
+                                <StackLayout Spacing="-8" >
+                                    <StackLayout  Style="{StaticResource StackEntry}">
+                                        <Label Text="Name" Style="{StaticResource InfoTextSy}"/>
+                                        <Label Text="*" Style="{StaticResource RequierSy}"/>
+                                    </StackLayout>
+                                    <Entry x:Name="FirstNameEntry" Text="{Binding Name}"/>
+                                </StackLayout>
+                            </Frame>
+                            <Frame Grid.Column="1" Style="{StaticResource FrameAddNews}">
+                                <StackLayout Spacing="-8" >
+                                    <StackLayout  Style="{StaticResource StackEntry}">
+                                        <Label Text="SecondName" Style="{StaticResource InfoTextSy}"/>
+                                        <Label Text="*" Style="{StaticResource RequierSy}"/>
+                                    </StackLayout>
+                                    <Entry Grid.Column="1" x:Name="LasttNameEntry"  Text="{Binding SecondName}"/>
+                                </StackLayout>
+                            </Frame>
+                            <Frame Grid.ColumnSpan="2" Grid.Row="1" Style="{StaticResource FrameAddNews}">
+                                <StackLayout Spacing="-8" Grid.ColumnSpan="2" Grid.Row="1" >
+                                    <StackLayout  Style="{StaticResource StackEntry}">
+                                        <Label Text="Email" Style="{StaticResource InfoTextSy}"/>
+                                        <Label Text="*" Style="{StaticResource RequierSy}"/>
+                                    </StackLayout>
+                                    <Entry Grid.ColumnSpan="2" Grid.Row="1" x:Name="EmailEntry" Text="{Binding Email}" />
+                                </StackLayout>
+                            </Frame>
+                            <Frame  Grid.Row="2" Style="{StaticResource FrameAddNews}">
+                                <StackLayout Padding="0,4,0,0" >
+                                    <Label Text="Select Role" Style="{StaticResource InfoTextSy}"/>
+                                    <Picker x:Name="PathPicker" Grid.Row="2" 
+                                 ItemsSource="{Binding Roles}"
+                                 ItemDisplayBinding="{Binding .}"
+                                 SelectedItem="{Binding SelectedRole}" />
+                                </StackLayout>
+                            </Frame>
+                            <Frame  Grid.Row="2"  Grid.Column="1"  Style="{StaticResource FrameAddNews}">
+                                <StackLayout Padding="0,4,0,0">
+                                    <Label Text="Group" Style="{StaticResource InfoTextSy}"/>
+                                    <Entry x:Name="HighlightsPicker" Grid.Row="2" Grid.Column="1" Text="{Binding Group}"/>
+                                </StackLayout>
+                            </Frame>
+                            <Frame  Grid.ColumnSpan="2" Grid.Row="3" Style="{StaticResource FrameAddNews}" >
+                                <StackLayout  Spacing="-8">
+                                    <StackLayout  Style="{StaticResource StackEntry}">
+                                        <Label Text="Password" Style="{StaticResource InfoTextSy}"/>
+                                        <Label Text="*" Style="{StaticResource RequierSy}"/>
+                                    </StackLayout>
+                                    <Entry Grid.ColumnSpan="2" Grid.Row="3"  x:Name="PasswordEntry"  IsPassword="True" Text="{Binding Password}"/>
+                                </StackLayout>
+                            </Frame>
+                            <Frame  Grid.ColumnSpan="2" Grid.Row="4" Style="{StaticResource FrameAddNews}" >
+                                <StackLayout Spacing="-8" >
+                                    <StackLayout Style="{StaticResource StackEntry}">
+                                        <Label Text="Confirm Password" Style="{StaticResource InfoTextSy}"/>
+                                        <Label Text="*" Style="{StaticResource RequierSy}"/>
+                                    </StackLayout>
+                                    <Entry Grid.ColumnSpan="2" Grid.Row="4" x:Name="ConfirmPasswordEntry" IsPassword="True"  Text="{Binding ConfPassword}"/>
+                                </StackLayout>
+                            </Frame>
+                        </Grid>
+
+                        <StackLayout Orientation="Horizontal" Spacing="20" HorizontalOptions="Center">
+                            <Button x:Name="SaveBtn" Text="Save" Style="{StaticResource ButtonCheckedStyle}" Clicked="SaveBtn_Clicked"/>
+                            <Button x:Name="CancelBtn" Text="Cancel" Style="{StaticResource ButtonUnCheckStyle}" Clicked="CancelBtn_Clicked" />
+                        </StackLayout>
+                    </StackLayout>
+                </Frame>
+            </Frame>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

@@ -1,43 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="QR_Presence.Views.CoursesPage"
-             NavigationPage.HasNavigationBar="False"
-             BackgroundColor="{AppThemeBinding Dark={StaticResource BackgroundDark}, Light={StaticResource BackgroundLight}}"
-             >
+             x:Class="QR_Presence.Views.AdminPages.ListOfTeamplate"
+             NavigationPage.HasNavigationBar="False">
     <ContentPage.Content>
         <StackLayout Padding="8,4,8,16" Spacing="16">
 
-            <Frame x:Name="outerFrame" 
-                   HasShadow="False" 
-                   Padding="0"
-                   HorizontalOptions="FillAndExpand" 
-                   CornerRadius="15" 
-                   OutlineColor="#DDC0CC" 
-                   BackgroundColor="{Binding Source={RelativeSource Self}, Path=OutlineColor}" >
-                <Frame x:Name="innerFrame" 
-                       Margin="3" 
-                       Padding="8,4,8,4" 
-                       HasShadow="False" 
-                       HorizontalOptions="FillAndExpand" CornerRadius="15" 
-                       OutlineColor="{Binding Source={x:Reference outerFrame}, Path=OutlineColor}" 
-                       BackgroundColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundDark}}" >
-                    <StackLayout Orientation="Horizontal" Padding="8,0,0,0">
-                        <Label Text="Courses List"
-                           FontSize="24"
-                           FontAttributes="Bold"
-                           CharacterSpacing="2"
-                           TextColor="{AppThemeBinding Dark={StaticResource BackgroundLight}, Light={StaticResource BackgroundDark}}"
-                           VerticalOptions="CenterAndExpand" 
-                           HorizontalOptions="StartAndExpand" />
-                        <Button FontFamily="FAS" FontSize="Large" BackgroundColor="Transparent" WidthRequest="46" />
-                    </StackLayout>
-                </Frame>
-            </Frame>
+           
             <CollectionView x:Name="accountsList"
                             SelectionMode="Single"
-                            SelectionChanged="AccountsList_SelectionChanged"
-                            ItemsSource="{Binding CourseList}">
+                            ItemsSource="{Binding ListOf}">
 
                 <CollectionView.ItemsLayout>
                     <GridItemsLayout Orientation="Vertical" Span="1" HorizontalItemSpacing="7" VerticalItemSpacing="7"/>
@@ -45,33 +17,42 @@
 
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Frame Style="{StaticResource FrameList}" Padding="5,5,2,5">
-                            <Grid Padding="10,10,10,10">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
+                        <SwipeView>
+                            <SwipeView.RightItems>
+                                <SwipeItems >
+                                    <SwipeItemView Command="{Binding Path=BindingContext.Delete, Source={Reference accountsList}}" CommandParameter="{Binding .}" >
+                                        <Button Text="trash" CornerRadius="5" FontSize="25" FontFamily="FAS" BackgroundColor="Red"/>
+                                    </SwipeItemView>
+                                </SwipeItems>
+                            </SwipeView.RightItems>
+                            <Frame Style="{StaticResource FrameList}" Padding="5,5,2,5">
+                                <Grid Padding="10,10,10,10">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
 
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="1.5*" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1.5*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
 
-                                <Label Text="{Binding Name_C}"
+                                    <Label Text="{Binding FullName}"
                                        Grid.Row="0"
                                        FontAttributes="Bold"
                                        FontSize="Medium"
                                        TextColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundLight}}"
                                        Style="{StaticResource TitleStyle}"/>
 
-                                <Label Grid.Column="1"
+                                    <Label Grid.Column="1"
                                        HorizontalOptions="EndAndExpand"
-                                       Text="{Binding Professor}"
+                                       Text="Test"
                                        TextColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundLight}}"
                                        FontAttributes="Bold"
                                        FontSize="Medium"
                                        Style="{StaticResource TitleStyle}"/>
-                            </Grid>
-                        </Frame>
+                                </Grid>
+                            </Frame>
+                        </SwipeView>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
 
@@ -114,15 +95,40 @@
 
                 <CollectionView.Header>
                     <ContentView>
-                        <Frame BackgroundColor="{StaticResource AccentDarkBlue} " CornerRadius="15" Padding="0" HeightRequest="45">
-                            <Label Text="Number of courses enroled: 3"
-                                    HorizontalOptions="CenterAndExpand"
-                                    VerticalOptions="CenterAndExpand"
+                        <Grid ColumnSpacing="16">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+
+                            </Grid.RowDefinitions>
+
+
+                            <Frame BackgroundColor="{StaticResource AccentDarkBlue} " CornerRadius="15" Padding="0" HorizontalOptions="CenterAndExpand" HeightRequest="45" WidthRequest="500"  Grid.Row="0">
+                                <Label Text="{Binding PageTitle}"
+                                   HorizontalOptions="CenterAndExpand"
                                     TextColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundLight}}"
                                     FontAttributes="Bold"
                                     FontSize="18"
                                     Style="{StaticResource TitleStyle}"/>
-                        </Frame>
+                            </Frame>
+                            <Button Grid.Column="1" 
+                                    Grid.Row="0"
+                                    Text="plus" 
+                                    FontSize="24" 
+                                    FontFamily="FAS" 
+                                    WidthRequest="500" HorizontalOptions="CenterAndExpand" 
+                                    Style="{StaticResource ButtonCheckedStyle}" 
+                                    BackgroundColor="{StaticResource AccentLiteBlue}"
+                                    BorderColor="{StaticResource AccentYellow}"
+                                    BorderWidth="4"
+                                    TextColor="{StaticResource AccentYellow}"
+                                    CornerRadius="15" />
+                           
+
+                        </Grid>
                     </ContentView>
                 </CollectionView.Header>
 

@@ -3,20 +3,29 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="QR_Presence.Views.ProfilePage"
              NavigationPage.HasNavigationBar="False"
+             BackgroundColor="{AppThemeBinding Dark={StaticResource BackgroundDark}, Light={StaticResource BackgroundLight}}"
              >
     <ContentPage.Resources>
         <ResourceDictionary>
             <Style x:Key="TextStyle" TargetType="Label">
                 <Setter Property="FontAttributes" Value="Bold"/>
                 <Setter Property="FontSize" Value="Large"/>
-                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundDark}}"/>
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundLight}}"/>
+                <Setter Property="CharacterSpacing" Value="2"/>
+            </Style>
+
+            <Style x:Key="IntervalCardTextStyle" TargetType="Label">
+                <Setter Property="FontAttributes" Value="Bold"/>
+                <Setter Property="HorizontalOptions" Value="CenterAndExpand"/>
+                <Setter Property="VerticalOptions" Value="CenterAndExpand"/>
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource BackgroundDark}, Dark={StaticResource BackgroundDark}}"/>
                 <Setter Property="CharacterSpacing" Value="2"/>
             </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
-    
+
     <ContentPage.Content>
-        <StackLayout Padding="8,16,8,16">
+        <StackLayout Padding="8,4,8,8">
 
             <Frame x:Name="outerFrame" 
                    HasShadow="False" 
@@ -36,56 +45,81 @@
                         <Label Text="Profile"
                            FontSize="24"
                            FontAttributes="Bold"
+                           TextColor="{AppThemeBinding Dark={StaticResource BackgroundLight}, Light={StaticResource BackgroundDark}}"
                            CharacterSpacing="2"
                            VerticalOptions="CenterAndExpand" 
                            HorizontalOptions="StartAndExpand" />
-                        <Button Text="pencil-alt" FontFamily="FAS" FontSize="Large" BackgroundColor="Transparent" WidthRequest="46" />
+                        <Button Text="pencil-alt" 
+                                FontFamily="FAS" 
+                                FontSize="Large" 
+                                BackgroundColor="{StaticResource AccentLiteBlue}" 
+                                    TextColor="{StaticResource AccentYellow}" 
+                                    CornerRadius="90" 
+                                    BorderColor="{StaticResource AccentYellow}" 
+                                    BorderWidth="2" 
+                                WidthRequest="46" 
+                                HeightRequest="46"
+                                Clicked="Button_Clicked" />
                     </StackLayout>
                 </Frame>
             </Frame>
 
-            <Frame CornerRadius="15" BackgroundColor="{StaticResource AccentLiteBlue}" Padding="16,12,16,16">
-            <Grid RowSpacing="50">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="* "/>
-                    <ColumnDefinition Width="0.6*"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
+            <Frame CornerRadius="15" BackgroundColor="{StaticResource AccentDarkBlue}"  Padding="16,12,16,16">
+                <Grid RowSpacing="50">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="* "/>
+                        <ColumnDefinition Width="0.6*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1.2*"/>
+                        <RowDefinition Height="2*"/>
+                        <RowDefinition Height="1.2*"/>
+                    </Grid.RowDefinitions>
                     <StackLayout Grid.Row="0" Grid.Column="0" Spacing="2" HorizontalOptions="Start" VerticalOptions="CenterAndExpand" Padding="4,0,0,0" >
-                        <Label Text="Welcome Back," Style="{StaticResource TextStyle}"/>
-                        <Label Text="Ilie-Cristian" Style="{StaticResource TextStyle}" CharacterSpacing="0"/>
-                        <Label Text="Sandu" Style="{StaticResource TextStyle}" CharacterSpacing="0"/>
-                        <Label Text="344C5" Style="{StaticResource TextStyle}" CharacterSpacing="0"/>
-                        <Label Text="ilie_cristian.sandu" Style="{StaticResource TextStyle}" CharacterSpacing="0"/>
+                        <Label Text="Welcome Back," FontSize="30" CharacterSpacing="0" Style="{StaticResource TextStyle}"/>
+                        <Label Text="{Binding User.SecondName}" Style="{StaticResource TextStyle}" CharacterSpacing="0"/>
+                        <Label Text="{Binding User.Name}" Style="{StaticResource TextStyle}" CharacterSpacing="0"/>
+                        <Label Text="{Binding User.Group}" Style="{StaticResource TextStyle}" CharacterSpacing="0"/>
+                        <Label Text="{Binding User.LDAP}" Style="{StaticResource TextStyle}" CharacterSpacing="0"/>
                     </StackLayout>
-                <Image Grid.Row="0" Grid.Column="1" Source="profilem.png"/>
+                    <Image Grid.Row="0" Grid.Column="1" Source="profilem.png"/>
 
-                <StackLayout Grid.Row="1" Grid.ColumnSpan="2"  Spacing="15">
+                    <StackLayout Grid.Row="1" Grid.ColumnSpan="2" VerticalOptions="CenterAndExpand" Spacing="15">
                         <Label Text="Next Courses List" Style="{StaticResource TextStyle}" Padding="4,0,0,0"/>
-                                <ScrollView Orientation="Both">
-                        <StackLayout Orientation="Horizontal" BindableLayout.ItemsSource="{Binding NextCourses}"  Spacing="12">
-                            <BindableLayout.ItemTemplate>
-                                <DataTemplate>
+                        <ScrollView Orientation="Both">
+                            <StackLayout Orientation="Horizontal" BindableLayout.ItemsSource="{Binding NextCourses}"  Spacing="12">
+                                <BindableLayout.ItemTemplate>
+                                    <DataTemplate>
 
-                                    <Frame CornerRadius="15" BackgroundColor="{StaticResource LiteGray}" HorizontalOptions="Center" VerticalOptions="Center" WidthRequest="100" Padding="12">
+                                        <Frame CornerRadius="15" BackgroundColor="{StaticResource LiteGray}" HorizontalOptions="Center" VerticalOptions="Center" WidthRequest="100" Padding="12">
                                             <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
-                                                <Label Text="{Binding Name}" FontSize="Large" FontAttributes="Bold" CharacterSpacing="2" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"/>
-                                                <Label Text="{Binding Day}" FontAttributes="Bold" CharacterSpacing="2" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"/>
-                                                <Label Text="{Binding StartH}" FontAttributes="Bold" CharacterSpacing="2" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"/>
-                                                <Label Text="{Binding StartE}" FontAttributes="Bold" CharacterSpacing="2" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"/>
-                                        </StackLayout>
-                                    </Frame>
+                                                <Label Text="{Binding Name}" FontSize="Large" Style="{StaticResource IntervalCardTextStyle}"/>
+                                                <Label Text="{Binding Day}" Style="{StaticResource IntervalCardTextStyle}"/>
+                                                <Label Text="{Binding StartH}" Style="{StaticResource IntervalCardTextStyle}"/>
+                                                <Label Text="{Binding StartE}" Style="{StaticResource IntervalCardTextStyle}"/>
+                                            </StackLayout>
+                                        </Frame>
 
-                            </DataTemplate>
-                            </BindableLayout.ItemTemplate>
-                        </StackLayout>
-                                </ScrollView>
-                </StackLayout>
-            </Grid>
+                                    </DataTemplate>
+                                </BindableLayout.ItemTemplate>
+                            </StackLayout>
+                        </ScrollView>
+                    </StackLayout>
+
+                    <Button Text="qrcode" 
+                            FontSize="48" 
+                            BackgroundColor="{StaticResource AccentLiteBlue}" 
+                            BorderColor="{StaticResource AccentYellow}" 
+                            TextColor="{StaticResource AccentYellow}"  
+                            BorderWidth="4" 
+                            FontFamily="FAS" 
+                            Grid.Row="2" Grid.ColumnSpan="2" 
+                            CornerRadius="90" 
+                            HeightRequest="90" WidthRequest="90" 
+                            HorizontalOptions="Center" VerticalOptions="CenterAndExpand"
+                            Clicked="Button_Clicked_1"/>
+
+                </Grid>
             </Frame>
 
         </StackLayout>

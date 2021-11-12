@@ -336,6 +336,13 @@ namespace QR_Presence.Views
             BindingContext = this;
         }
 
+        public CoursePage(CourseInfoModel course)
+        {
+            InitializeComponent();
+            Course = course;
+            BindingContext = this;
+        }
+
         private void Button_Clicked(object sender, EventArgs e)
         {
             Button btn = sender as Button;
@@ -389,6 +396,16 @@ namespace QR_Presence.Views
             CurrentListSelected = btn;
 
             return;
+        }
+
+        private async void Button_Clicked_1(object sender, EventArgs e)
+        {
+           await Navigation.PushAsync(new Views.RegisterPage());
+        }
+
+        private async void Button_Clicked_2(object sender, EventArgs e)
+        {
+            await Navigation.PopAsync();
         }
     }
 }
