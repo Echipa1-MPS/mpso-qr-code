@@ -53,3 +53,5 @@ jobs:
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_31AB35FE8403471687238DE7AD8DABEF }}
           package: '*.jar'
+        run: |
+          mvn clean package azure-webapp:deploy
