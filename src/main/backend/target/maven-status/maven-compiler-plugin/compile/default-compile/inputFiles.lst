@@ -1,0 +1,14 @@
+/home/maria/Desktop/mpso-qr-code/src/main/backend/src/main/java/com/mps/QResent/enums/Role.java
+/home/maria/Desktop/mpso-qr-code/src/main/backend/src/main/java/com/mps/QResent/controller/UserController.java
+/home/maria/Desktop/mpso-qr-code/src/main/backend/src/main/java/com/mps/QResent/model/Schedule.java
+/home/maria/Desktop/mpso-qr-code/src/main/backend/src/main/java/com/mps/QResent/repository/SubjectRepository.java
+/home/maria/Desktop/mpso-qr-code/src/main/backend/src/main/java/com/mps/QResent/service/SubjectService.java
+/home/maria/Desktop/mpso-qr-code/src/main/backend/src/main/java/com/mps/QResent/repository/ScheduleRepository.java
+/home/maria/Desktop/mpso-qr-code/src/main/backend/src/main/java/com/mps/QResent/QResentApplication.java
+/home/maria/Desktop/mpso-qr-code/src/main/backend/src/main/java/com/mps/QResent/service/UserService.java
+/home/maria/Desktop/mpso-qr-code/src/main/backend/src/main/java/com/mps/QResent/model/User.java
+/home/maria/Desktop/mpso-qr-code/src/main/backend/src/main/java/com/mps/QResent/model/Subject.java
+/home/maria/Desktop/mpso-qr-code/src/main/backend/src/main/java/com/mps/QResent/security/JwtRequestFilter.java
+/home/maria/Desktop/mpso-qr-code/src/main/backend/src/main/java/com/mps/QResent/security/WebSecurityConfig.java
+/home/maria/Desktop/mpso-qr-code/src/main/backend/src/main/java/com/mps/QResent/security/Jwt.java
+/home/maria/Desktop/mpso-qr-code/src/main/backend/src/main/java/com/mps/QResent/repository/UserRepository.java
