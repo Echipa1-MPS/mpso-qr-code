@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="QR_Presence.Views.EditPages.EditProfile"
+             NavigationPage.HasNavigationBar="False"
+             BackgroundColor="{AppThemeBinding Dark={StaticResource BackgroundDark}, Light={StaticResource BackgroundLight}}"
+             >
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="StackEntry" TargetType="StackLayout">
+                <Setter Property="Orientation" Value="Horizontal"/>
+                <Setter Property="HorizontalOptions" Value="Start"/>
+                <Setter Property="VerticalOptions" Value="CenterAndExpand"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
+    
+    <ContentPage.Content>
+        <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="Center" Padding="16,48,16,32" Spacing="56">
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Edite Profile Data" Style="{StaticResource MainTitleStyle}" TextColor="{AppThemeBinding Dark={StaticResource BackgroundLight}, Light={StaticResource BackgroundDark}}" FontSize="40" HorizontalOptions="Start"  FontFamily="Itim"/>
+                <Label Text="users" FontSize="40" TextColor="{AppThemeBinding Dark={StaticResource BackgroundLight}, Light={StaticResource BackgroundDark}}" FontFamily="FAS" VerticalOptions="CenterAndExpand" HorizontalOptions="EndAndExpand"/>
+            </StackLayout>
+            <Grid ColumnSpacing="10" RowSpacing="15" Padding="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height=".65*" />
+                    <RowDefinition Height=".65*" />
+                    <RowDefinition Height=".65*" />
+                    
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width=".5*" />
+                    <ColumnDefinition Width=".5*" />
+
+                </Grid.ColumnDefinitions>
+                <Frame Style="{StaticResource FrameAddNews}">
+                    <StackLayout Spacing="-8" >
+                        <StackLayout  Style="{StaticResource StackEntry}">
+                            <Label Text="Name" TextColor="{AppThemeBinding Dark={StaticResource BackgroundLight}, Light={StaticResource BackgroundDark}}"/>
+                        </StackLayout>
+                        <Entry x:Name="FirstNameEntry" Text="{Binding Name}" TextColor="{AppThemeBinding Dark={StaticResource BackgroundLight}, Light={StaticResource BackgroundDark}}"/>
+                    </StackLayout>
+                </Frame>
+                <Frame Grid.Column="1" Style="{StaticResource FrameAddNews}">
+                    <StackLayout Spacing="-8" >
+                        <StackLayout  Style="{StaticResource StackEntry}">
+                            <Label Text="SecondName" VerticalOptions="Center" TextColor="{AppThemeBinding Dark={StaticResource BackgroundLight}, Light={StaticResource BackgroundDark}}"/>
+                        </StackLayout>
+                        <Entry Grid.Column="1" x:Name="LasttNameEntry"  Text="{Binding SecondName}" TextColor="{AppThemeBinding Dark={StaticResource BackgroundLight}, Light={StaticResource BackgroundDark}}"/>
+                    </StackLayout>
+                </Frame>
+                <Frame Grid.ColumnSpan="2" Grid.Row="1" Style="{StaticResource FrameAddNews}">
+                    <StackLayout Spacing="-8" Grid.ColumnSpan="2" Grid.Row="1" >
+                        <StackLayout  Style="{StaticResource StackEntry}">
+                            <Label Text="Email" TextColor="{AppThemeBinding Dark={StaticResource BackgroundLight}, Light={StaticResource BackgroundDark}}"/>
+                        </StackLayout>
+                        <Entry Grid.ColumnSpan="2" Grid.Row="1" x:Name="EmailEntry" Text="{Binding Email}"  TextColor="{AppThemeBinding Dark={StaticResource BackgroundLight}, Light={StaticResource BackgroundDark}}"/>
+                    </StackLayout>
+                </Frame>
+                
+                <Frame  Grid.Row="2"  Grid.ColumnSpan="2"  Style="{StaticResource FrameAddNews}">
+                    <StackLayout Padding="0,4,0,0">
+                        <Label Text="Group" TextColor="{AppThemeBinding Dark={StaticResource BackgroundLight}, Light={StaticResource BackgroundDark}}"/>
+                        <Entry x:Name="HighlightsPicker" Grid.Row="2" Grid.Column="1" Text="{Binding Group}" TextColor="{AppThemeBinding Dark={StaticResource BackgroundLight}, Light={StaticResource BackgroundDark}}"/>
+                    </StackLayout>
+                </Frame>
+                
+            </Grid>
+
+            <StackLayout Orientation="Horizontal" Spacing="20" HorizontalOptions="Center">
+                <Button x:Name="SaveBtn" Text="Save" Style="{StaticResource ButtonCheckedStyle}" />
+                <Button x:Name="CancelBtn" Text="Cancel" Style="{StaticResource ButtonUnCheckStyle}" Clicked="CancelBtn_Clicked" />
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
