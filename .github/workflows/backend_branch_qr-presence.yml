@@ -24,7 +24,7 @@ jobs:
       - name: Build with Maven
         run: |
           cd ${{ github.workspace }}/src/main/backend
-          mvn clean package -DskipTests
+          mvn clean install
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
@@ -53,5 +53,3 @@ jobs:
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_31AB35FE8403471687238DE7AD8DABEF }}
           package: '*.jar'
-        run: |
-          mvn clean package azure-webapp:deploy
