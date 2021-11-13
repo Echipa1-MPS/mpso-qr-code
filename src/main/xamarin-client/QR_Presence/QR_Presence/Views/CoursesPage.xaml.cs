@@ -14,10 +14,11 @@ namespace QR_Presence.Views
     public partial class CoursesPage : ContentPage
     {
 
-        public List<Models.CourseInfoModel> CourseList { get; set; } = new List<Models.CourseInfoModel>
+        public List<CourseInfoModel> CourseList { get; set; } = new List<Models.CourseInfoModel>
         {
             new Models.CourseInfoModel
             {
+                Id_Course = 3,
                 Name_C="MPS",
                 Professor="vasile",
                 Desc="",
@@ -42,6 +43,7 @@ namespace QR_Presence.Views
             },
             new Models.CourseInfoModel
             {
+                Id_Course = 2,
                 Name_C="EP",
                 Professor="vasile",
                 Desc="",
@@ -66,7 +68,7 @@ namespace QR_Presence.Views
             },
             new Models.CourseInfoModel
             {
-                Id_Cours = 1,
+                Id_Course = 1,
                 Name_C = "IOCLA",
                 Professor = "Prof. Razvan Deaconescu",
                 Desc = "Programare in limbaj de asamblare este un curs de din Anul 2 in care se invata notiuni de hardware",
@@ -96,10 +98,24 @@ namespace QR_Presence.Views
             BindingContext = this;
         }
 
+        public List<CourseInfoModel> Courses_Selected { get; set; } = new List<CourseInfoModel>();
+        public List<int> Courses_ID_List { get; set; } = new List<int>();
+
+
         private async void AccountsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+
             if (e.CurrentSelection.Count == 0)
                 return;
+            //Courses_Selected = new List<CourseInfoModel>();
+
+            //for (int i = 0; i < e.CurrentSelection.Count; i++)
+            //{
+            //    CourseInfoModel course = e.CurrentSelection[i] as CourseInfoModel;
+            //        Courses_Selected.Add(course);
+            //    if (!Courses_ID_List.Contains(course.Id_Course))
+            //    Courses_ID_List.Add(course.Id_Course);
+            //}
             CourseInfoModel course = e.CurrentSelection.FirstOrDefault() as CourseInfoModel;
 
             if (e.CurrentSelection != null)
@@ -107,6 +123,11 @@ namespace QR_Presence.Views
                 await Navigation.PushAsync(new CoursePage(course));
             }
             ((CollectionView)sender).SelectedItem = null;
+        }
+
+        private void Button_Clicked(object sender, EventArgs e)
+        {
+            int i = 0;
         }
     }
 }
