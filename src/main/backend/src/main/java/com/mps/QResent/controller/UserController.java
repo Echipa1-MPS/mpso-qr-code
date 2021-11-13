@@ -38,16 +38,6 @@ public class UserController {
                     && (userService.isValidRole(user.getRole())))) {
                 if (!userService.isPresent(user.getEmail())) {
                     user.setPassword(passwordEncoder.encode(user.getPassword()));
-                    user.setRole(user.getRole());
-                    if (user.getSurname() != null && !Objects.equals(user.getSurname(), "")){
-                        user.setSurname(user.getSurname());
-                    }
-                    if(user.getName() != null && !Objects.equals(user.getName(), "")){
-                        user.setName(user.getName());
-                    }
-                    if(user.getGroup() != null && !Objects.equals(user.getGroup(), "")) {
-                        user.setGroup(user.getGroup());
-                    }
                     userService.save(user);
                     return ResponseEntity.status(HttpStatus.CREATED).body("You have been successfully registered!");
                 } else {
