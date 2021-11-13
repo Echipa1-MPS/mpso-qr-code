@@ -6,6 +6,7 @@ namespace QR_Presence.Models
 {
     public class UserModel
     {
+        public string Id_User { get; set; }
         public string Name { get; set; }
         public string SecondName { get; set; }
         public string LDAP { get; set; }

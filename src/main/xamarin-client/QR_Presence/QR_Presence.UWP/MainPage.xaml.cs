@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ImageCircle.Forms.Plugin.UWP;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -20,7 +21,7 @@ namespace QR_Presence.UWP
         public MainPage()
         {
             this.InitializeComponent();
-
+            ImageCircleRenderer.Init();
             LoadApplication(new QR_Presence.App());
         }
     }
