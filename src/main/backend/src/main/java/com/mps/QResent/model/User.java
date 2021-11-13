@@ -1,5 +1,7 @@
 package com.mps.QResent.model;
 
+import com.mps.QResent.enums.Role;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -11,8 +13,16 @@ public class User {
     @Column(name = "user_id")
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "role_id")
+    @Column(name = "surname")
+    private String surname;
+
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "group_label")
+    private String group;
+
+    @Column(name = "role")
     private Role role;
 
     @Column(name = "email")
@@ -70,5 +80,29 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getGroup() {
+        return group;
+    }
+
+    public void setGroup(String group) {
+        this.group = group;
     }
 }

@@ -1,5 +1,6 @@
 package com.mps.QResent.service;
 
+import com.mps.QResent.enums.Role;
 import com.mps.QResent.model.User;
 import com.mps.QResent.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,13 +17,24 @@ public class UserService implements UserDetailsService {
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
+
+    public Long findUserIdByEmail(String email) {
+        Optional<User> user = this.userRepository.findByEmail(email);
+        return user.map(User::getId).orElse(null);
+    }
+
+    public boolean isValidRole(Role role) {
+        return role == Role.ADMIN || role == Role.TEACHER || role == Role.STUDENT;
+    }
     public boolean isPresent(String email) {
         return userRepository.findByEmail(email).isPresent();
     }
-    public void save(User user){
+
+    public void save(User user) {
         userRepository.save(user);
     }
-    public void delete(User user){
+
+    public void delete(User user) {
         userRepository.delete(user);
     }
 
