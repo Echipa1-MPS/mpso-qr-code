@@ -60,7 +60,7 @@ public class UserController {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
             String jwtToken = jwt.generateToken(user);
             JSONObject response = new JSONObject();
-            response.put("user_id", userService.findUserIdByEmail(user.getEmail()));
+            response.put("role", userService.findRoleByEmail(user.getEmail()).ordinal());
             response.put("jwt_token", jwtToken);
             return ResponseEntity.status(HttpStatus.OK).body(response);
         } catch (Exception e) {
