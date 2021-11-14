@@ -18,9 +18,9 @@ public class UserService implements UserDetailsService {
         this.userRepository = userRepository;
     }
 
-    public Long findUserIdByEmail(String email) {
+    public Role findRoleByEmail(String email) {
         Optional<User> user = this.userRepository.findByEmail(email);
-        return user.map(User::getId).orElse(null);
+        return user.map(User::getRole).orElse(null);
     }
 
     public boolean isValidRole(Role role) {
