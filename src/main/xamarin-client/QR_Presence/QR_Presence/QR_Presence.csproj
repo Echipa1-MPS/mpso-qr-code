@@ -37,10 +37,12 @@
 
   <ItemGroup>
     <PackageReference Include="Microcharts.Forms" Version="0.9.5.9" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Resizetizer.NT" Version="0.3.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
     <PackageReference Include="Xam.Plugins.Forms.ImageCircle" Version="3.0.0.5" />
     <PackageReference Include="Xamarin.CommunityToolkit" Version="1.0.2" />
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2012" />
@@ -51,11 +53,10 @@
 
   <ItemGroup>
     <Folder Include="Convertors\" />
-    <Folder Include="Services\" />
   </ItemGroup>
 
   <ItemGroup>
-    <SharedImage Include="Img\carmina_cr.png" BaseSize="300,300"  />
+    <SharedImage Include="Img\carmina_cr.png" BaseSize="300,300" />
     <SharedImage Include="Img\course.svg" BaseSize="211,164" />
     <SharedImage Include="Img\cristi_s.png" BaseSize="300,300" />
     <SharedImage Include="Img\list.svg" />
