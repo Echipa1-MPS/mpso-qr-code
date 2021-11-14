@@ -102,31 +102,6 @@
 					<target>11</target>
 				</configuration>
 			</plugin>
-			<plugin>
-				<groupId>com.microsoft.azure</groupId>
-				<artifactId>azure-webapp-maven-plugin</artifactId>
-				<version>1.8.0</version>
-				<configuration>
-					<appName>QR-Presence</appName>
-					<deployment>
-						<cpu>1</cpu>
-						<memoryInGB>1.75</memoryInGB>
-						<instanceCount>1</instanceCount>
-						<runtimeVersion>Java 11</runtimeVersion>
-						<resources>
-							<resource>
-								<filtering/>
-								<mergeId/>
-								<targetPath/>
-								<directory>${project.basedir}/target</directory>
-								<includes>
-									<include>*.jar</include>
-								</includes>
-							</resource>
-						</resources>
-					</deployment>
-				</configuration>
-			</plugin>
 		</plugins>
 	</build>
 
