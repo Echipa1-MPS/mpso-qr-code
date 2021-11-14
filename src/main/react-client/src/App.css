@@ -1,84 +1,147 @@
 .dark-blue-background {
-    background-color: #006BA6;
+  background-color: #006ba6;
 }
 
 .light-blue-background {
-    background-color: #0496FF;
+  background-color: #0496ff;
 }
 
 .accent-yellow-background {
-    background-color: #FFBC42;
+  background-color: #ffbc42;
 }
 
 .dark-pink-background {
-    background-color: #D81159;
+  background-color: #d81159;
 }
 
 .rose-budget-background {
-    background-color: #8F2D56;
+  background-color: #8f2d56;
 }
 
 .white-text-font {
-    color: white;
+  color: white;
 }
 
 .header-options-text-size {
-    font-size: 1.2rem;
+  font-size: 1.2rem;
 }
 
 .flex-container-row {
-    display: flex;
-    flex-direction: row;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
 }
 
 .flex-container-column {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .flex-container-row-center {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }
 
 .flex-container-column-center {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .full-height-vw {
-    height: 100vh;
+  height: 100vh;
+}
+
+.home-section-page-height {
+    height: 680px;
+}
+
+.qrsection-section-page-height {
+    height: 680px;
 }
 
 .rounded-avatar-image {
-    border-radius: 50%;
+  border-radius: 50%;
 }
 .author-avatar-width {
-    width: 200px;
+  width: 200px;
 }
 
 .center-text {
-    text-align: center;
+  text-align: center;
 }
 
 .avatar-margin {
-    margin: 20px;
+  margin: 20px;
 }
 
 .avatar-border {
-    border: 5px solid #FFBC42;
+  border: 5px solid #ffbc42;
 }
 
 .home-sections-width {
-    width: 350px;
+  width: 500px;
+}
+
+.qrsection-sections-width {
+    width: 500px;
 }
 
 .aliceblue-background {
-    background-color: aliceblue;
+  background-color: aliceblue;
 }
 
 .cornsilk-background {
-    background-color: cornsilk;
+  background-color: cornsilk;
+}
+
+.home-sections-margin-top {
+    margin-top: 30px;
+}
+
+.qrsection-sections-margin-top {
+    margin-top: 30px;
+    flex-wrap: wrap;
+}
+
+.home-avatar-width {
+    width: 120px;
+}
+
+.home-courses-item-container {
+    border-radius: 20px;
+    font-size: 1.3rem;
+    padding: 10px;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-bottom: 10px;
+}
+
+.upcoming-courses-container {
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 20px;   
+}
+
+.upcoming-courses-item {
+    width: 130px;
+    background-color: white;
+    word-wrap: normal;
+    padding: 10px;
+    border-radius: 20px;
+}
+
+.create-qr-button-width {
+    width: 140px;
+}
+.create-qr-button-style {
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 1.3rem;
+    padding: 5px;
+    margin-left: 20px;
+    margin-top: 60px;
+    text-align: center;
+    cursor: pointer;
 }
