@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -21,6 +22,10 @@ public class UserService implements UserDetailsService {
     public Long findUserIdByEmail(String email) {
         Optional<User> user = this.userRepository.findByEmail(email);
         return user.map(User::getId).orElse(null);
+    }
+
+    public List<User> findUsersByRole(Role role) {
+        return this.userRepository.findByRole(role);
     }
 
     public boolean isValidRole(Role role) {
