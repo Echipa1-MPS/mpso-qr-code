@@ -2,6 +2,7 @@
 using QR_Presence.Helpers;
 using QR_Presence.Models;
 using QR_Presence.Models.APIModels;
+using QR_Presence.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +18,7 @@ namespace QR_Presence.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class LoginPage : ContentPage
     {
-        public string Password { get; set; }   
+        public string Password { get; set; }
         public string Email { get; set; }
         public LoginPage()
         {
@@ -27,35 +28,14 @@ namespace QR_Presence.Views
 
         private async void Button_Clicked(object sender, EventArgs e)
         {
-            using (var c = new HttpClient())
+            if (await APICalls.LoginUser(Email, Password))
             {
-                var client = new HttpClient();
-                var jsonRequest = new
-                {
-                    email = Email,
-                    password = Password,
-                };
-
-                var serializedJsonRequest = JsonConvert.SerializeObject(jsonRequest);
-                HttpContent content = new StringContent(serializedJsonRequest, Encoding.UTF8, "application/json");
-
-                var response = await client.PostAsync(new Uri("http://ec2-3-18-103-144.us-east-2.compute.amazonaws.com:8080/api/user/login"), content);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    UserModel user = await Services.DatabaseConnection.GetUser();
-                    LoginResponse result = JsonConvert.DeserializeObject<LoginResponse>(response.Content.ReadAsStringAsync().Result);
-
-
-                    user.Id_User = Int32.Parse(result.user_id);
-
-                    await Services.DatabaseConnection.UpdateUser(user);
-                    await DisplayAlert("All Ok", "Login succesfully", "OK");
-                }
-                else
-                {
-                    await DisplayAlert("Alert!", "Error Ocured, retry", "OK");
-                }
+                await DisplayAlert("All Ok", "Login succesfully", "OK");
+            }
+            else
+            {
+                await DisplayAlert("Alert!", "Error Ocured, retry", "OK");
+                return;
             }
 
             string role = Preferences.Get("Role", "2");

@@ -97,8 +97,8 @@ namespace QR_Presence.Views.MainTabs
                 default:
                     break;
             }
-           
-            BindingContext= this;
+
+            BindingContext = this;
         }
 
         private void DefaultTheme_Clicked(object sender, EventArgs e)
@@ -132,6 +132,17 @@ namespace QR_Presence.Views.MainTabs
             }
 
             Settings.SetTheme();
+        }
+
+        private async void Button_Clicked(object sender, EventArgs e)
+        {
+            bool answer = await DisplayAlert("Warning !", "Would you like to logout?", "Yes", "No");
+            if (!answer)
+                return;
+            
+            SecureStorage.RemoveAll();
+            Preferences.Clear();
+            Application.Current.MainPage = new NavigationPage(new LoginPage());
         }
     }
 }

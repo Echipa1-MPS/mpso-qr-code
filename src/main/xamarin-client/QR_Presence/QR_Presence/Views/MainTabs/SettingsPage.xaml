@@ -19,11 +19,15 @@
     </ContentPage.Resources>
     <ContentPage.Content>
         <StackLayout Padding="0,16,0,0" Spacing="42">
+            <StackLayout Orientation="Horizontal"
+                    Padding="20,0,20,0">
             <Label  Text="Theme" 
-                    Padding="20,0,0,0"
                     TextColor="{AppThemeBinding Dark={StaticResource BackgroundLight}, Light={StaticResource BackgroundDark}}" 
                     Style="{StaticResource TitleStyle}" 
                     FontSize="Large"/>
+                <Button Text="sign-out-alt" FontFamily="FAS" FontSize="Large" BackgroundColor="Transparent" Padding="0" TextColor="{AppThemeBinding Dark={StaticResource BackgroundLight}, Light={StaticResource BackgroundDark}}" BorderColor="{AppThemeBinding Dark={StaticResource BackgroundLight}, Light={StaticResource BackgroundDark}}"  WidthRequest="46"  CornerRadius="90"
+                                HeightRequest="46"  BorderWidth="2"   HorizontalOptions="EndAndExpand" Clicked="Button_Clicked"/>
+            </StackLayout>
             <StackLayout Orientation="Horizontal"  HorizontalOptions="Center" VerticalOptions="Center" Spacing="26"  >
                 <Button x:Name="defaultTheme" Text="Default" FontSize="Small" HeightRequest="5"  Style="{StaticResource ButtonUnCheckStyle}" Clicked="DefaultTheme_Clicked"/>
                 <Button x:Name="lightTheme" Text="Light" FontSize="Small"  Style="{StaticResource ButtonCheckedStyle}" Clicked="DefaultTheme_Clicked"/>

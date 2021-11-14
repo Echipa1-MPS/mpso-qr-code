@@ -43,12 +43,28 @@ namespace QR_Presence.Services
             await db.DeleteAsync(user);
         }
 
+        public static async Task DeleteAllUsers()
+        {
+            await Init();
+            await db.DeleteAllAsync<UserModel>();
+        }
+
         public static async Task<UserModel> GetUser()
         {
             await Init();
             var users = await db.Table<UserModel>().ToListAsync();
-            return users[0];
+
+            return users.Count == 0 ? new UserModel(): users[0];
         }
+
+        public static async Task<bool> ExistUser()
+        {
+            await Init();
+            var users = await db.Table<UserModel>().ToListAsync();
+            return users.Count == 0 ? false : true;
+        }
+
+
 
         public static async Task<float> GetFunctionResult(string query)
         {
@@ -60,6 +76,6 @@ namespace QR_Presence.Services
             return incomeSum;
         }
 
-      
+
     }
 }

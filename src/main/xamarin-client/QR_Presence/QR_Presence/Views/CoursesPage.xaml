@@ -35,7 +35,7 @@
                 </Frame>
             </Frame>
             <CollectionView x:Name="accountsList"
-                            SelectionMode="Multiple"
+                            SelectionMode="Single"
                             SelectionChanged="AccountsList_SelectionChanged"
                             ItemsSource="{Binding CourseList}">
 
@@ -115,7 +115,6 @@
                 <CollectionView.Header>
                     <ContentView>
                         <StackLayout>
-                            <Button Text="asdasdas" Clicked="Button_Clicked"/>
                             <Frame BackgroundColor="{StaticResource AccentDarkBlue} " CornerRadius="15" Padding="0" HeightRequest="45">
                             <Label Text="Number of courses enroled: 3"
                                     HorizontalOptions="CenterAndExpand"
