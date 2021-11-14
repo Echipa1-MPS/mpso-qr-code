@@ -1,5 +1,6 @@
 import { useEffect, useState, useContext } from "react";
 import { ThemeContext } from "../../App";
+import QRCode from "react-qr-code";
 
 export default function CreateQR() {
 
@@ -46,6 +47,8 @@ export default function CreateQR() {
                 <div className="cornsilk-background 
                                 qrsection-sections-width 
                                 qrsection-section-page-height">'
+                
+                <QRCode value="hey" />
                 </div>
             </div>
         </div>);
