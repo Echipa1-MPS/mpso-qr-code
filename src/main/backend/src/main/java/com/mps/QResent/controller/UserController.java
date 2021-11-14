@@ -84,7 +84,6 @@ public class UserController {
                 student.put("username", user.getUsername());
                 student.put("email", user.getEmail());
                 student.put("group", user.getGroup());
-                student.put("role", user.getRole());
                 students.add(student);
             }
             response.put("students", students);
@@ -108,7 +107,6 @@ public class UserController {
                 teacher.put("name", user.getName());
                 teacher.put("username", user.getUsername());
                 teacher.put("email", user.getEmail());
-                teacher.put("role", user.getRole());
                 teachers.add(teacher);
             }
             response.put("teachers", teachers);
