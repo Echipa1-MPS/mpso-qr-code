@@ -6,7 +6,7 @@ namespace QR_Presence.Models.APIModels
 {
     public class LoginResponse
     {
-        public string user_id { get;set; }
+        public string role { get;set; }
         public string jwt_token { get;set; }
     }
 }

@@ -76,6 +76,8 @@ namespace QR_Presence.Views.MainTabs
             }
         };
         private Button CheckButton { get; set; }
+
+        private string Role { get; set; }
         public SettingsPage()
         {
             InitializeComponent();
@@ -97,8 +99,18 @@ namespace QR_Presence.Views.MainTabs
                 default:
                     break;
             }
+            Role = Preferences.Get("Role", "2");
+
 
             BindingContext = this;
+        }
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            if (Role == "0")
+            {
+                backButton.IsVisible = true;
+            }
         }
 
         private void DefaultTheme_Clicked(object sender, EventArgs e)
@@ -139,10 +151,15 @@ namespace QR_Presence.Views.MainTabs
             bool answer = await DisplayAlert("Warning !", "Would you like to logout?", "Yes", "No");
             if (!answer)
                 return;
-            
+
             SecureStorage.RemoveAll();
             Preferences.Clear();
             Application.Current.MainPage = new NavigationPage(new LoginPage());
+        }
+
+        private async void backButton_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PopAsync();
         }
     }
 }

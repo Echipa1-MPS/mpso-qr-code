@@ -81,7 +81,7 @@ namespace QR_Presence.Services
                         user = await DatabaseConnection.GetUser();
 
                     LoginResponse result = JsonConvert.DeserializeObject<LoginResponse>(response.Content.ReadAsStringAsync().Result);
-                    user.Id_User = Int32.Parse(result.user_id);
+                    user.Privilege = Int32.Parse(result.role);
 
                     try
                     {
@@ -89,6 +89,8 @@ namespace QR_Presence.Services
                         await SecureStorage.SetAsync("email", $"{email}");
                         await SecureStorage.SetAsync("oauth_token", $"{result.jwt_token}");
                         Preferences.Set("IsLogIn", $"true");
+                        Preferences.Set("Role", $"{user.Privilege}");
+
                     }
                     catch (Exception ex)
                     {

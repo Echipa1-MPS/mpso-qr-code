@@ -20,8 +20,10 @@
     <ContentPage.Content>
         <StackLayout Padding="0,16,0,0" Spacing="42">
             <StackLayout Orientation="Horizontal"
-                    Padding="20,0,20,0">
-            <Label  Text="Theme" 
+                    Padding="20,0,20,0" Spacing="24">
+                <Button x:Name="backButton" Text="arrow-left" IsVisible="false" FontFamily="FAS" FontSize="Large" BackgroundColor="Transparent" Padding="0" TextColor="{AppThemeBinding Dark={StaticResource BackgroundLight}, Light={StaticResource BackgroundDark}}" BorderColor="{AppThemeBinding Dark={StaticResource BackgroundLight}, Light={StaticResource BackgroundDark}}"  WidthRequest="46"  CornerRadius="90"
+                                HeightRequest="46"  BorderWidth="2"   HorizontalOptions="Start" Clicked="backButton_Clicked"/>
+                <Label  Text="Theme" 
                     TextColor="{AppThemeBinding Dark={StaticResource BackgroundLight}, Light={StaticResource BackgroundDark}}" 
                     Style="{StaticResource TitleStyle}" 
                     FontSize="Large"/>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QR_Presence.Views.MainTabs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +16,16 @@ namespace QR_Presence.Views.AdminPages
         public ListOfTeamplate()
         {
             InitializeComponent();
+        }
+
+        private async void Button_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new SettingsPage());
+        }
+
+        private void accountsList_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
+        {
+            ((CollectionView)sender).SelectedItem = null;
         }
     }
 }
