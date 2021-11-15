@@ -12,6 +12,6 @@ namespace QR_Presence.Models
         public string Desc { get; set; }
         public string Grading { get; set; }
         public List<IntervalModel> Intervals { get; set; }
-        public string FullName => $"Name:{Name_C}  Professor:{Professor}";
+        public string FullName => $"{Name_C}    Professor:{Professor}";
     }
 }

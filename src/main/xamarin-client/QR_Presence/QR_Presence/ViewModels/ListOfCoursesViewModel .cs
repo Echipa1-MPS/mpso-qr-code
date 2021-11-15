@@ -1,5 +1,6 @@
 ﻿using QR_Presence.Models;
 using QR_Presence.Views;
+using QR_Presence.Views.AdminPages;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -29,12 +30,13 @@ namespace QR_Presence.ViewModels
                 {
                     selectedElement = value;
                     GoToNextPage.Execute(selectedElement);
-                    selectedElement = null;
                 }
             }
         }
 
         public Command GoToNextPage { get; set; }
+        public Command GoNewElementPage { get; set; }
+
         public ListOfCoursesViewModel()
         {
             ListOf = new ObservableCollection<CourseInfoModel>
@@ -78,7 +80,13 @@ namespace QR_Presence.ViewModels
 
             GoToNextPage = new Command(async () =>
             {
-                await Application.Current.MainPage.Navigation.PushAsync(new CoursePage(SelectedElement));
+                if (SelectedElement != null)
+                    await Application.Current.MainPage.Navigation.PushAsync(new EditCoursePage(SelectedElement));
+            });
+
+            GoNewElementPage = new Command(async () =>
+            {
+                    await Application.Current.MainPage.Navigation.PushAsync(new EditCoursePage());
             });
 
             PageTitle = $"Count {ListOf.Count}";

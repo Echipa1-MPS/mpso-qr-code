@@ -7,6 +7,7 @@
             android:TabbedPage.ToolbarPlacement="Top" 
             android:TabbedPage.IsSwipePagingEnabled="False"
             NavigationPage.HasNavigationBar="False"
+            SelectedTabColor="{StaticResource AccentYellow}"
             >
     <NavigationPage Title="Students" >
         <x:Arguments>
@@ -20,7 +21,7 @@
         </x:Arguments>
     </NavigationPage>
 
-    <NavigationPage Title="Courses"  >
+    <NavigationPage Title="Courses" >
         <x:Arguments>
             <adminPage:ListOfTeamplate BindingContext="{Binding ListOfCourses}"/>
         </x:Arguments>

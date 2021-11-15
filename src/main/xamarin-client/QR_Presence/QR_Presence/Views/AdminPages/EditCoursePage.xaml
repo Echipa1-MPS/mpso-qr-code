@@ -1,17 +1,55 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="QR_Presence.Views.AdminPages.ListOfTeamplate"
+             x:Class="QR_Presence.Views.AdminPages.EditCoursePage"
+             NavigationPage.HasNavigationBar="False"
              BackgroundColor="{AppThemeBinding Dark={StaticResource BackgroundDark}, Light={StaticResource BackgroundLight}}"
-             NavigationPage.HasNavigationBar="False">
+             >
     <ContentPage.Content>
-        <StackLayout Padding="8,12,8,16" Spacing="16">
+        <Grid Padding="8,16,8,8">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="0.8*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <StackLayout Orientation="Horizontal" HorizontalOptions="StartAndExpand" Spacing="16" VerticalOptions="CenterAndExpand">
+                <Button Text="arrow-left" FontFamily="FAS" FontSize="Large" TextColor="{AppThemeBinding Dark={StaticResource BackgroundLight}, Light={StaticResource BackgroundDark}}" HeightRequest="30" Padding="0,0,0,0" WidthRequest="30" CornerRadius="90" BackgroundColor="Transparent" Clicked="Button_Clicked"/>
+                <Label Text="Edit Course" FontSize="Large" TextColor="{AppThemeBinding Dark={StaticResource BackgroundLight}, Light={StaticResource BackgroundDark}}"  VerticalOptions="Center" FontAttributes="Bold" />
+            </StackLayout>
+
+            <Grid Padding="0,0,0,4" Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.5*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Frame Style="{StaticResource FrameAddNews}">
+                    <Entry Text="{Binding Course.Name_C}" TextColor="{AppThemeBinding Dark={StaticResource BackgroundLight}, Light={StaticResource BackgroundDark}}" Placeholder="Course Name"/>
+                </Frame>
+                <Frame Style="{StaticResource FrameAddNews}" Grid.Column="1">
+                    <Entry Text="{Binding Course.Professor}" TextColor="{AppThemeBinding Dark={StaticResource BackgroundLight}, Light={StaticResource BackgroundDark}}"  Placeholder="Professor Name"/>
+                </Frame>
+                <Frame Style="{StaticResource FrameAddNews}" Grid.Row="1" Grid.ColumnSpan="2">
+                    <Editor Text="{Binding Course.Desc}" TextColor="{AppThemeBinding Dark={StaticResource BackgroundLight}, Light={StaticResource BackgroundDark}}" Placeholder="Description" Grid.Row="1" Grid.ColumnSpan="2" HeightRequest="120"/>
+                </Frame>
+                <Frame Style="{StaticResource FrameAddNews}" Grid.Row="2" Grid.ColumnSpan="2">
+                    <Editor Text="{Binding Course.Grading}" TextColor="{AppThemeBinding Dark={StaticResource BackgroundLight}, Light={StaticResource BackgroundDark}}" Placeholder="Minimal Grading" Grid.Row="2" Grid.ColumnSpan="2"  HeightRequest="120"/>
+                </Frame>
+            </Grid>
 
             <CollectionView x:Name="accountsList"
-                            SelectionMode="Single"
-                            SelectedItem="{Binding SelectedElement}"
-                            SelectionChanged="accountsList_SelectionChanged_1"
-                            ItemsSource="{Binding ListOf}">
+                            SelectionMode="Multiple"
+                            SelectionChanged="accountsList_SelectionChanged"
+                            ItemsSource="{Binding ListOf}"
+                            Grid.Row="2">
 
                 <CollectionView.ItemsLayout>
                     <GridItemsLayout Orientation="Vertical" Span="1" HorizontalItemSpacing="7" VerticalItemSpacing="7"/>
@@ -19,15 +57,7 @@
 
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <SwipeView>
-                            <SwipeView.RightItems>
-                                <SwipeItems >
-                                    <SwipeItemView Command="{Binding Path=BindingContext.Delete, Source={Reference accountsList}}" CommandParameter="{Binding .}" >
-                                        <Button Text="trash" CornerRadius="5" FontSize="25" FontFamily="FAS" BackgroundColor="Red"/>
-                                    </SwipeItemView>
-                                </SwipeItems>
-                            </SwipeView.RightItems>
-                            <Frame Style="{StaticResource FrameList}" Padding="5,5,2,5">
+                            <Frame Style="{StaticResource FrameList}" BackgroundColor="Transparent" Padding="5,5,2,5">
                                 <Grid Padding="10,10,10,10">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" />
@@ -42,19 +72,10 @@
                                        Grid.Row="0"
                                        FontAttributes="Bold"
                                        FontSize="Medium"
-                                       TextColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundLight}}"
-                                       Style="{StaticResource TitleStyle}"/>
-
-                                    <Label Grid.Column="1"
-                                       HorizontalOptions="EndAndExpand"
-                                       Text="Test"
-                                       TextColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundLight}}"
-                                       FontAttributes="Bold"
-                                       FontSize="Medium"
+                                       TextColor="{AppThemeBinding Light={StaticResource BackgroundDark}, Dark={StaticResource BackgroundLight}}"
                                        Style="{StaticResource TitleStyle}"/>
                                 </Grid>
                             </Frame>
-                        </SwipeView>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
 
@@ -101,24 +122,21 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="auto"/>
+
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
-
                             <Frame BackgroundColor="{StaticResource AccentDarkBlue} " CornerRadius="15" Padding="0" HorizontalOptions="CenterAndExpand" HeightRequest="45" WidthRequest="500"  Grid.Row="0">
-                                <Label Text="{Binding PageTitle}"
-                                    HorizontalOptions="CenterAndExpand"
+                                <Label x:Name="selectedNumber" Text="Selected Students: 0"
+                                   HorizontalOptions="CenterAndExpand"
                                     TextColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundLight}}"
                                     FontAttributes="Bold"
                                     FontSize="18"
                                     Style="{StaticResource TitleStyle}"/>
                             </Frame>
-                            
-                            <Button Grid.Column="1" 
-                                    Grid.Row="0"
-                                    Text="plus" 
+                            <Button Text="save" TextTransform="None"  
+                                    Grid.Column="1"
                                     FontSize="24" 
                                     FontFamily="FAS" 
                                     WidthRequest="50"
@@ -127,28 +145,15 @@
                                     BackgroundColor="{StaticResource AccentLiteBlue}"
                                     BorderColor="{StaticResource AccentYellow}"
                                     BorderWidth="2"
-                                    Command="{Binding GoNewElementPage}"
                                     TextColor="{StaticResource AccentYellow}"
-                                    CornerRadius="15" />
-                            
-                            <Button Text="cog" 
-                                    FontFamily="FAS" 
-                                    FontSize="24" 
-                                    CornerRadius="15"
-                                    BackgroundColor="{StaticResource AccentLiteBlue}"
-                                    BorderColor="{StaticResource AccentYellow}" 
-                                    BorderWidth="2"
-                                    TextColor="{StaticResource AccentYellow}"
-                                    HeightRequest="50" WidthRequest="50" 
-                                    Grid.Column="2" 
                                     Clicked="Button_Clicked"
-                                    HorizontalOptions="CenterAndExpand"/>
-                            
+                                    CornerRadius="15" />
+
                         </Grid>
                     </ContentView>
                 </CollectionView.Header>
 
             </CollectionView>
-        </StackLayout>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

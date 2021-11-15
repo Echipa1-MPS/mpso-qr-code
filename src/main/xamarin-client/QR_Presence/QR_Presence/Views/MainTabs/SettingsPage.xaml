@@ -21,13 +21,13 @@
         <StackLayout Padding="0,16,0,0" Spacing="42">
             <StackLayout Orientation="Horizontal"
                     Padding="20,0,20,0" Spacing="24">
-                <Button x:Name="backButton" Text="arrow-left" IsVisible="false" FontFamily="FAS" FontSize="Large" BackgroundColor="Transparent" Padding="0" TextColor="{AppThemeBinding Dark={StaticResource BackgroundLight}, Light={StaticResource BackgroundDark}}" BorderColor="{AppThemeBinding Dark={StaticResource BackgroundLight}, Light={StaticResource BackgroundDark}}"  WidthRequest="46"  CornerRadius="90"
+                <Button x:Name="backButton" Text="arrow-left" IsVisible="false" FontFamily="FAS" FontSize="Large" BackgroundColor="Transparent" Padding="0" TextColor="{AppThemeBinding Dark={StaticResource BackgroundLight}, Light={StaticResource BackgroundDark}}" BorderColor="{AppThemeBinding Dark={StaticResource BackgroundLight}, Light={StaticResource BackgroundDark}}"  WidthRequest="46"  CornerRadius="15"
                                 HeightRequest="46"  BorderWidth="2"   HorizontalOptions="Start" Clicked="backButton_Clicked"/>
                 <Label  Text="Theme" 
                     TextColor="{AppThemeBinding Dark={StaticResource BackgroundLight}, Light={StaticResource BackgroundDark}}" 
                     Style="{StaticResource TitleStyle}" 
                     FontSize="Large"/>
-                <Button Text="sign-out-alt" FontFamily="FAS" FontSize="Large" BackgroundColor="Transparent" Padding="0" TextColor="{AppThemeBinding Dark={StaticResource BackgroundLight}, Light={StaticResource BackgroundDark}}" BorderColor="{AppThemeBinding Dark={StaticResource BackgroundLight}, Light={StaticResource BackgroundDark}}"  WidthRequest="46"  CornerRadius="90"
+                <Button Text="sign-out-alt" FontFamily="FAS" FontSize="Large" BackgroundColor="Transparent" Padding="0" TextColor="{AppThemeBinding Dark={StaticResource BackgroundLight}, Light={StaticResource BackgroundDark}}" BorderColor="{AppThemeBinding Dark={StaticResource BackgroundLight}, Light={StaticResource BackgroundDark}}"  WidthRequest="46"  CornerRadius="15"
                                 HeightRequest="46"  BorderWidth="2"   HorizontalOptions="EndAndExpand" Clicked="Button_Clicked"/>
             </StackLayout>
             <StackLayout Orientation="Horizontal"  HorizontalOptions="Center" VerticalOptions="Center" Spacing="26"  >
@@ -36,7 +36,7 @@
                 <Button x:Name="darkTheme" Text="Dark" FontSize="Small"  Style="{StaticResource ButtonCheckedStyle}" Clicked="DefaultTheme_Clicked"/>
             </StackLayout>
 
-         
+
             <Label  Text="Project Team" 
                     Padding="20,0,0,0"
                     TextColor="{AppThemeBinding Dark={StaticResource BackgroundLight}, Light={StaticResource BackgroundDark}}" 
@@ -68,12 +68,12 @@
                                 <StackLayout Orientation="Horizontal" VerticalOptions="Center" HorizontalOptions="Center">
                                     <Label Text="user" FontFamily="FAS" FontSize="Large" Style="{StaticResource ProfileInfoStyle}" />
                                     <Label Text="{Binding Name}" FontSize="Large" Style="{StaticResource ProfileInfoStyle}" />
-                                    
+
                                 </StackLayout>
                                 <StackLayout Orientation="Horizontal" VerticalOptions="Center" HorizontalOptions="Center">
                                     <Label Text="graduation-cap"  FontFamily="FAS" Style="{StaticResource ProfileInfoStyle}"/>
                                     <Label Text="{Binding Group}" Style="{StaticResource ProfileInfoStyle}"/>
-                                    
+
                                 </StackLayout>
                                 <StackLayout Orientation="Horizontal" VerticalOptions="Center" HorizontalOptions="Center">
                                     <Label Text="pencil-ruler"  FontFamily="FAS" Style="{StaticResource ProfileInfoStyle}"/>

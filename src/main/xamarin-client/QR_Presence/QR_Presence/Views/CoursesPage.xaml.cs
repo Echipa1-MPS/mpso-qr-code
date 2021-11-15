@@ -107,15 +107,7 @@ namespace QR_Presence.Views
 
             if (e.CurrentSelection.Count == 0)
                 return;
-            //Courses_Selected = new List<CourseInfoModel>();
-
-            //for (int i = 0; i < e.CurrentSelection.Count; i++)
-            //{
-            //    CourseInfoModel course = e.CurrentSelection[i] as CourseInfoModel;
-            //        Courses_Selected.Add(course);
-            //    if (!Courses_ID_List.Contains(course.Id_Course))
-            //    Courses_ID_List.Add(course.Id_Course);
-            //}
+            
             CourseInfoModel course = e.CurrentSelection.FirstOrDefault() as CourseInfoModel;
 
             if (e.CurrentSelection != null)
