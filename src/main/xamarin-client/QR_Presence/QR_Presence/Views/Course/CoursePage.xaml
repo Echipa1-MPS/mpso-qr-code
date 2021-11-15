@@ -231,7 +231,9 @@
                                         CornerRadius="10"
                                         FontFamily="FAS" FontSize="24"  
                                         VerticalOptions="CenterAndExpand" 
-                                        HorizontalOptions="CenterAndExpand" />
+                                        HorizontalOptions="CenterAndExpand"
+                                        Clicked="Button_Clicked_3"
+                                        />
                             </Frame>
 
                         </Grid>

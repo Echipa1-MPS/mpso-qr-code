@@ -1,12 +1,14 @@
 ﻿using Microcharts;
 using QR_Presence.Models;
+using QR_Presence.Services;
 using SkiaSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Windows.Input;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Entry = Microcharts.ChartEntry;
@@ -277,7 +279,6 @@ namespace QR_Presence.Views
             }
         };
 
-
         public List<string> Dates { get; set; } = new List<string>
         {
             new DateTime(2021,12,23).ToString("MMMM dd, yyyy"),
@@ -330,6 +331,9 @@ namespace QR_Presence.Views
             BackgroundColor = SKColor.Parse(Color.Transparent.ToHex())
         };
 
+        private ExcelService excelService;
+
+
         public CoursePage()
         {
             InitializeComponent();
@@ -341,6 +345,46 @@ namespace QR_Presence.Views
             InitializeComponent();
             Course = course;
             BindingContext = this;
+            excelService = new ExcelService();
+        }
+
+        async Task ExportToExcel()
+        {
+            var fileName = $"Presence{Course.Name_C}-{DateTime.Now.ToString("dd-MMMM-yyyy")}.xlsx";
+            string filepath = excelService.GenerateExcel(fileName);
+
+
+            var data1 = PutDataInList(PersonsPresents);
+            var data2 = PutDataInList(PersonsAttentive);
+            var data3 = PutDataInList(PersonsActives);
+
+
+            excelService.InsertDataIntoSheet(filepath, "QR_1", data1);
+            excelService.InsertDataIntoSheet(filepath, "QR_2", data2);
+            excelService.InsertDataIntoSheet(filepath, "QR_3", data3);
+
+
+
+
+            await Launcher.OpenAsync(new OpenFileRequest()
+            {
+                File = new ReadOnlyFile(filepath)
+            });
+        }
+
+        public ExcelStructure PutDataInList(List<UserModel> users)
+        {
+            var data = new ExcelStructure
+            {
+                Headers = new List<string>() { "Name", "SecondName", "Group", "LDAP" }
+            };
+
+            foreach (var item in users)
+            {
+                data.Values.Add(new List<string>() { item.Name, item.SecondName, item.Group, item.LDAP });
+            }
+
+            return data;
         }
 
         private void Button_Clicked(object sender, EventArgs e)
@@ -400,12 +444,17 @@ namespace QR_Presence.Views
 
         private async void Button_Clicked_1(object sender, EventArgs e)
         {
-           await Navigation.PushAsync(new Views.RegisterPage());
+            await Navigation.PushAsync(new Views.RegisterPage());
         }
 
         private async void Button_Clicked_2(object sender, EventArgs e)
         {
             await Navigation.PopAsync();
+        }
+
+        private async void Button_Clicked_3(object sender, EventArgs e)
+        {
+            await ExportToExcel();
         }
     }
 }
