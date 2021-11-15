@@ -6,7 +6,7 @@ namespace QR_Presence.Models
 {
     public class CourseInfoModel
     {
-        public int Id_Cours { get; set; }
+        public int Id_Course { get; set; }
         public string Name_C { get; set; }
         public string Professor { get; set; }
         public string Desc { get; set; }

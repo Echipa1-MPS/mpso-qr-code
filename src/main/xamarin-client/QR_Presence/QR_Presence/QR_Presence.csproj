@@ -11,13 +11,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Img\carmina_cr.png" />
     <None Remove="Img\course.svg" />
+    <None Remove="Img\cristi_s.png" />
     <None Remove="Img\list.svg" />
     <None Remove="Img\login.svg" />
     <None Remove="Img\no_data.svg" />
     <None Remove="Img\profilef.svg" />
     <None Remove="Img\profilem.svg" />
     <None Remove="Img\settings.svg" />
+    <None Remove="Img\stefan_n.png" />
+    <None Remove="Img\stefan_p.png" />
+    <None Remove="Img\tudor_c.png" />
     <None Remove="Img\user.svg" />
     <None Remove="Resources\Fonts\fa-brands-400.ttf" />
     <None Remove="Resources\Fonts\fa-regular-400.ttf" />
@@ -32,10 +37,13 @@
 
   <ItemGroup>
     <PackageReference Include="Microcharts.Forms" Version="0.9.5.9" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Resizetizer.NT" Version="0.3.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
+    <PackageReference Include="Xam.Plugins.Forms.ImageCircle" Version="3.0.0.5" />
     <PackageReference Include="Xamarin.CommunityToolkit" Version="1.0.2" />
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2012" />
     <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
@@ -45,17 +53,21 @@
 
   <ItemGroup>
     <Folder Include="Convertors\" />
-    <Folder Include="Services\" />
   </ItemGroup>
 
   <ItemGroup>
+    <SharedImage Include="Img\carmina_cr.png" BaseSize="300,300" />
     <SharedImage Include="Img\course.svg" BaseSize="211,164" />
+    <SharedImage Include="Img\cristi_s.png" BaseSize="300,300" />
     <SharedImage Include="Img\list.svg" />
     <SharedImage Include="Img\login.svg" BaseSize="349,197" />
     <SharedImage Include="Img\no_data.svg" />
     <SharedImage Include="Img\profilef.svg" BaseSize="136,136" />
     <SharedImage Include="Img\profilem.svg" BaseSize="136,136" />
     <SharedImage Include="Img\settings.svg" />
+    <SharedImage Include="Img\stefan_n.png" BaseSize="300,300" />
+    <SharedImage Include="Img\stefan_p.png" BaseSize="300,300" />
+    <SharedImage Include="Img\tudor_c.png" BaseSize="300,300" />
     <SharedImage Include="Img\user.svg" />
   </ItemGroup>
 
