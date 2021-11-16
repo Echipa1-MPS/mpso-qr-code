@@ -1,5 +1,6 @@
 package com.mps.QResent.service;
 
+import com.mps.QResent.enums.Role;
 import com.mps.QResent.model.Subject;
 import com.mps.QResent.model.User;
 import com.mps.QResent.projection.UserSubjectView;
@@ -71,7 +72,7 @@ public class UserService implements UserDetailsService {
 
     public String getProf(Subject subject){
         String profName = "";
-        for(User user: userRepository.findAllByRole(1)){
+        for(User user: userRepository.findAllByRole(Role.TEACHER)){
             if(user.getSubjects().contains(subject)){
                 return profName + user.getName() + user.getSurname();
             }
@@ -80,6 +81,18 @@ public class UserService implements UserDetailsService {
     }
 
     public List<User> getStudents(Subject subject){
-        return userRepository.findAllByRole(0);
+        return userRepository.findAllByRole(Role.STUDENT);
     }
+
+    public Role findRoleByEmail(String email) {
+        Optional<User> user = this.userRepository.findByEmail(email);
+        return user.map(User::getRole).orElse(null);
+    }
+
+    public boolean isValidRole(Role role) {
+        return role == Role.ADMIN || role == Role.TEACHER || role == Role.STUDENT;
+    }
+
+
+
 }

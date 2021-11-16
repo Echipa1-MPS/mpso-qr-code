@@ -1,5 +1,7 @@
 package com.mps.QResent.model;
 
+import com.mps.QResent.enums.Role;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -13,7 +15,7 @@ public class User {
     private Long id;
 
     @Column(name = "role")
-    private Integer role;
+    private Role role;
 
     @Column(name = "email")
     private String email;
@@ -90,11 +92,11 @@ public class User {
         this.id = id;
     }
 
-    public Integer getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(Integer role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 

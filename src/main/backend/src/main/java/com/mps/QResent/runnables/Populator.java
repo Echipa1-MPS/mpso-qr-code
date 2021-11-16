@@ -1,5 +1,6 @@
 package com.mps.QResent.runnables;
 
+import com.mps.QResent.enums.Role;
 import com.mps.QResent.model.Schedule;
 import com.mps.QResent.model.Subject;
 import com.mps.QResent.model.User;
@@ -37,28 +38,6 @@ public class Populator implements CommandLineRunner {
         List<String> lastNames = Arrays.asList("Ion", "Buliga");
         List<String> passwords = Arrays.asList("12345678", "password");
 
-//        for (int i = 0; i < emails.size(); i++) {
-//            if (userService.findByEmail(emails.get(i)).isEmpty()) {
-//                User user = new User();
-//                user.setEmail(emails.get(i));
-//                user.setFirstName(firstNames.get(i));
-//                user.setLastName(lastNames.get(i));
-//                user.setPassword(passwordEncoder.encode(passwords.get(i)));
-//                user.setRole(0);
-//                userService.save(user);
-//                users.add(user);
-//            }
-//        }
-//        User admin;
-//        if (userService.findByEmail("admin@gmail.com").isEmpty()) {
-//            admin = new User();
-//            admin.setEmail("admin@polifood.com");
-//            admin.setFirstName("Admin");
-//            admin.setLastName("Admin");
-//            admin.setRole(2);
-//            admin.setPassword(passwordEncoder.encode("admin"));
-//            userService.save(admin);
-//        }
 
         Subject MPS, PS, SMP;
         Schedule luni, marti, miercuri;
@@ -121,7 +100,7 @@ public class Populator implements CommandLineRunner {
                 user.setName(firstNames.get(i));
                 user.setSurname(lastNames.get(i));
                 user.setPassword(passwordEncoder.encode(passwords.get(i)));
-                user.setRole(0);
+                user.setRole(Role.STUDENT);
                 userService.save(user);
                 user.getSubjects().add(MPS);
                 userService.save(user);
@@ -134,7 +113,7 @@ public class Populator implements CommandLineRunner {
             admin.setEmail("admin@gmail.com");
             admin.setName("Admin");
             admin.setSurname("Admin");
-            admin.setRole(1);
+            admin.setRole(Role.TEACHER);
             admin.setPassword(passwordEncoder.encode("admin"));
             userService.save(admin);
             admin.getSubjects().add(MPS);

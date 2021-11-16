@@ -31,15 +31,8 @@ public class ScheduleController {
         JSONObject jsonObject = new JSONObject();
         JSONArray jsonArray = new JSONArray();
         for(QRCode qrCode: qrCodes){
-
             for(User user: qrCode.getUsers()){
-                JSONObject jsonObject1 = new JSONObject();
-                jsonObject1.put("name", user.getName());
-                jsonObject1.put("secondName", user.getSurname());
-                jsonObject1.put("ldap", user.getEmail());
-                jsonObject1.put("group", user.getGroup());
-                jsonObject1.put("privilege", user.getRole());
-                jsonArray.add(jsonObject1);
+                jsonArray.add(UserController.studentJSON(user));
             }
         }
         jsonObject.put("QR", jsonArray);

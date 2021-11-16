@@ -1,5 +1,7 @@
 package com.mps.QResent.projection;
 
+import com.mps.QResent.enums.Role;
+
 import java.util.List;
 
 public interface UserSubjectView {
@@ -8,6 +10,6 @@ public interface UserSubjectView {
     String getLastName();
     String getEmail();
     String getGroup();
-    Integer getRole();
+    Role getRole();
     List<SubjectView> getSubjects();
 }

@@ -49,7 +49,8 @@ public class UserController {
     public ResponseEntity<?> registerUser(@RequestBody User user) {
         try {
             if (((user.getEmail() != null && !Objects.equals(user.getEmail(), ""))
-                    && (user.getPassword() != null && !Objects.equals(user.getPassword(), "")))) {
+                    && (user.getPassword() != null && !Objects.equals(user.getPassword(), ""))
+                    && (userService.isValidRole(user.getRole())))) {
                 if (!userService.isPresent(user.getEmail())) {
                     user.setPassword(passwordEncoder.encode(user.getPassword()));
                     userService.save(user);
@@ -73,8 +74,10 @@ public class UserController {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
             String jwtToken = jwt.generateToken(user);
-            return ResponseEntity.status(HttpStatus.OK).body(jwtToken);
-
+            JSONObject response = new JSONObject();
+            response.put("role", userService.findRoleByEmail(user.getEmail()).ordinal());
+            response.put("jwt_token", jwtToken);
+            return ResponseEntity.status(HttpStatus.OK).body(response);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
@@ -83,7 +86,6 @@ public class UserController {
     @GetMapping(path = "/subjects")
     public String getSubjects() {
         UserSubjectView userSubjectView = userService.findUserNextCourses("emailtest@gmail.com");
-        ArrayList<ScheduleSubjectView> scheduleSubjectViews = new ArrayList<>();
         JSONArray jsonArray = new JSONArray();
         for(SubjectView subjectView: userSubjectView.getSubjects()){
             System.out.println(DayOfWeek.from(LocalDateTime.now()));
@@ -109,7 +111,9 @@ public class UserController {
 
     @GetMapping(path = "/allCourses")
     public String getAllCourses(){
-        Optional<User> user = userService.findByEmail("emailtest@gmail.com");
+        // for test purpose
+        // Optional<User> user = userService.findByEmail("emailtest@gmail.com");
+        Optional<User> user = userService.findByEmail(userService.getCurrentUserEmail());
         JSONObject jsonObject = new JSONObject();
         JSONArray courses_enrolled = new JSONArray();
         if(user.isPresent()){
@@ -132,12 +136,7 @@ public class UserController {
                 course.put("Intervals", intervals);
                 JSONArray students = new JSONArray();
                 for(User student: userService.getStudents(subject)){
-                    JSONObject studentJson = new JSONObject();
-                    studentJson.put("name", student.getName());
-                    studentJson.put("secondName", student.getSurname());
-                    studentJson.put("ldap", student.getEmail());
-                    studentJson.put("group", student.getGroup());
-                    studentJson.put("privilege", student.getRole());
+                    JSONObject studentJson = studentJSON(student);
                     students.add(studentJson);
                 }
                 course.put("Students_Enrolled", students);
@@ -147,6 +146,16 @@ public class UserController {
         jsonObject.put("count", courses_enrolled.size());
         jsonObject.put("courses_enrolled", courses_enrolled);
         return jsonObject.toString();
+    }
+
+    static JSONObject studentJSON(User student) {
+        JSONObject studentJson = new JSONObject();
+        studentJson.put("name", student.getName());
+        studentJson.put("secondName", student.getSurname());
+        studentJson.put("ldap", student.getEmail());
+        studentJson.put("group", student.getGroup());
+        studentJson.put("privilege", student.getRole());
+        return studentJson;
     }
 
 }
