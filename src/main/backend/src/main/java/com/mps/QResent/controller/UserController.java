@@ -8,12 +8,12 @@ import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -31,7 +31,7 @@ public class UserController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
-    @PostMapping(path = "/register")
+    @PostMapping(path = "/authentication/register")
     public ResponseEntity<?> registerUser(@RequestBody User user) {
         try {
             if (((user.getEmail() != null && !Objects.equals(user.getEmail(), ""))
@@ -52,7 +52,7 @@ public class UserController {
         }
     }
 
-    @PostMapping(path = "/login")
+    @PostMapping(path = "/authentication/login")
     public ResponseEntity<?> loginUser(@RequestBody User user) {
         if (user.getEmail() == null || user.getPassword() == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Missing required credentials!");
@@ -70,7 +70,7 @@ public class UserController {
     }
 
     @GetMapping(path = "/admin/get-students")
-    @PreAuthorize(value = "hasAuthority('ADMIN')")
+    @RolesAllowed("ADMIN")
     public ResponseEntity<?> getStudents() {
         try {
             List<User> users = this.userService.findUsersByRole(Role.STUDENT);
@@ -94,7 +94,7 @@ public class UserController {
     }
 
     @GetMapping(path = "/admin/get-teachers")
-    @PreAuthorize(value = "hasAuthority('ADMIN')")
+    @RolesAllowed("ADMIN")
     public ResponseEntity<?> getTeachers() {
         try {
             List<User> users = this.userService.findUsersByRole(Role.TEACHER);

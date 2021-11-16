@@ -31,6 +31,7 @@ public class UserService implements UserDetailsService {
     public boolean isValidRole(Role role) {
         return role == Role.ADMIN || role == Role.TEACHER || role == Role.STUDENT;
     }
+
     public boolean isPresent(String email) {
         return userRepository.findByEmail(email).isPresent();
     }
