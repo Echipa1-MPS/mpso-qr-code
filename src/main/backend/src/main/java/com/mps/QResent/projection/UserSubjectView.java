@@ -8,6 +8,6 @@ public interface UserSubjectView {
     String getLastName();
     String getEmail();
     String getGroup();
-    RoleView getRole();
-    List<ScheduleSubjectView> getSubjectAfter();
+    Integer getRole();
+    List<SubjectView> getSubjects();
 }

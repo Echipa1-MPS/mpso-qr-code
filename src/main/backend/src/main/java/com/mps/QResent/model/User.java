@@ -1,6 +1,7 @@
 package com.mps.QResent.model;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -11,9 +12,8 @@ public class User {
     @Column(name = "user_id")
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "role_id")
-    private Role role;
+    @Column(name = "role")
+    private Integer role;
 
     @Column(name = "email")
     private String email;
@@ -21,30 +21,30 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    @Column(name = "user_firstName")
-    private String firstName;
+    @Column(name = "name")
+    private String name;
 
-    @Column(name = "user_lastName")
-    private String lastName;
+    @Column(name = "surname")
+    private String surname;
 
-    @Column(name = "user_group")
+    @Column(name = "group_label")
     private String group;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(
             name = "user_subject",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "subject_id")}
     )
-    private Set<Subject> subjects;
+    private Set<Subject> subjects = new HashSet<>();;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(
             name = "presence",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "qr_code_id")}
     )
-    private Set<QRCode> qrCodes;
+    private Set<QRCode> qrCodes = new HashSet<>();;
 
     public User() {
     }
@@ -58,20 +58,20 @@ public class User {
         this.qrCodes = qrCodes;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getName() {
+        return name;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setName(String firstName) {
+        this.name = firstName;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getSurname() {
+        return surname;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setSurname(String lastName) {
+        this.surname = lastName;
     }
 
     public Set<Subject> getSubjects() {
@@ -90,11 +90,11 @@ public class User {
         this.id = id;
     }
 
-    public Role getRole() {
+    public Integer getRole() {
         return role;
     }
 
-    public void setRole(Role role) {
+    public void setRole(Integer role) {
         this.role = role;
     }
 

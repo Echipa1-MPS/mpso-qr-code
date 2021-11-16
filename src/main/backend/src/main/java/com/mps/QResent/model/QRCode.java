@@ -4,6 +4,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -22,12 +23,12 @@ public class QRCode {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date dateFinish;
 
-    @ManyToOne()
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "schedule_id")
     private Schedule schedule;
 
-    @ManyToMany(mappedBy = "qrCodes")
-    private Set<User> users;
+    @ManyToMany(mappedBy = "qrCodes", cascade = CascadeType.PERSIST)
+    private Set<User> users = new HashSet<>();;
 
     public QRCode() {
     }

@@ -1,6 +1,7 @@
 package com.mps.QResent.model;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -14,11 +15,11 @@ public class Subject {
     @Column(name = "name")
     private String name;
 
-    @OneToMany(mappedBy = "subject")
-    private Set<Schedule> schedule;
+    @OneToMany(mappedBy = "subject", cascade = CascadeType.PERSIST)
+    private Set<Schedule> schedule = new HashSet<>();
 
-    @ManyToMany(mappedBy = "subjects")
-    private Set<User> users;
+    @ManyToMany(mappedBy = "subjects", cascade = CascadeType.PERSIST)
+    private Set<User> users = new HashSet<>();
 
     @Column(name = "information")
     private String infoSubject;
@@ -26,8 +27,9 @@ public class Subject {
     @Column(name = "grading")
     private String gradingSubject;
 
-    @OneToOne
-    private Key key;
+    @OneToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "key_qr_id")
+    private KeyQr keyQr;
 
     public Subject() {
     }
@@ -80,11 +82,11 @@ public class Subject {
         this.gradingSubject = gradingSubject;
     }
 
-    public Key getKey() {
-        return key;
+    public KeyQr getKeyQr() {
+        return keyQr;
     }
 
-    public void setKey(Key key) {
-        this.key = key;
+    public void setKeyQr(KeyQr keyQr) {
+        this.keyQr = keyQr;
     }
 }

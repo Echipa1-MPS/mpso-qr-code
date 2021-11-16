@@ -3,20 +3,20 @@ package com.mps.QResent.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "keys")
-public class Key {
+@Table(name = "keysQr")
+public class KeyQr {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "key_id")
+    @Column(name = "key_qr_id")
     private Long id;
 
-    @Column(name = "key_value")
+    @Column(name = "key_qr_value")
     private String keyValue;
 
-    @OneToOne()
+    @OneToOne(mappedBy = "keyQr", cascade = CascadeType.PERSIST)
     private Subject subject;
 
-    public Key() {
+    public KeyQr() {
     }
 
 
