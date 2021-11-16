@@ -1,8 +1,10 @@
 package com.mps.QResent.controller;
 
 import com.mps.QResent.enums.Role;
+import com.mps.QResent.model.Subject;
 import com.mps.QResent.model.User;
 import com.mps.QResent.security.Jwt;
+import com.mps.QResent.service.SubjectService;
 import com.mps.QResent.service.UserService;
 import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,8 @@ import java.util.Objects;
 public class UserController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private SubjectService subjectService;
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
@@ -70,7 +74,7 @@ public class UserController {
     }
 
     @GetMapping(path = "/admin/get-students")
-    @RolesAllowed("ADMIN")
+    @RolesAllowed("ROLE_ADMIN")
     public ResponseEntity<?> getStudents() {
         try {
             List<User> users = this.userService.findUsersByRole(Role.STUDENT);
@@ -94,7 +98,7 @@ public class UserController {
     }
 
     @GetMapping(path = "/admin/get-teachers")
-    @RolesAllowed("ADMIN")
+    @RolesAllowed("ROLE_ADMIN")
     public ResponseEntity<?> getTeachers() {
         try {
             List<User> users = this.userService.findUsersByRole(Role.TEACHER);
@@ -112,6 +116,19 @@ public class UserController {
             response.put("teachers", teachers);
             return ResponseEntity.status(HttpStatus.OK).body(response);
         } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
+    @DeleteMapping(path = "/admin/delete-user")
+    @RolesAllowed("ROLE_ADMIN")
+    public ResponseEntity<?> deleteUser(@RequestBody User user) {
+        try {
+            JSONObject response = new JSONObject();
+            response.put("user_id", userService.findUserIdByEmail(user.getEmail()));
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+        }
+        catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
