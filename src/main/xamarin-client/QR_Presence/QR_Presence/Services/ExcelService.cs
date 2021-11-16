@@ -51,19 +51,19 @@ namespace QR_Presence.Services
                             new Sheet()
                             {
                                 Id = wbPart.GetIdOfPart(part),
-                                SheetId = 1,
+                                SheetId = (UInt32Value)1U,
                                 Name = "QR_1"
                             },
                             new Sheet()
                             {
                                 Id = wbPart.GetIdOfPart(part2),
-                                SheetId = 2,
+                                SheetId = (UInt32Value)2U,
                                 Name = "QR_2"
                             },
                             new Sheet()
                             {
                                 Id = wbPart.GetIdOfPart(part3),
-                                SheetId = 3,
+                                SheetId = (UInt32Value)3U,
                                 Name = "QR_3"
                             }
                         )

@@ -204,7 +204,6 @@
                                     <Picker Title="Select Interval" 
                                     TextColor="{AppThemeBinding Light={StaticResource BackgroundDark}, Dark={StaticResource BackgroundLight}}"
                                     TitleColor="{AppThemeBinding Light={StaticResource BackgroundDark}, Dark={StaticResource BackgroundLight}}"
-                                        
                                     ItemsSource="{Binding Course.Intervals}"
                                     ItemDisplayBinding="{Binding IntervalHE}"
                                     SelectedItem="{Binding SelectedInterval}"/>

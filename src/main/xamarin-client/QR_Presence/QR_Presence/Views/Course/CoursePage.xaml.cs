@@ -333,6 +333,8 @@ namespace QR_Presence.Views
 
         private ExcelService excelService;
 
+        public IntervalModel SelectedInterval { get; set; }
+        public string SelectedDate { get;set; }
 
         public CoursePage()
         {
@@ -350,33 +352,26 @@ namespace QR_Presence.Views
 
         async Task ExportToExcel()
         {
-            var fileName = $"Presence{Course.Name_C}-{DateTime.Now.ToString("dd-MMMM-yyyy")}.xlsx";
+            var fileName = $"Presence{Course.Name_C}-{SelectedInterval + SelectedDate }.xlsx";
             string filepath = excelService.GenerateExcel(fileName);
 
 
-            var data1 = PutDataInList(PersonsPresents);
-            var data2 = PutDataInList(PersonsAttentive);
-            var data3 = PutDataInList(PersonsActives);
+            PutDataInList(PersonsPresents,"QR_1", filepath);
+            PutDataInList(PersonsAttentive, "QR_2", filepath);
+            PutDataInList(PersonsActives, "QR_3", filepath);
 
-
-            excelService.InsertDataIntoSheet(filepath, "QR_1", data1);
-            excelService.InsertDataIntoSheet(filepath, "QR_2", data2);
-            excelService.InsertDataIntoSheet(filepath, "QR_3", data3);
-
-
-
-
-            await Launcher.OpenAsync(new OpenFileRequest()
+            await Share.RequestAsync(new ShareFileRequest()
             {
-                File = new ReadOnlyFile(filepath)
+                Title = $"{Course.Name_C}-{DateTime.Now.ToString("dd-MMMM-yyyy")}",
+                File = new ShareFile(filepath)
             });
         }
 
-        public ExcelStructure PutDataInList(List<UserModel> users)
+        public void PutDataInList(List<UserModel> users, string qr, string filepath)
         {
-            var data = new ExcelStructure
+            ExcelStructure data = new ExcelStructure
             {
-                Headers = new List<string>() { "Name", "SecondName", "Group", "LDAP" }
+                Headers = new List<string>() { $"{qr} - Name", "SecondName", "Group", "LDAP" }
             };
 
             foreach (var item in users)
@@ -384,7 +379,7 @@ namespace QR_Presence.Views
                 data.Values.Add(new List<string>() { item.Name, item.SecondName, item.Group, item.LDAP });
             }
 
-            return data;
+            excelService.InsertDataIntoSheet(filepath, qr, data);
         }
 
         private void Button_Clicked(object sender, EventArgs e)
