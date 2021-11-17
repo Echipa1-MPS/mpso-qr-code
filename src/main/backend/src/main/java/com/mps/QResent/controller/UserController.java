@@ -1,7 +1,6 @@
 package com.mps.QResent.controller;
 
 import com.mps.QResent.enums.Role;
-import com.mps.QResent.model.Subject;
 import com.mps.QResent.model.User;
 import com.mps.QResent.security.Jwt;
 import com.mps.QResent.service.SubjectService;
@@ -10,7 +9,6 @@ import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -127,6 +125,8 @@ public class UserController {
         try {
             JSONObject response = new JSONObject();
             response.put("user_id", userService.findUserIdByEmail(user.getEmail()));
+            System.out.println(response);
+            userService.deleteByEmail(user.getEmail());
             return ResponseEntity.status(HttpStatus.OK).body(response);
         }
         catch (Exception e) {

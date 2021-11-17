@@ -40,8 +40,10 @@ public class UserService implements UserDetailsService {
         userRepository.save(user);
     }
 
-    public void delete(User user) {
-        userRepository.delete(user);
+    public void deleteByEmail(String email) {
+        if (this.userRepository.findByEmail(email).isPresent()) {
+            userRepository.delete(this.userRepository.findByEmail(email).get());
+        }
     }
 
     @Override
