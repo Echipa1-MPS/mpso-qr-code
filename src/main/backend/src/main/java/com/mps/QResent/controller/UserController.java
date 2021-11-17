@@ -10,6 +10,7 @@ import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -74,7 +75,7 @@ public class UserController {
     }
 
     @GetMapping(path = "/admin/get-students")
-    @RolesAllowed("ROLE_ADMIN")
+    @RolesAllowed("ADMIN")
     public ResponseEntity<?> getStudents() {
         try {
             List<User> users = this.userService.findUsersByRole(Role.STUDENT);
@@ -98,7 +99,7 @@ public class UserController {
     }
 
     @GetMapping(path = "/admin/get-teachers")
-    @RolesAllowed("ROLE_ADMIN")
+    @RolesAllowed("ADMIN")
     public ResponseEntity<?> getTeachers() {
         try {
             List<User> users = this.userService.findUsersByRole(Role.TEACHER);
@@ -121,7 +122,7 @@ public class UserController {
     }
 
     @DeleteMapping(path = "/admin/delete-user")
-    @RolesAllowed("ROLE_ADMIN")
+    @RolesAllowed("ADMIN")
     public ResponseEntity<?> deleteUser(@RequestBody User user) {
         try {
             JSONObject response = new JSONObject();
