@@ -20,23 +20,32 @@ export default function CreateQR() {
                                 qrsection-sections-width 
                                 qrsection-section-page-height">
                     <div className="flex-container-column-center">  
-                        <div className="flex-container-row">
+                        <div className="flex-container-column" >
                             <div>Alege materia</div>
-                            <div class="dropdown show">
-                                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Materia
-                                </a>
+                            <div className="dropdown show">
+                                <span className="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Materie</span>
 
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                    <a class="dropdown-item" href="#">Action</a>
-                                    <a class="dropdown-item" href="#">Another action</a>
-                                    <a class="dropdown-item" href="#">Something else here</a>
+                                <div className="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                    {['apa', 'tuica'].map(item => <span className="dropdown-item">{item}</span>)}
                                 </div>
                             </div>
                         </div>
-                        <div>Alege intervalul</div>
-                        <div>Durata QR</div>
-                        <div>Repetare</div>
+                        <div className="flex-container-column" style={{marginTop: "20px"}}>
+                            <div>Alege intervalul</div>
+                            <div className="dropdown show">
+                                <span className="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Intervalul</span>
+
+                                <div className="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                    {['apa', 'tuica'].map(item => <span className="dropdown-item">{item}</span>)}
+                                </div>
+                            </div>
+                        </div>
+                        <div className="flex-container-row" style={{marginTop: "20px"}}>
+                            <div>Durata QR</div>
+                        </div>
+                        <div className="flex-container-row" style={{marginTop: "20px"}}>
+                            <div>Repetare</div>
+                        </div>
                         <div className="white-text-font
                                         create-qr-button-style 
                                         create-qr-button-width"
@@ -52,4 +61,20 @@ export default function CreateQR() {
                 </div>
             </div>
         </div>);
+}
+
+function CreateQrDropdown(title, items) {
+
+
+    return (
+        <div className="dropdown show">
+            <span className="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                {title}
+            </span>
+
+            <div className="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                {items.map(item => <span className="dropdown-item">{item}</span>)}
+            </div>
+        </div>
+    );
 }
