@@ -1,8 +1,11 @@
-const axios = require('axios');
-
-export const getHomeCoursesUrl = '/api/courses';
-export const getHomeProfileUrl = '/api/profile';
-export const getUpcomingCoursesUrl = '/api/upcomingcourses';
+export const apiHostUrl = '';
+export const postCreateQrUrl = `${apiHostUrl}/api/create-qr`;
+export const postUpdateQrUrl = `${apiHostUrl}/api/update-qr`;
+export const getHomeCoursesUrl = `${apiHostUrl}/api/courses`;
+export const getHomeProfileUrl = `${apiHostUrl}/api/profile`;
+export const getCoursesBriefUrl = `${apiHostUrl}/api/courses/brief`;
+export const getCourseDetailsUrl = `${apiHostUrl}/api/course/details`;
+export const getUpcomingCoursesUrl = `${apiHostUrl}/api/upcoming/courses`;
 
 export function getCourses(params, success, failure) {
 
@@ -30,3 +33,4 @@ export function getUpcomingCourses(params, success, failure) {
     //     .then(success)
     //     .catch(failure);
 }
+
