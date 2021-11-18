@@ -105,6 +105,10 @@ public class Populator implements CommandLineRunner {
                 user.getSubjects().add(MPS);
                 userService.save(user);
                 users.add(user);
+            }else{
+                userService.findByEmail(emails.get(i)).get().getSubjects().add(MPS);
+                userService.save(userService.findByEmail(emails.get(i)).get());
+                users.add(userService.findByEmail(emails.get(i)).get());
             }
         }
         User admin;
@@ -118,6 +122,9 @@ public class Populator implements CommandLineRunner {
             userService.save(admin);
             admin.getSubjects().add(MPS);
             userService.save(admin);
+        }else {
+            userService.findByEmail("admin@gmail.com").get().getSubjects().add(MPS);
+            userService.save(userService.findByEmail("admin@gmail.com").get());
         }
 
     }

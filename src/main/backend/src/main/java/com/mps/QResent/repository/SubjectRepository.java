@@ -10,9 +10,6 @@ import java.util.Optional;
 import java.util.Set;
 
 public interface SubjectRepository extends JpaRepository<Subject, Long> {
-//    List<Subject> getAllByUsers(Set<User> users);
     List<SubjectView> getAllBy();
     Optional<Subject> findById(Long id);
-//    List<Subject> findAllByUsers(Set<User> users);
-
 }

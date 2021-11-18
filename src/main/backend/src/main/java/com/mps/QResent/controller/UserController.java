@@ -85,7 +85,9 @@ public class UserController {
 
     @GetMapping(path = "/subjects")
     public String getSubjects() {
-        UserSubjectView userSubjectView = userService.findUserNextCourses("emailtest@gmail.com");
+        // for test
+        // UserSubjectView userSubjectView = userService.findUserNextCourses("emailtest@gmail.com");
+        UserSubjectView userSubjectView = userService.findUserNextCourses(userService.getCurrentUserEmail());
         JSONArray jsonArray = new JSONArray();
         for(SubjectView subjectView: userSubjectView.getSubjects()){
             System.out.println(DayOfWeek.from(LocalDateTime.now()));
@@ -100,8 +102,8 @@ public class UserController {
         }
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("id_user", userSubjectView.getId());
-        jsonObject.put("name", userSubjectView.getFirstName());
-        jsonObject.put("SecondName", userSubjectView.getLastName());
+        jsonObject.put("name", userSubjectView.getName());
+        jsonObject.put("SecondName", userSubjectView.getSurname());
         jsonObject.put("LDAP", userSubjectView.getEmail());
         jsonObject.put("Group", userSubjectView.getGroup());
         jsonObject.put("privilege", userSubjectView.getRole());
@@ -112,8 +114,8 @@ public class UserController {
     @GetMapping(path = "/allCourses")
     public String getAllCourses(){
         // for test purpose
-        // Optional<User> user = userService.findByEmail("emailtest@gmail.com");
-        Optional<User> user = userService.findByEmail(userService.getCurrentUserEmail());
+        Optional<User> user = userService.findByEmail("emailtest@gmail.com");
+//        Optional<User> user = userService.findByEmail(userService.getCurrentUserEmail());
         JSONObject jsonObject = new JSONObject();
         JSONArray courses_enrolled = new JSONArray();
         if(user.isPresent()){
@@ -136,8 +138,13 @@ public class UserController {
                 course.put("Intervals", intervals);
                 JSONArray students = new JSONArray();
                 for(User student: userService.getStudents(subject)){
-                    JSONObject studentJson = studentJSON(student);
-                    students.add(studentJson);
+//                    JSONObject studentJson = new JSONObject();
+//                    studentJson.put("name", student.getName());
+//                    studentJson.put("secondName", student.getSurname());
+//                    studentJson.put("ldap", student.getEmail());
+//                    studentJson.put("group", student.getGroup());
+//                    studentJson.put("privilege", student.getRole());
+                    students.add(studentJSON(student));
                 }
                 course.put("Students_Enrolled", students);
                 courses_enrolled.add(course);

@@ -6,8 +6,8 @@ import java.util.List;
 
 public interface UserSubjectView {
     Long getId();
-    String getFirstName();
-    String getLastName();
+    String getName();
+    String getSurname();
     String getEmail();
     String getGroup();
     Role getRole();

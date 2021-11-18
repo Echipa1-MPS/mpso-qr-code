@@ -80,6 +80,15 @@ public class UserService implements UserDetailsService {
         return profName;
     }
 
+    public Long getProfId(Subject subject){
+        for(User user: userRepository.findAllByRole(Role.TEACHER)){
+            if(user.getSubjects().contains(subject)){
+                return user.getId();
+            }
+        }
+        return 0L;
+    }
+
     public List<User> getStudents(Subject subject){
         return userRepository.findAllByRole(Role.STUDENT);
     }

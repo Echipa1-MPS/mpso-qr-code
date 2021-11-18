@@ -11,4 +11,6 @@ public interface SubjectView {
 //    List<User> getUsers();
     List<ScheduleSubjectView> getSchedule();
 //    List<UserSubjectView> getUsers();
+    String getInfoSubject();
+    String getGradingSubject();
 }
