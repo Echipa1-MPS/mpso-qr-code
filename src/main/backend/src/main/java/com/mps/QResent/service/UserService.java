@@ -20,6 +20,11 @@ public class UserService implements UserDetailsService {
         this.userRepository = userRepository;
     }
 
+    public Long findUserIdByEmail(String email) {
+        Optional<User> user = this.userRepository.findByEmail(email);
+        return user.map(User::getId).orElse(null);
+    }
+
     public Role findRoleByEmail(String email) {
         Optional<User> user = this.userRepository.findByEmail(email);
         return user.map(User::getRole).orElse(null);
@@ -41,23 +46,6 @@ public class UserService implements UserDetailsService {
 
     public boolean isPresent(String email) {
         return userRepository.findByEmail(email).isPresent();
-    }
-
-    public boolean areValidCredentials(User user) {
-        if (this.isValidRole(user.getRole())) {
-            if (user.getRole() == Role.STUDENT) {
-                return (!user.getName().isEmpty())
-                        && (!user.getSurname().isEmpty())
-                        && (!user.getGroup().isEmpty())
-                        && (!user.getEmail().isEmpty())
-                        && (!user.getPassword().isEmpty());
-            } else if (user.getRole() == Role.TEACHER) {
-                return (!user.getName().isEmpty())
-                        && (!user.getSurname().isEmpty())
-                        && (!user.getEmail().isEmpty())
-                        && (!user.getPassword().isEmpty());
-            } else return false;
-        } else return false;
     }
 
     public void save(User user) {
