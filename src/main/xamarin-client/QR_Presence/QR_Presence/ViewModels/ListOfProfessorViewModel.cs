@@ -1,9 +1,11 @@
 ﻿using QR_Presence.Models;
+using QR_Presence.Models.APIModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -11,174 +13,28 @@ namespace QR_Presence.ViewModels
 {
     public class ListOfProfessorViewModel : BaseViewModel
     {
-        public ObservableCollection<UserModel> ListOf { get; set; }
+        public ObservableCollection<User> ListOf { get; set; }
         public string PageTitle { get; set; }
-        public Command<UserModel> Delete { get; private set; }
+        public Command<User> Delete { get; private set; }
 
         public ListOfProfessorViewModel()
         {
-            ListOf = new ObservableCollection<UserModel>
-            {
-                new UserModel
-                {
-                    Name = "Mihai",
-                    SecondName = "Vasile",
-                    Email = "mihai_vasile1@upb.ro",
-                    Group = "344CC",
-                    LDAP ="mihai_vasile",
-                    Privilege = 2
-                },
-                new UserModel
-                {
-                    Name = "Mihai1",
-                    SecondName = "Vasile2",
-                    Email = "mihai_vasile2@stud.acs.upb.ro",
-                    Group = "344CC",
-                    LDAP ="mihai_vasile",
-                    Privilege = 2
-                },
-                new UserModel
-                {
-                    Name = "Mihai4",
-                    SecondName = "Vasile3",
-                    Email = "mihai_vasile@stud.acs.upb.ro",
-                    Group = "344CC",
-                    LDAP ="mihai_vasile",
-                    Privilege = 2
-                },
-                new UserModel
-                {
-                    Name = "Mihai4",
-                    SecondName = "Vasile32",
-                    Email = "mihai_vasile@stud.acs.upb.ro",
-                    Group = "344CC",
-                    LDAP ="mihai_vasile",
-                    Privilege = 2
-                },
-                new UserModel
-                {
-                    Name = "Mihai23",
-                    SecondName = "Vasile23423",
-                    Email = "mihai_vasile@stud.acs.upb.ro",
-                    Group = "344CC",
-                    LDAP ="mihai_vasile",
-                    Privilege = 2
-                },
-                new UserModel
-                {
-                    Name = "Mihai4",
-                    SecondName = "Vasile32",
-                    Email = "mihai_vasile@stud.acs.upb.ro",
-                    Group = "344CC",
-                    LDAP ="mihai_vasile",
-                    Privilege = 2
-                },
-                new UserModel
-                {
-                    Name = "Mihai23",
-                    SecondName = "Vasile23423",
-                    Email = "mihai_vasile@stud.acs.upb.ro",
-                    Group = "344CC",
-                    LDAP ="mihai_vasile",
-                    Privilege = 2
-                },
-                new UserModel
-                {
-                    Name = "Mihai4",
-                    SecondName = "Vasile32",
-                    Email = "mihai_vasile@stud.acs.upb.ro",
-                    Group = "344CC",
-                    LDAP ="mihai_vasile",
-                    Privilege = 2
-                },
-                new UserModel
-                {
-                    Name = "Mihai23",
-                    SecondName = "Vasile23423",
-                    Email = "mihai_vasile@stud.acs.upb.ro",
-                    Group = "344CC",
-                    LDAP ="mihai_vasile",
-                    Privilege = 2
-                },
-                new UserModel
-                {
-                    Name = "Mihai4",
-                    SecondName = "Vasile32",
-                    Email = "mihai_vasile@stud.acs.upb.ro",
-                    Group = "344CC",
-                    LDAP ="mihai_vasile",
-                    Privilege = 2
-                },
-                new UserModel
-                {
-                    Name = "Mihai23",
-                    SecondName = "Vasile23423",
-                    Email = "mihai_vasile@stud.acs.upb.ro",
-                    Group = "344CC",
-                    LDAP ="mihai_vasile",
-                    Privilege = 2
-                },
-                new UserModel
-                {
-                    Name = "Mihai4",
-                    SecondName = "Vasile32",
-                    Email = "mihai_vasile@stud.acs.upb.ro",
-                    Group = "344CC",
-                    LDAP ="mihai_vasile",
-                    Privilege = 2
-                },
-                new UserModel
-                {
-                    Name = "Mihai23",
-                    SecondName = "Vasile23423",
-                    Email = "mihai_vasile@stud.acs.upb.ro",
-                    Group = "344CC",
-                    LDAP ="mihai_vasile",
-                    Privilege = 2
-                },
-                new UserModel
-                {
-                    Name = "Mihai4",
-                    SecondName = "Vasile32",
-                    Email = "mihai_vasile@stud.acs.upb.ro",
-                    Group = "344CC",
-                    LDAP ="mihai_vasile",
-                    Privilege = 2
-                },
-                new UserModel
-                {
-                    Name = "Mihai23",
-                    SecondName = "Vasile23423",
-                    Email = "mihai_vasile@stud.acs.upb.ro",
-                    Group = "344CC",
-                    LDAP ="mihai_vasile",
-                    Privilege = 2
-                },
-                new UserModel
-                {
-                    Name = "Mihai4",
-                    SecondName = "Vasile32",
-                    Email = "mihai_vasile@stud.acs.upb.ro",
-                    Group = "344CC",
-                    LDAP ="mihai_vasile",
-                    Privilege = 2
-                },
-                new UserModel
-                {
-                    Name = "Mihai23",
-                    SecondName = "Vasile23423",
-                    Email = "mihai_vasile@stud.acs.upb.ro",
-                    Group = "344CC",
-                    LDAP ="mihai_vasile",
-                    Privilege = 2
-                },
 
-            };
-            Delete = new Command<UserModel>(model =>
+            Task.Run(async () =>
             {
-                ListOf.Remove(model);
-                PageTitle = $"Count {ListOf.Count}";
-                OnPropertyChanged(nameof(PageTitle));
+                TeachersAdmin stud = await Services.APICalls.GetProfessorsAdminAsync();
+                ListOf = new ObservableCollection<User>(stud.teachers);
+            }).Wait();
+
+            
+            Delete = new Command<User>(async model =>
+            {
+                if (await Services.APICalls.DeleteUserAdminAsync(model.email))
+                {
+                    ListOf.Remove(model);
+                    PageTitle = $"Count {ListOf.Count}";
+                    OnPropertyChanged(nameof(PageTitle));
+                }
             });
             PageTitle = $"Count {ListOf.Count}";
 

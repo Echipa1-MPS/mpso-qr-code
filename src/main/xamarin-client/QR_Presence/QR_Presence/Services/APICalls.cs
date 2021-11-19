@@ -4,6 +4,7 @@ using QR_Presence.Models.APIModels;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
@@ -13,7 +14,9 @@ namespace QR_Presence.Services
     public static class APICalls
     {
 
-        public static string BaseUrl = "http://ec2-3-18-103-144.us-east-2.compute.amazonaws.com:8080/api/user/";
+        public static string BaseUrlAuth = "http://ec2-3-18-103-144.us-east-2.compute.amazonaws.com:8080/api/user/authentication/";
+        public static string BaseUrlAdmin = "http://ec2-3-18-103-144.us-east-2.compute.amazonaws.com:8080/api/user/admin/";
+
         public async static Task<bool> RegisterUser(UserModel user, string password)
         {
             using (var c = new HttpClient())
@@ -21,19 +24,19 @@ namespace QR_Presence.Services
                 var client = new HttpClient();
                 var jsonRequest = new
                 {
-                    name = user.Name,
+                    name = user.name,
                     password = password,
-                    surname = user.SecondName,
-                    ldap = user.LDAP,
-                    email = user.Email,
-                    group = user.Group,
+                    surname = user.surname,
+                    username = user.username,
+                    email = user.email,
+                    group = user.group,
                     role = user.Privilege,
                 };
 
                 var serializedJsonRequest = JsonConvert.SerializeObject(jsonRequest);
                 HttpContent content = new StringContent(serializedJsonRequest, Encoding.UTF8, "application/json");
 
-                var response = await client.PostAsync(new Uri(BaseUrl + "register"), content);
+                var response = await client.PostAsync(new Uri(BaseUrlAuth + "register"), content);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -66,7 +69,7 @@ namespace QR_Presence.Services
                 var serializedJsonRequest = JsonConvert.SerializeObject(jsonRequest);
                 HttpContent content = new StringContent(serializedJsonRequest, Encoding.UTF8, "application/json");
 
-                var response = await client.PostAsync(new Uri(BaseUrl + "login"), content);
+                var response = await client.PostAsync(new Uri(BaseUrlAuth + "login"), content);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -74,7 +77,7 @@ namespace QR_Presence.Services
 
                     if (!await DatabaseConnection.ExistUser())
                     {
-                        user = new UserModel { Email = email };
+                        user = new UserModel { email = email };
                         await DatabaseConnection.AddUser(user);
                     }
                     else
@@ -100,6 +103,87 @@ namespace QR_Presence.Services
                     await DatabaseConnection.UpdateUser(user);
                     return true;
                 }
+                return false;
+            }
+        }
+
+        public async static Task<StudentsAdmin> GetStudentsAdminAsync()
+        {
+            using (var c = new HttpClient())
+            {
+                HttpClient client = new HttpClient();
+                var authHeader = new AuthenticationHeaderValue("Bearer", await SecureStorage.GetAsync("oauth_token"));
+
+                client.DefaultRequestHeaders.Authorization = authHeader;
+
+                var response = await client.GetAsync(new Uri(BaseUrlAdmin + "get-students"));
+
+                StudentsAdmin Items = new StudentsAdmin();
+                if (response.IsSuccessStatusCode)
+                {
+                    string content = await response.Content.ReadAsStringAsync();
+                    
+                    Items = JsonConvert.DeserializeObject<StudentsAdmin>(content);
+                }
+
+                return Items;
+            }
+        }
+
+        public async static Task<TeachersAdmin> GetProfessorsAdminAsync()
+        {
+            using (var c = new HttpClient())
+            {
+                HttpClient client = new HttpClient();
+                var authHeader = new AuthenticationHeaderValue("Bearer", await SecureStorage.GetAsync("oauth_token"));
+
+                client.DefaultRequestHeaders.Authorization = authHeader;
+
+                var response = await client.GetAsync(new Uri(BaseUrlAdmin + "get-teachers"));
+
+                TeachersAdmin Items = new TeachersAdmin();
+                if (response.IsSuccessStatusCode)
+                {
+                    string content = await response.Content.ReadAsStringAsync();
+
+                    Items = JsonConvert.DeserializeObject<TeachersAdmin>(content);
+                }
+
+                return Items;
+            }
+        }
+
+
+        public async static Task<bool> DeleteUserAdminAsync(string email)
+        {
+            using (var c = new HttpClient())
+            {
+                HttpClient client = new HttpClient();
+                var authHeader = new AuthenticationHeaderValue("Bearer", await SecureStorage.GetAsync("oauth_token"));
+
+                client.DefaultRequestHeaders.Authorization = authHeader;
+
+                var jsonRequest = new
+                {
+                    email = email,
+                };
+
+                var serializedJsonRequest = JsonConvert.SerializeObject(jsonRequest);
+                HttpContent content = new StringContent(serializedJsonRequest, Encoding.UTF8, "application/json");
+
+                HttpRequestMessage request = new HttpRequestMessage
+                {
+                    Content = content,
+                    Method = HttpMethod.Delete,
+                    RequestUri = new Uri(BaseUrlAdmin + "delete-user")
+                };
+                var response = await client.SendAsync(request);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return true;
+                }
+
                 return false;
             }
         }

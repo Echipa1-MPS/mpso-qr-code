@@ -18,53 +18,53 @@ namespace QR_Presence.Views.AdminPages
             {
                 new UserModel
                 {
-                    Id_User=1,
-                    Name = "Mihai",
-                    SecondName = "Vasile",
-                    Email = "mihai_vasile@stud.acs.upb.ro",
-                    Group = "344CC",
-                    LDAP ="mihai_vasile",
+                    user_id=1,
+                    name = "Mihai",
+                    surname = "Vasile",
+                    email = "mihai_vasile@stud.acs.upb.ro",
+                    group = "344CC",
+                    username ="mihai_vasile",
                     Privilege = 2
                 },
                 new UserModel
                 {
-                    Id_User=2,
+                    user_id=2,
 
-                    Name = "Mihai",
-                    SecondName = "Vasile",
-                    Email = "mihai_vasile@stud.acs.upb.ro",
-                    Group = "344CC",
-                    LDAP ="mihai_vasile",
+                    name = "Mihai",
+                    surname = "Vasile",
+                    email = "mihai_vasile@stud.acs.upb.ro",
+                    group = "344CC",
+                    username ="mihai_vasile",
                     Privilege = 2
                 },
                 new UserModel
                 {
-                    Id_User=3,
-                    Name = "Mihai",
-                    SecondName = "Vasile",
-                    Email = "mihai_vasile@stud.acs.upb.ro",
-                    Group = "344CC",
-                    LDAP = "mihai_vasile",
+                    user_id=3,
+                    name = "Mihai",
+                    surname = "Vasile",
+                    email = "mihai_vasile@stud.acs.upb.ro",
+                    group = "344CC",
+                    username = "mihai_vasile",
                     Privilege = 2
                 },
                 new UserModel
                 {
-                    Id_User=4,
-                    Name = "Mihai",
-                    SecondName = "Vasile",
-                    Email = "mihai_vasile@stud.acs.upb.ro",
-                    Group = "344CC",
-                    LDAP = "mihai_vasile",
+                    user_id=4,
+                    name = "Mihai",
+                    surname = "Vasile",
+                    email = "mihai_vasile@stud.acs.upb.ro",
+                    group = "344CC",
+                    username = "mihai_vasile",
                     Privilege = 2
                 },
                 new UserModel
                 {
-                    Id_User=5,
-                    Name = "Mihai",
-                    SecondName = "Vasile",
-                    Email = "mihai_vasile@stud.acs.upb.ro",
-                    Group = "344CC",
-                    LDAP = "mihai_vasile",
+                    user_id=5,
+                    name = "Mihai",
+                    surname = "Vasile",
+                    email = "mihai_vasile@stud.acs.upb.ro",
+                    group = "344CC",
+                    username = "mihai_vasile",
                     Privilege = 2
                 }
 
@@ -93,7 +93,7 @@ namespace QR_Presence.Views.AdminPages
             for (int i = 0; i < e.CurrentSelection.Count; i++)
             {
                 UserModel user = e.CurrentSelection[i] as UserModel;
-                Students_Selected.Add(user.Id_User);
+                Students_Selected.Add(user.user_id);
             }
             selectedNumber.Text = $"Selected Students: {Students_Selected.Count.ToString()}";
         }
