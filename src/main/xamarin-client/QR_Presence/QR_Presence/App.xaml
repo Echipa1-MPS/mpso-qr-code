@@ -10,6 +10,9 @@
             <Color x:Key="AccentLiteRed">#D81159</Color>
             <Color x:Key="AccentDarkRed">#8F2D56</Color>
 
+            <Color x:Key="AccentDarkBlue70">#4d97c1</Color>
+
+
             <Color x:Key="ChartColor1">#FF0000</Color>
             <Color x:Key="ChartColor2">#FF8700</Color>
             <Color x:Key="ChartColor3">#FFD300</Color>
@@ -26,7 +29,10 @@
             <Color x:Key="LiteGray">#E5E5E5</Color>
             <Color x:Key="DarkGray">#999999</Color>
 
-            
+            <Style x:Key="MainTitleStyle" TargetType="Label">
+                <Setter Property="FontAttributes" Value="Bold"/>
+                <Setter Property="FontSize" Value="Large"/>
+            </Style>
 
             <Style x:Key="MainButtonUnChecked" TargetType="Button">
                 <Setter Property="CornerRadius" Value="20" />
@@ -34,6 +40,55 @@
                 <Setter Property="BackgroundColor" Value="{AppThemeBinding Dark={StaticResource AccentLiteBlue}, Light={StaticResource AccentLiteBlue}}" />
                 <Setter Property="FontAttributes" Value="Bold"/>
                 <Setter Property="FontSize" Value="16"/>
+            </Style>
+
+            <Style x:Key="SelectorFrame" TargetType="Frame">
+                <Setter Property="CornerRadius" Value="5"/>
+                <Setter Property="Padding" Value="10"/>
+                <Setter Property="BorderColor" Value="{AppThemeBinding Dark={StaticResource AccentLiteBlue}, Light={StaticResource AccentDarkBlue}}" />
+                <Setter Property="BackgroundColor" Value="Transparent"/>
+            </Style>
+
+            <Style x:Key="FrameList" TargetType="Frame">
+                <Setter Property="BorderColor" Value="{AppThemeBinding Dark={StaticResource AccentLiteBlue}, Light={StaticResource AccentLiteBlue}}" />
+                <Setter Property="Padding" Value="10,10,10,10" />
+                <Setter Property="CornerRadius" Value="10"/>
+                <Setter Property="BackgroundColor" Value="{AppThemeBinding Dark={StaticResource AccentLiteBlue}, Light={StaticResource AccentLiteBlue}}" />
+                <Setter Property="Opacity" Value="1"/>
+                <Setter Property="HasShadow" Value="True"/>
+            </Style>
+
+            <Style x:Key="TitleStyle" TargetType="Label">
+                <Setter Property="FontAttributes" Value="Bold"/>
+                <Setter Property="FontSize" Value="Medium"/>
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundDark}}"/>
+                <Setter Property="VerticalOptions" Value="Center"/>
+            </Style>
+
+            <Style x:Key="FrameAddNews" TargetType="Frame">
+                <Setter Property="CornerRadius" Value="5"/>
+                <Setter Property="Padding" Value="10"/>
+                <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource BackgroundDark}, Dark={StaticResource BackgroundLight}}"/>
+                <Setter Property="BackgroundColor" Value="Transparent"/>
+                <Setter Property="Padding" Value="16,4,16,4"/>
+            </Style>
+
+            <Style x:Key="ButtonUnCheckStyle" TargetType="Button">
+                <Setter Property="CornerRadius" Value="20" />
+                <Setter Property="BackgroundColor" Value="Transparent" />
+                <Setter Property="TextColor" Value="{StaticResource AccentLiteBlue}"/>
+                <Setter Property="BorderColor" Value="{StaticResource AccentLiteBlue}"/>
+                <Setter Property="BorderWidth" Value="2"/>
+                <Setter Property="FontAttributes" Value="Bold"/>
+
+            </Style>
+
+            <Style x:Key="ButtonCheckedStyle" TargetType="Button">
+                <Setter Property="CornerRadius" Value="20" />
+                <Setter Property="TextColor" Value="White"/>
+                <Setter Property="FontAttributes" Value="Bold"/>
+                <Setter Property="BackgroundColor" Value="{StaticResource AccentLiteBlue}"/>
+                <Setter Property="BorderWidth" Value="2"/>
             </Style>
 
         </ResourceDictionary>

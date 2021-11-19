@@ -2,6 +2,11 @@ import React, { Component } from 'react';
 import '../../App.css';
 
 export default class Header extends Component {
+
+    constructor(props) {
+        super(props);
+    }
+
     render() {
         return(
             <nav className="navbar navbar-expand-lg light-blue-background white-text-font">
@@ -20,6 +25,9 @@ export default class Header extends Component {
                         <a className="nav-item nav-link header-options-text-size white-text-font" href="/">Home</a>
                         <a className="nav-item nav-link header-options-text-size white-text-font" href="/login">Login</a>
                         <a className="nav-item nav-link header-options-text-size white-text-font" href="/about">About</a>
+                        {
+                            this.props.loggedIn ? <a className="nav-item nav-link header-options-text-size white-text-font" href="/about">Logout</a> : ""
+                        }
                     </div>
                 </div>
             </nav>

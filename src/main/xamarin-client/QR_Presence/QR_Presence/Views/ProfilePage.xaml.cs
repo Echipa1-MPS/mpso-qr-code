@@ -35,14 +35,14 @@ namespace QR_Presence.Views
                 StartHour=8,
                 Step=2
             },
-             new Models.IntervalModel
+            new Models.IntervalModel
             {
                 Name="UBD",
                 Day="Joi",
                 StartHour=8,
                 Step=2
             },
-              new Models.IntervalModel
+            new Models.IntervalModel
             {
                 Name="UBD",
                 Day="Joi",
@@ -50,17 +50,30 @@ namespace QR_Presence.Views
                 Step=2
             }
         };
+
+        public Models.UserModel User { get; set; }
+
         public ProfilePage()
         {
             InitializeComponent();
+            Task.Run(async () =>
+            {
+                User = await Services.DatabaseConnection.GetUser();
+            }).Wait();
             BindingContext = this;
         }
 
-        protected override void OnAppearing()
+        private async void Button_Clicked(object sender, EventArgs e)
         {
-            base.OnAppearing();
+            await Navigation.PushAsync(new EditPages.EditProfile
+            {
+                BindingContext = User
+            });
+        }
 
-
+        private async void Button_Clicked_1(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new ScanPage());
         }
     }
 }

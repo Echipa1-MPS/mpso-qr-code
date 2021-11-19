@@ -1,0 +1,154 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="QR_Presence.Views.AdminPages.ListOfTeamplate"
+             BackgroundColor="{AppThemeBinding Dark={StaticResource BackgroundDark}, Light={StaticResource BackgroundLight}}"
+             NavigationPage.HasNavigationBar="False">
+    <ContentPage.Content>
+        <StackLayout Padding="8,12,8,16" Spacing="16">
+
+            <CollectionView x:Name="accountsList"
+                            SelectionMode="Single"
+                            SelectedItem="{Binding SelectedElement}"
+                            SelectionChanged="accountsList_SelectionChanged_1"
+                            ItemsSource="{Binding ListOf}">
+
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical" Span="1" HorizontalItemSpacing="7" VerticalItemSpacing="7"/>
+                </CollectionView.ItemsLayout>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <SwipeView>
+                            <SwipeView.RightItems>
+                                <SwipeItems >
+                                    <SwipeItemView Command="{Binding Path=BindingContext.Delete, Source={Reference accountsList}}" CommandParameter="{Binding .}" >
+                                        <Button Text="trash" CornerRadius="5" FontSize="25" FontFamily="FAS" BackgroundColor="Red"/>
+                                    </SwipeItemView>
+                                </SwipeItems>
+                            </SwipeView.RightItems>
+                            <Frame Style="{StaticResource FrameList}" Padding="5,5,2,5">
+                                <Grid Padding="10,10,10,10">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1.5*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <Label Text="{Binding FullName}"
+                                       Grid.Row="0"
+                                       FontAttributes="Bold"
+                                       FontSize="Medium"
+                                       TextColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundLight}}"
+                                       Style="{StaticResource TitleStyle}"/>
+
+                                    <Label Grid.Column="1"
+                                       HorizontalOptions="EndAndExpand"
+                                       Text="Test"
+                                       TextColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundLight}}"
+                                       FontAttributes="Bold"
+                                       FontSize="Medium"
+                                       Style="{StaticResource TitleStyle}"/>
+                                </Grid>
+                            </Frame>
+                        </SwipeView>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+
+                <CollectionView.EmptyView>
+                    <ContentView>
+                        <StackLayout HorizontalOptions="CenterAndExpand"
+                                 VerticalOptions="CenterAndExpand">
+                            <Label Text="Go to Bill Page and "
+                                   FontAttributes="Bold"
+                                   TextColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundDark}}"
+                                   FontSize="18"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center"/>
+                            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Center">
+                                <Label Text="Press "
+                                   FontAttributes="Bold"
+                                   TextColor="{AppThemeBinding Light={StaticResource BackgroundDark}, Dark={StaticResource BackgroundLight}}"
+                                   FontSize="18"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center"/>
+
+                                <Label Text="+"
+                                   WidthRequest="20" 
+                                   TextColor="{AppThemeBinding Light={StaticResource BackgroundDark}, Dark={StaticResource BackgroundLight}}"
+                                   FontAttributes="Bold"
+                                   FontSize="34"
+                                   VerticalOptions="Center"
+                                   HorizontalOptions="Center"/>
+                            </StackLayout>
+                            <Label Text="for adding new Transaction"
+                                   FontAttributes="Bold"
+                                   TextColor="{AppThemeBinding Light={StaticResource BackgroundDark}, Dark={StaticResource BackgroundLight}}"
+                                   FontSize="18"
+                                   VerticalOptions="Center"
+                                   HorizontalOptions="Center" />
+
+                        </StackLayout>
+                    </ContentView>
+                </CollectionView.EmptyView>
+
+                <CollectionView.Header>
+                    <ContentView>
+                        <Grid ColumnSpacing="8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                            </Grid.RowDefinitions>
+
+                            <Frame BackgroundColor="{StaticResource AccentDarkBlue} " CornerRadius="15" Padding="0" HorizontalOptions="CenterAndExpand" HeightRequest="45" WidthRequest="500"  Grid.Row="0">
+                                <Label Text="{Binding PageTitle}"
+                                    HorizontalOptions="CenterAndExpand"
+                                    TextColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundLight}}"
+                                    FontAttributes="Bold"
+                                    FontSize="18"
+                                    Style="{StaticResource TitleStyle}"/>
+                            </Frame>
+                            
+                            <Button Grid.Column="1" 
+                                    Grid.Row="0"
+                                    Text="plus" 
+                                    FontSize="24" 
+                                    FontFamily="FAS" 
+                                    WidthRequest="50"
+                                    HeightRequest="50" HorizontalOptions="CenterAndExpand" 
+                                    Style="{StaticResource ButtonCheckedStyle}" 
+                                    BackgroundColor="{StaticResource AccentLiteBlue}"
+                                    BorderColor="{StaticResource AccentYellow}"
+                                    BorderWidth="2"
+                                    Command="{Binding GoNewElementPage}"
+                                    TextColor="{StaticResource AccentYellow}"
+                                    CornerRadius="15" />
+                            
+                            <Button Text="cog" 
+                                    FontFamily="FAS" 
+                                    FontSize="24" 
+                                    CornerRadius="15"
+                                    BackgroundColor="{StaticResource AccentLiteBlue}"
+                                    BorderColor="{StaticResource AccentYellow}" 
+                                    BorderWidth="2"
+                                    TextColor="{StaticResource AccentYellow}"
+                                    HeightRequest="50" WidthRequest="50" 
+                                    Grid.Column="2" 
+                                    Clicked="Button_Clicked"
+                                    HorizontalOptions="CenterAndExpand"/>
+                            
+                        </Grid>
+                    </ContentView>
+                </CollectionView.Header>
+
+            </CollectionView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

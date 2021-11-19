@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="QR_Presence.Views.AdminPages.AdminTabbedPage"
+            xmlns:adminPage ="clr-namespace:QR_Presence.Views.AdminPages"
+             xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
+            android:TabbedPage.ToolbarPlacement="Top" 
+            android:TabbedPage.IsSwipePagingEnabled="False"
+            NavigationPage.HasNavigationBar="False"
+            SelectedTabColor="{StaticResource AccentYellow}"
+            >
+    <NavigationPage Title="Students" >
+        <x:Arguments>
+            <adminPage:ListOfTeamplate BindingContext="{Binding ListOfStudent}"/>
+        </x:Arguments>
+    </NavigationPage>
+
+    <NavigationPage Title="Professors" >
+        <x:Arguments>
+            <adminPage:ListOfTeamplate BindingContext="{Binding ListOfProfessor}"/>
+        </x:Arguments>
+    </NavigationPage>
+
+    <NavigationPage Title="Courses" >
+        <x:Arguments>
+            <adminPage:ListOfTeamplate BindingContext="{Binding ListOfCourses}"/>
+        </x:Arguments>
+    </NavigationPage>
+</TabbedPage>
