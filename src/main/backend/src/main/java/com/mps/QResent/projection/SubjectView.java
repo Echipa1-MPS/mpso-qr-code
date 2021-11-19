@@ -8,9 +8,7 @@ import java.util.List;
 public interface SubjectView {
     Long getId();
     String getName();
-//    List<User> getUsers();
     List<ScheduleSubjectView> getSchedule();
-//    List<UserSubjectView> getUsers();
     String getInfoSubject();
     String getGradingSubject();
 }

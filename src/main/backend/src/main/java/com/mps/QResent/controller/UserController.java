@@ -85,9 +85,7 @@ public class UserController {
 
     @GetMapping(path = "/subjects")
     public String getSubjects() {
-        // for test
-        // UserSubjectView userSubjectView = userService.findUserNextCourses("emailtest@gmail.com");
-        UserSubjectView userSubjectView = userService.findUserNextCourses(userService.getCurrentUserEmail());
+      UserSubjectView userSubjectView = userService.findUserNextCourses(userService.getCurrentUserEmail());
         JSONArray jsonArray = new JSONArray();
         for(SubjectView subjectView: userSubjectView.getSubjects()){
             System.out.println(DayOfWeek.from(LocalDateTime.now()));
@@ -113,9 +111,7 @@ public class UserController {
 
     @GetMapping(path = "/allCourses")
     public String getAllCourses(){
-        // for test purpose
-        Optional<User> user = userService.findByEmail("emailtest@gmail.com");
-//        Optional<User> user = userService.findByEmail(userService.getCurrentUserEmail());
+        Optional<User> user = userService.findByEmail(userService.getCurrentUserEmail());
         JSONObject jsonObject = new JSONObject();
         JSONArray courses_enrolled = new JSONArray();
         if(user.isPresent()){
@@ -138,12 +134,6 @@ public class UserController {
                 course.put("Intervals", intervals);
                 JSONArray students = new JSONArray();
                 for(User student: userService.getStudents(subject)){
-//                    JSONObject studentJson = new JSONObject();
-//                    studentJson.put("name", student.getName());
-//                    studentJson.put("secondName", student.getSurname());
-//                    studentJson.put("ldap", student.getEmail());
-//                    studentJson.put("group", student.getGroup());
-//                    studentJson.put("privilege", student.getRole());
                     students.add(studentJSON(student));
                 }
                 course.put("Students_Enrolled", students);
