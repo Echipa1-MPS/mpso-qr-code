@@ -1,0 +1,473 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             x:Class="QR_Presence.Views.CoursePage"
+             xmlns:microcharts="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms"
+             BackgroundColor="{AppThemeBinding Dark={StaticResource BackgroundDark}, Light={StaticResource BackgroundLight}}"
+             NavigationPage.HasNavigationBar="False">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <ControlTemplate x:Key="TabItemTEmplaied">
+                <Frame x:Name="outerFrame" 
+                       HasShadow="False" 
+                       Padding="0"
+                       HorizontalOptions="FillAndExpand" 
+                       CornerRadius="15" 
+                       BorderColor="Transparent" 
+                       BackgroundColor="{Binding Source={RelativeSource Self}, Path=OutlineColor}" >
+
+                    <StackLayout HorizontalOptions="Center" VerticalOptions="CenterAndExpand"   >
+                        <Label HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" 
+                               FontAttributes="Bold"
+                               FontFamily="FAS" 
+                               FontSize="20"
+                               Text="{TemplateBinding CurrentIcon}"
+                               TextColor="{TemplateBinding CurrentTextColor}"/>
+                        <Label HorizontalOptions="Center" VerticalOptions="Center" 
+                               FontAttributes="Bold"
+                               FontFamily="FAS" 
+                               FontSize="{TemplateBinding FontSize}"
+                               Text="{TemplateBinding Text}"
+                               TextColor="{TemplateBinding CurrentTextColor}"/>
+                    </StackLayout>
+                </Frame>
+            </ControlTemplate>
+
+            <Style x:Key="TextStyle" TargetType="Label">
+                <Setter Property="FontAttributes" Value="Bold"/>
+                <Setter Property="FontSize" Value="Large"/>
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundLight}}"/>
+                <Setter Property="CharacterSpacing" Value="2"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid>
+        <xct:TabView
+            TabStripPlacement="Top"
+            IsSwipeEnabled="True"
+            TabStripBackgroundColor="Transparent"
+            TabStripHeight="70" >
+
+            <xct:TabView.TabStripBackgroundView>
+                <Frame x:Name="outerFrame1" 
+                       HasShadow="False" 
+                       Padding="0"
+                       HorizontalOptions="FillAndExpand" 
+                       CornerRadius="15" 
+                       OutlineColor="Transparent" 
+                       BackgroundColor="{Binding Source={RelativeSource Self}, Path=OutlineColor}" >
+                    <Frame x:Name="innerFrame1" 
+                           Margin="5" 
+                           Padding="16,32,16,36" 
+                           HasShadow="False" 
+                           HorizontalOptions="FillAndExpand" CornerRadius="15" 
+                           OutlineColor="{Binding Source={x:Reference outerFrame1}, Path=OutlineColor}" 
+                           BorderColor="LightGray"
+                           BackgroundColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundDark}}" />
+                </Frame>
+            </xct:TabView.TabStripBackgroundView>
+
+            <xct:TabViewItem
+                    Text="OverView"
+                    Icon="info-circle"
+                    TextColor="{AppThemeBinding Light={ StaticResource BackgroundDark}, Dark={StaticResource BackgroundLight}}"
+                    TextColorSelected="{StaticResource AccentYellow}"
+                    ControlTemplate="{StaticResource TabItemTEmplaied}"
+                    FontSize="16">
+
+
+                <StackLayout Padding="8,70,8,8">
+                    <Frame CornerRadius="15" BackgroundColor="{StaticResource AccentDarkBlue}" Padding="12,4,12,16">
+                        <Grid RowSpacing="12" Padding="0,8,0,0">
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="0.6*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="0.6*"/>
+                                <RowDefinition Height="0.6*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <StackLayout Grid.Row="0" Grid.Column="0" Spacing="2" HorizontalOptions="Start" VerticalOptions="Center" Padding="4,16,0,0" >
+                                <Label Text="{Binding Course.Name_C}" FontSize="30" CharacterSpacing="1" Style="{StaticResource TextStyle}"/>
+                                <Label Text="{Binding Course.Professor}" FontSize="20" CharacterSpacing="1" Style="{StaticResource TextStyle}"/>
+                            </StackLayout>
+
+                            <Button Text="arrow-left" 
+                                    BackgroundColor="{StaticResource AccentLiteBlue}" 
+                                    TextColor="{StaticResource AccentYellow}"
+                                     CornerRadius="90" 
+                                    BorderColor="{StaticResource AccentYellow}" 
+                                    BorderWidth="2" 
+                                    
+                                    HorizontalOptions="Start" VerticalOptions="Start" 
+                                    FontFamily="FAS" 
+                                    Grid.Row="0" Grid.Column="0" 
+                                    FontSize="Large"  
+                                    WidthRequest="50"  
+                                    Clicked="Button_Clicked_2" Padding="1" />
+
+
+                            <StackLayout Grid.Row="0" Grid.Column="1" Padding="8,40,0,0">
+                                <Image Source="course.png" />
+                            </StackLayout>
+
+                            <Button Text="pencil-alt" 
+                                    BackgroundColor="{StaticResource AccentLiteBlue}" 
+                                    TextColor="{StaticResource AccentYellow}" 
+                                    CornerRadius="90" 
+                                    BorderColor="{StaticResource AccentYellow}" 
+                                    BorderWidth="2" 
+                                    HorizontalOptions="End" VerticalOptions="Start" 
+                                    FontFamily="FAS" 
+                                    Grid.Row="0" Grid.Column="1" 
+                                    FontSize="Large"  
+                                    WidthRequest="50"  
+                                    Clicked="Button_Clicked_1" 
+                                    Padding="1,1,1,1" />
+
+                            <StackLayout  Grid.Row="1" Grid.ColumnSpan="2" >
+                                <Label Text="Description" CharacterSpacing="1" FontSize="24" Style="{StaticResource TextStyle}" Padding="4,0,0,0"/>
+                                <Label Text="{Binding Course.Desc}" CharacterSpacing="0" FontSize="15" Style="{StaticResource TextStyle}" Padding="4,0,0,0"/>
+                            </StackLayout>
+
+
+                            <StackLayout  Grid.Row="2" Grid.ColumnSpan="2" >
+                                <Label Text="Grading" CharacterSpacing="1" FontSize="24" Style="{StaticResource TextStyle}" Padding="4,0,0,0"/>
+                                <Label Text="{Binding Course.Grading}" CharacterSpacing="0" FontSize="15" Style="{StaticResource TextStyle}" Padding="4,0,0,0"/>
+                            </StackLayout>
+
+                            <StackLayout Grid.Row="3" Grid.ColumnSpan="2"  Spacing="15">
+                                <Label Text="Intervals" CharacterSpacing="1" FontSize="24" Style="{StaticResource TextStyle}" Padding="4,0,0,0"/>
+                                <ScrollView Orientation="Both">
+                                    <StackLayout Orientation="Horizontal"  BindableLayout.ItemsSource="{Binding Course.Intervals}"  Spacing="12">
+                                        <BindableLayout.ItemTemplate>
+                                            <DataTemplate>
+
+                                                <Frame CornerRadius="15" BackgroundColor="{StaticResource LiteGray}" HorizontalOptions="Center" VerticalOptions="Center" WidthRequest="100" Padding="12">
+                                                    <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                                                        <Label Text="{Binding Day}" TextColor="{StaticResource BackgroundDark}" FontSize="Large" FontAttributes="Bold" CharacterSpacing="0" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"/>
+                                                        <Label Text="{Binding StartH}" TextColor="{StaticResource BackgroundDark}" FontSize="Large" FontAttributes="Bold" CharacterSpacing="0" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"/>
+                                                        <Label Text="{Binding StartE}" TextColor="{StaticResource BackgroundDark}" FontSize="Large" FontAttributes="Bold" CharacterSpacing="0" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"/>
+                                                    </StackLayout>
+                                                </Frame>
+
+                                            </DataTemplate>
+                                        </BindableLayout.ItemTemplate>
+                                    </StackLayout>
+                                </ScrollView>
+                            </StackLayout>
+                        </Grid>
+                    </Frame>
+                </StackLayout>
+            </xct:TabViewItem>
+
+            <xct:TabViewItem
+                Text="Presence"
+                Icon="chart-bar"
+                TextColor="{AppThemeBinding Light={ StaticResource BackgroundDark}, Dark={StaticResource BackgroundLight}}"
+                TextColorSelected="{StaticResource AccentYellow}"
+                ControlTemplate="{StaticResource TabItemTEmplaied}"
+                FontSize="16">
+
+                <StackLayout Padding="8,70,8,8">
+                    <Grid VerticalOptions="Start">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="0.5*"/>
+                            <RowDefinition Height="3*"/>
+                            <RowDefinition Height="4*"/>
+
+                        </Grid.RowDefinitions>
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="0.7*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="0.3*"/>
+
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Frame Style="{StaticResource FrameList}" Padding="0">
+                                <StackLayout Spacing="0" Grid.Row="0" Grid.Column="0" Padding="12,0,12,0">
+                                    <Picker Title="Select Interval" 
+                                    TextColor="{AppThemeBinding Light={StaticResource BackgroundDark}, Dark={StaticResource BackgroundLight}}"
+                                    TitleColor="{AppThemeBinding Light={StaticResource BackgroundDark}, Dark={StaticResource BackgroundLight}}"
+                                        
+                                    ItemsSource="{Binding Course.Intervals}"
+                                    ItemDisplayBinding="{Binding IntervalHE}"
+                                    SelectedItem="{Binding SelectedInterval}"/>
+                                </StackLayout>
+                            </Frame>
+                            <Frame Style="{StaticResource FrameList}"  Grid.Row="0" Grid.Column="1" Padding="0">
+
+                                <StackLayout Spacing="0" Grid.Row="0" Grid.Column="1" Padding="12,0,12,0">
+                                    <Picker Title="Select Date" 
+                                    TextColor="{AppThemeBinding Light={StaticResource BackgroundDark}, Dark={StaticResource BackgroundLight}}"
+                                    TitleColor="{AppThemeBinding Light={StaticResource BackgroundDark}, Dark={StaticResource BackgroundLight}}"
+                                    ItemsSource="{Binding Dates}"
+                                    ItemDisplayBinding="{Binding .}"
+                                    SelectedItem="{Binding SelectedDate}" />
+                                </StackLayout>
+                            </Frame>
+                            <Frame Style="{StaticResource FrameList}" Grid.Row="0" Grid.Column="2" Padding="0">
+                                <Button Text="file-download"
+                                        Grid.Row="0" Grid.Column="2"
+                                        Style="{StaticResource MainButtonUnChecked}"
+                                        BackgroundColor="{StaticResource AccentLiteBlue}"
+                                        BorderColor="{StaticResource AccentLiteBlue}"
+                                        TextColor="{AppThemeBinding Light={StaticResource BackgroundDark}, Dark={StaticResource BackgroundLight}}"
+                                        CornerRadius="10"
+                                        FontFamily="FAS" FontSize="24"  
+                                        VerticalOptions="CenterAndExpand" 
+                                        HorizontalOptions="CenterAndExpand" />
+                            </Frame>
+
+                        </Grid>
+                        <Frame Grid.Row="1" CornerRadius="15" BackgroundColor="Transparent">
+                            <StackLayout>
+                                <microcharts:ChartView x:Name="chartView" HeightRequest ="250" WidthRequest="350" HorizontalOptions="Center" VerticalOptions="Center" Chart="{Binding Graf}"/>
+                            </StackLayout>
+                        </Frame>
+
+                        <StackLayout Grid.Row="2">
+                            <StackLayout>
+                                <Frame Style="{StaticResource FrameList}" BackgroundColor="{StaticResource AccentDarkRed}" BorderColor="{StaticResource AccentDarkRed}" Padding="1">
+                                    <StackLayout Orientation="Horizontal" Padding="12,0,0,0">
+                                        <Label Text="Presence" FontSize="Medium"  TextColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundDark}}"  FontAttributes="Bold"  VerticalOptions="CenterAndExpand"/>
+                                        <Button x:Name="presenceButton" Text="chevron-down"  TextColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundDark}}" FontFamily="FAS"  WidthRequest="50" VerticalOptions="CenterAndExpand" BackgroundColor="Transparent" HorizontalOptions="EndAndExpand" Clicked="Button_Clicked"/>
+                                    </StackLayout>
+                                </Frame>
+
+                                <CollectionView x:Name="personsPresents"
+                                SelectionMode="Single"
+                                IsVisible="false"
+                                ItemsSource="{Binding PersonsPresents}">
+
+                                    <CollectionView.ItemsLayout>
+                                        <GridItemsLayout Orientation="Vertical" Span="1" HorizontalItemSpacing="7" VerticalItemSpacing="7"/>
+                                    </CollectionView.ItemsLayout>
+
+                                    <CollectionView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Frame Style="{StaticResource FrameList}" Padding="5,5,2,5">
+                                                <Grid Padding="10,10,10,10">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto" />
+                                                    </Grid.RowDefinitions>
+
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="1.5*" />
+                                                        <ColumnDefinition Width="Auto" />
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <Label Text="{Binding FullName}"
+                                               Grid.Row="0"
+                                               FontAttributes="Bold"
+                                               FontSize="Medium"
+                                               TextColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundDark}}"
+                                               Style="{StaticResource TitleStyle}"/>
+
+                                                    <Label Grid.Column="1"
+                                               HorizontalOptions="EndAndExpand"
+                                               Text="{Binding Group}"
+                                               TextColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundDark}}"
+                                               FontAttributes="Bold"
+                                               FontSize="Medium"
+                                               Style="{StaticResource TitleStyle}"/>
+                                                </Grid>
+                                            </Frame>
+                                        </DataTemplate>
+                                    </CollectionView.ItemTemplate>
+                                </CollectionView>
+                            </StackLayout>
+
+                            <StackLayout>
+                                <Frame Style="{StaticResource FrameList}" BackgroundColor="{StaticResource AccentDarkRed}" BorderColor="{StaticResource AccentDarkRed}" Padding="1">
+                                    <StackLayout Orientation="Horizontal" Padding="12,0,0,0">
+                                        <Label Text="Student Attentive"  TextColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundDark}}" FontSize="Medium" FontAttributes="Bold"  VerticalOptions="CenterAndExpand"/>
+                                        <Button x:Name="attentiveButton"  TextColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundDark}}" Text="chevron-down" FontFamily="FAS"  WidthRequest="50" VerticalOptions="CenterAndExpand" BackgroundColor="Transparent" HorizontalOptions="EndAndExpand" Clicked="Button_Clicked"/>
+                                    </StackLayout>
+                                </Frame>
+
+                                <CollectionView x:Name="personsAttentive"
+                                SelectionMode="Single"
+                                IsVisible="false"
+                                ItemsSource="{Binding PersonsAttentive}">
+
+                                    <CollectionView.ItemsLayout>
+                                        <GridItemsLayout Orientation="Vertical" Span="1" HorizontalItemSpacing="7" VerticalItemSpacing="7"/>
+                                    </CollectionView.ItemsLayout>
+
+                                    <CollectionView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Frame Style="{StaticResource FrameList}" Padding="5,5,2,5">
+                                                <Grid Padding="10,10,10,10">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto" />
+                                                    </Grid.RowDefinitions>
+
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="1.5*" />
+                                                        <ColumnDefinition Width="Auto" />
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <Label Text="{Binding FullName}"
+                                               Grid.Row="0"
+                                               FontAttributes="Bold"
+                                               FontSize="Medium"
+                                               TextColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundDark}}"
+                                               Style="{StaticResource TitleStyle}"/>
+
+                                                    <Label Grid.Column="1"
+                                               HorizontalOptions="EndAndExpand"
+                                               Text="{Binding Group}"
+                                               TextColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundDark}}"
+                                               FontAttributes="Bold"
+                                               FontSize="Medium"
+                                               Style="{StaticResource TitleStyle}"/>
+                                                </Grid>
+                                            </Frame>
+                                        </DataTemplate>
+                                    </CollectionView.ItemTemplate>
+                                </CollectionView>
+
+                            </StackLayout>
+
+                            <StackLayout>
+                                <Frame Style="{StaticResource FrameList}" BackgroundColor="{StaticResource AccentDarkRed}" BorderColor="{StaticResource AccentDarkRed}" Padding="1">
+                                    <StackLayout Orientation="Horizontal" Padding="12,0,0,0">
+                                        <Label Text="Actives" FontSize="Medium"  TextColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundDark}}" FontAttributes="Bold"  VerticalOptions="CenterAndExpand"/>
+                                        <Button  x:Name="activesButton" Text="chevron-down"  TextColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundDark}}" FontFamily="FAS"  WidthRequest="50" VerticalOptions="CenterAndExpand" BackgroundColor="Transparent" HorizontalOptions="EndAndExpand" Clicked="Button_Clicked"/>
+                                    </StackLayout>
+                                </Frame>
+                                <CollectionView x:Name="personsActives"
+                                                SelectionMode="Single"
+                                                IsVisible="false"
+                                                ItemsSource="{Binding PersonsActives}">
+
+                                    <CollectionView.ItemsLayout>
+                                        <GridItemsLayout Orientation="Vertical" Span="1" HorizontalItemSpacing="7" VerticalItemSpacing="7"/>
+                                    </CollectionView.ItemsLayout>
+
+                                    <CollectionView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Frame Style="{StaticResource FrameList}" Padding="5,5,2,5">
+                                                <Grid Padding="10,10,10,10">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto" />
+                                                    </Grid.RowDefinitions>
+
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="1.5*" />
+                                                        <ColumnDefinition Width="Auto" />
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <Label Text="{Binding FullName}"
+                                                           Grid.Row="0"
+                                                           FontAttributes="Bold"
+                                                           FontSize="Medium"
+                                                           TextColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundDark}}"
+                                                           Style="{StaticResource TitleStyle}"/>
+
+                                                    <Label Grid.Column="1"
+                                                           HorizontalOptions="EndAndExpand"
+                                                           Text="{Binding Group}"
+                                                           TextColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundDark}}"
+                                                           FontAttributes="Bold"
+                                                           FontSize="Medium"
+                                                           Style="{StaticResource TitleStyle}"/>
+                                                </Grid>
+                                            </Frame>
+                                        </DataTemplate>
+                                    </CollectionView.ItemTemplate>
+                                </CollectionView>
+                            </StackLayout>
+                        </StackLayout>
+                    </Grid>
+
+
+                </StackLayout>
+
+            </xct:TabViewItem>
+
+            <xct:TabViewItem
+                Text="Participants"
+                Icon="users"
+                TextColor="{AppThemeBinding Light={ StaticResource BackgroundDark}, Dark={StaticResource BackgroundLight}}"
+                TextColorSelected="{StaticResource AccentYellow}"
+                ControlTemplate="{StaticResource TabItemTEmplaied}"
+                FontSize="16">
+
+                <StackLayout Padding="8,70,8,8">
+                    <CollectionView x:Name="enroleStudentsList"
+                            SelectionMode="Single"
+                            ItemsSource="{Binding PersonsPresents}">
+
+                        <CollectionView.ItemsLayout>
+                            <GridItemsLayout Orientation="Vertical" Span="1" HorizontalItemSpacing="7" VerticalItemSpacing="7"/>
+                        </CollectionView.ItemsLayout>
+
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Frame Style="{StaticResource FrameList}" Padding="5,5,2,5">
+                                    <Grid Padding="10,10,10,10">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1.5*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <Label Text="{Binding FullName}"
+                                       Grid.Row="0"
+                                       FontAttributes="Bold"
+                                       FontSize="Medium"
+                                       TextColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundLight}}"
+                                       Style="{StaticResource TitleStyle}"/>
+
+                                        <Label Grid.Column="1"
+                                       HorizontalOptions="EndAndExpand"
+                                       Text="{Binding Group}"
+                                       TextColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundLight}}"
+                                       FontAttributes="Bold"
+                                       FontSize="Medium"
+                                       Style="{StaticResource TitleStyle}"/>
+                                    </Grid>
+                                </Frame>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+
+                        <CollectionView.Header>
+                            <ContentView>
+                                <Frame BackgroundColor="{StaticResource AccentDarkBlue} " CornerRadius="15" Padding="0" HeightRequest="45">
+                                    <Label Text="Number of students enrolled: 23"
+                                    HorizontalOptions="CenterAndExpand"
+                                    VerticalOptions="CenterAndExpand"
+                                    TextColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundLight}}"
+                                    FontAttributes="Bold"
+                                    FontSize="18"
+                                    Style="{StaticResource TitleStyle}"/>
+                                </Frame>
+                            </ContentView>
+                        </CollectionView.Header>
+
+                    </CollectionView>
+                </StackLayout>
+            </xct:TabViewItem>
+        </xct:TabView>
+    </Grid>
+</ContentPage>
