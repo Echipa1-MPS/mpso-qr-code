@@ -15,9 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @RestController
 @RequestMapping(path = "/user")
@@ -67,6 +65,38 @@ public class UserController {
             response.put("user_id", userService.findUserIdByEmail(user.getEmail()));
             response.put("jwt_token", jwtToken);
             return ResponseEntity.status(HttpStatus.OK).body(response);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
+    @PatchMapping(path = "/admin/update-user")
+    @RolesAllowed("ADMIN")
+    public ResponseEntity<?> updateUser(@RequestBody Map<String, Object> request) {
+        try {
+            if (request.get("user_id") != null) {
+                User user = userService.findById(Long.parseLong(String.valueOf(request.get("user_id"))));
+                for (Map.Entry<String, Object> entry : request.entrySet()) {
+                    switch (entry.getKey()) {
+                        case "user_id":
+                            continue;
+                        case "email":
+                            user.setEmail((String) request.get("email"));
+                            break;
+                        case "username":
+                            user.setUsername((String) request.get("username"));
+                            break;
+                        case "group":
+                            user.setGroup((String) request.get("group"));
+                        default:
+                            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("The specified key cannot be modified! You can only update the e-mail, username or group if you are a student.");
+                    }
+                }
+                userService.save(user);
+                return ResponseEntity.status(HttpStatus.OK).body("The user has been successfully updated!");
+            } else {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Missing the user ID!");
+            }
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
@@ -125,11 +155,9 @@ public class UserController {
         try {
             JSONObject response = new JSONObject();
             response.put("user_id", userService.findUserIdByEmail(user.getEmail()));
-            System.out.println(response);
             userService.deleteByEmail(user.getEmail());
             return ResponseEntity.status(HttpStatus.OK).body(response);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
