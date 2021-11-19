@@ -138,10 +138,20 @@
 .create-qr-button-style {
     border-radius: 20px;
     font-weight: bold;
-    font-size: 1.3rem;
+    font-size: 1.1rem;
     padding: 5px;
-    margin-left: 20px;
     margin-top: 60px;
     text-align: center;
     cursor: pointer;
+}
+
+.qr-input-header {
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+}
+
+.qr-section-container {
+    margin-top: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
 }
