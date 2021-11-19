@@ -2,13 +2,15 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="QR_Presence.Views.AdminPages.ListOfTeamplate"
+             BackgroundColor="{AppThemeBinding Dark={StaticResource BackgroundDark}, Light={StaticResource BackgroundLight}}"
              NavigationPage.HasNavigationBar="False">
     <ContentPage.Content>
-        <StackLayout Padding="8,4,8,16" Spacing="16">
+        <StackLayout Padding="8,12,8,16" Spacing="16">
 
-           
             <CollectionView x:Name="accountsList"
                             SelectionMode="Single"
+                            SelectedItem="{Binding SelectedElement}"
+                            SelectionChanged="accountsList_SelectionChanged_1"
                             ItemsSource="{Binding ListOf}">
 
                 <CollectionView.ItemsLayout>
@@ -95,39 +97,53 @@
 
                 <CollectionView.Header>
                     <ContentView>
-                        <Grid ColumnSpacing="16">
+                        <Grid ColumnSpacing="8">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="*"/>
-
+                                <RowDefinition Height="auto"/>
                             </Grid.RowDefinitions>
-
 
                             <Frame BackgroundColor="{StaticResource AccentDarkBlue} " CornerRadius="15" Padding="0" HorizontalOptions="CenterAndExpand" HeightRequest="45" WidthRequest="500"  Grid.Row="0">
                                 <Label Text="{Binding PageTitle}"
-                                   HorizontalOptions="CenterAndExpand"
+                                    HorizontalOptions="CenterAndExpand"
                                     TextColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundLight}}"
                                     FontAttributes="Bold"
                                     FontSize="18"
                                     Style="{StaticResource TitleStyle}"/>
                             </Frame>
+                            
                             <Button Grid.Column="1" 
                                     Grid.Row="0"
                                     Text="plus" 
                                     FontSize="24" 
                                     FontFamily="FAS" 
-                                    WidthRequest="500" HorizontalOptions="CenterAndExpand" 
+                                    WidthRequest="50"
+                                    HeightRequest="50" HorizontalOptions="CenterAndExpand" 
                                     Style="{StaticResource ButtonCheckedStyle}" 
                                     BackgroundColor="{StaticResource AccentLiteBlue}"
                                     BorderColor="{StaticResource AccentYellow}"
-                                    BorderWidth="4"
+                                    BorderWidth="2"
+                                    Command="{Binding GoNewElementPage}"
                                     TextColor="{StaticResource AccentYellow}"
                                     CornerRadius="15" />
-                           
-
+                            
+                            <Button Text="cog" 
+                                    FontFamily="FAS" 
+                                    FontSize="24" 
+                                    CornerRadius="15"
+                                    BackgroundColor="{StaticResource AccentLiteBlue}"
+                                    BorderColor="{StaticResource AccentYellow}" 
+                                    BorderWidth="2"
+                                    TextColor="{StaticResource AccentYellow}"
+                                    HeightRequest="50" WidthRequest="50" 
+                                    Grid.Column="2" 
+                                    Clicked="Button_Clicked"
+                                    HorizontalOptions="CenterAndExpand"/>
+                            
                         </Grid>
                     </ContentView>
                 </CollectionView.Header>

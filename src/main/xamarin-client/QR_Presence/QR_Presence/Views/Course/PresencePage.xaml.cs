@@ -263,7 +263,7 @@ namespace QR_Presence.Views.Course
 
         public CourseInfoModel Course { get; set; } = new CourseInfoModel
         {
-            Id_Cours = 1,
+            Id_Course = 1,
             Name_C = "IOCLA",
             Professor = "Prof. Razvan Deaconescu",
             Desc = "Programare in limbaj de asamblare este un curs de din Anul 2 in care se invata notiuni de hardware",

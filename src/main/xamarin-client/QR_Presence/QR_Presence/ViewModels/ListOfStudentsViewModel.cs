@@ -12,8 +12,6 @@ namespace QR_Presence.ViewModels
         public ObservableCollection<UserModel> ListOf { get; set; }
         public string PageTitle { get; set; }
         public Command<UserModel> Delete { get; private set; }
-
-
         public ListOfStudentsViewModel()
         {
             ListOf = new ObservableCollection<UserModel>
@@ -63,17 +61,16 @@ namespace QR_Presence.ViewModels
                     LDAP ="mihai_vasile",
                     Privilege = 2
                 }
+            }; 
 
-            };
-            Delete = new Command<UserModel>(async model =>
+            Delete = new Command<UserModel>(model =>
             {
                 ListOf.Remove(model);
                 PageTitle = $"Count {ListOf.Count}";
                 OnPropertyChanged(nameof(PageTitle));
-
             });
-            PageTitle = $"Count {ListOf.Count}";
 
+            PageTitle = $"Count {ListOf.Count}";
         }
     }
 }

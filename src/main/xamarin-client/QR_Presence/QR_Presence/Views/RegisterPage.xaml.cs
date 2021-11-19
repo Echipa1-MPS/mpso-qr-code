@@ -1,8 +1,10 @@
-﻿using QR_Presence.Helpers;
+﻿using Newtonsoft.Json;
+using QR_Presence.Helpers;
 using QR_Presence.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
@@ -18,6 +20,13 @@ namespace QR_Presence.Views
             "Admin",
             "Student",
             "Professor"
+        };
+
+        public List<string> ProffesorDomain { get; set; } = new List<string> {
+            "upb.ro",
+            "onmicrosoft.upb.ro",
+            "cs.pub.ro",
+            "cti.upb.ro"
         };
         public string SelectedRole { get; set; }
 
@@ -47,7 +56,7 @@ namespace QR_Presence.Views
                 return;
             }
 
-            if (!IsValidEmail(Email) || !words[1].Equals("stud.acs.upb.ro"))
+            if (!IsValidEmail(Email, SelectedRole, words[1]))
             {
                 await DisplayAlert("Alert!", "Incomplet Email address", "OK");
                 return;
@@ -69,13 +78,6 @@ namespace QR_Presence.Views
                     break;
             }
 
-            if (Preferences.ContainsKey("Role"))
-            {
-                Preferences.Remove("Role");
-            }
-
-            Preferences.Set("Role", $"{(int)role}");
-
             User = new UserModel
             {
                 Name = Name,
@@ -83,27 +85,52 @@ namespace QR_Presence.Views
                 LDAP = words[0],
                 Email = Email,
                 Group = Group,
-                Privilege = (int) role,
+                Privilege = (int)role,
             };
 
-        }
-
-        private bool IsValidEmail(string email)
-        {
-            try
+            if (await Services.APICalls.RegisterUser(User, Password))
             {
-                System.Net.Mail.MailAddress addr = new System.Net.Mail.MailAddress(email);
-                return addr.Address == email;
+                await DisplayAlert("All Ok", "Account Registered", "OK");
+                await Navigation.PopAsync();
             }
-            catch
+            else
             {
-                return false;
+                await DisplayAlert("Alert!", "Error Ocured, retry", "OK");
             }
         }
 
         private async void CancelBtn_Clicked(object sender, EventArgs e)
         {
             await Navigation.PopAsync();
+        }
+        private bool IsValidEmail(string email, string selectedRole, string LDAP)
+        {
+            try
+            {
+                System.Net.Mail.MailAddress addr = new System.Net.Mail.MailAddress(email);
+                if (!(addr.Address == email))
+                {
+                    return false;
+                }
+                else
+                {
+                    switch (selectedRole)
+                    {
+                        case "Admin":
+                            return ProffesorDomain.Any(s => LDAP.Contains(s));
+                        case "Professor":
+                            return ProffesorDomain.Any(s => LDAP.Contains(s));
+                        case "Student":
+                            return LDAP == "stud.acs.upb.ro";
+                        default:
+                            return false;
+                    }
+                }
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }

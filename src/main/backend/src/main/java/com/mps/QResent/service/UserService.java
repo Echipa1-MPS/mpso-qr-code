@@ -8,7 +8,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
+import com.mps.QResent.model.Subject;
+import com.mps.QResent.projection.UserSubjectView;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,10 +43,6 @@ public class UserService implements UserDetailsService {
     }
 
 
-    public boolean isValidRole(Role role) {
-        return role == Role.ADMIN || role == Role.TEACHER || role == Role.STUDENT;
-    }
-
     public boolean isPresent(String email) {
         return userRepository.findByEmail(email).isPresent();
     }
@@ -57,6 +56,7 @@ public class UserService implements UserDetailsService {
             userRepository.delete(this.userRepository.findByEmail(email).get());
         }
     }
+
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
@@ -72,4 +72,53 @@ public class UserService implements UserDetailsService {
                 .roles(String.valueOf(user.getRole()))
                 .build();
     }
+
+
+    public UserSubjectView findUserNextCourses(String name){
+//        return userRepository.findAllByEmail(getCurrentUserEmail());
+        System.out.println(name);
+        return userRepository.findAllByEmail(name);
+    }
+
+    public String getCurrentUserEmail() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        return auth.getPrincipal().toString();
+    }
+
+    public Optional<User> findByEmail(String email){
+        System.out.println("in find by email");
+        return userRepository.findByEmail(email);
+    }
+
+    public Optional<User> findByIdOptional(Long id){
+        return userRepository.findById(id);
+    }
+
+    public String getProf(Subject subject){
+        String profName = "";
+        for(User user: userRepository.findAllByRole(Role.TEACHER)){
+            if(user.getSubjects().contains(subject)){
+                return profName + user.getName() + user.getSurname();
+            }
+        }
+        return profName;
+    }
+
+    public Long getProfId(Subject subject){
+        for(User user: userRepository.findAllByRole(Role.TEACHER)){
+            if(user.getSubjects().contains(subject)){
+                return user.getId();
+            }
+        }
+        return 0L;
+    }
+
+    public List<User> getStudents(Subject subject){
+        return userRepository.findAllByRole(Role.STUDENT);
+    }
+
+    public boolean isValidRole(Role role) {
+        return role == Role.ADMIN || role == Role.TEACHER || role == Role.STUDENT;
+    }
+
 }

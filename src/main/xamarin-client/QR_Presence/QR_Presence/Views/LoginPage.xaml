@@ -43,6 +43,7 @@
                         <StackLayout Spacing="12">
                             <Frame Style="{StaticResource FrameAddNews}" Padding="12,4,12,4" CornerRadius="10" >
                                 <Entry Placeholder="User  Email" 
+                                       Text="{Binding Email}"
                                        FontFamily="FAR" Keyboard="Email"
                                        ClearButtonVisibility="WhileEditing" 
                                        IsSpellCheckEnabled="True" 
@@ -55,6 +56,7 @@
                             </Frame>
                             <Frame Style="{StaticResource FrameAddNews}" Padding="12,4,12,4" CornerRadius="10" >
                                 <Entry Placeholder="ellipsis-h  Password" FontFamily="FAS" 
+                                       Text="{Binding Password}"
                                        IsPassword="True" 
                                        ClearButtonVisibility="WhileEditing" 
                                        TextColor="{AppThemeBinding Dark={StaticResource BackgroundLight}, Light={StaticResource BackgroundDark}}"

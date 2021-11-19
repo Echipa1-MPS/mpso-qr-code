@@ -51,18 +51,15 @@ namespace QR_Presence.Views
             }
         };
 
-        public Models.UserModel User { get; set; } = new Models.UserModel
-        {
-            Name = "Sandu",
-            SecondName = "Ilie-Cristian",
-            LDAP = "ilie_crsitian.sandu",
-            Email = "ilie_cristian.sandu@stud.acs.upb.ro",
-            Group = "344C5"
-        };
+        public Models.UserModel User { get; set; }
 
         public ProfilePage()
         {
             InitializeComponent();
+            Task.Run(async () =>
+            {
+                User = await Services.DatabaseConnection.GetUser();
+            }).Wait();
             BindingContext = this;
         }
 

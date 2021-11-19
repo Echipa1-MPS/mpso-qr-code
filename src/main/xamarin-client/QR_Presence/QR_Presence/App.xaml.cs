@@ -14,8 +14,16 @@ namespace QR_Presence
             InitializeComponent();
 
             Settings.SetTheme();
+            string isLogIn = Preferences.Get("IsLogIn", "");
+            string role = Preferences.Get("Role", "");
 
-            MainPage = new NavigationPage(new LoginPage());
+
+            if (string.IsNullOrEmpty(isLogIn))
+                MainPage = new NavigationPage(new LoginPage());
+            else if (role == "0")
+                MainPage = new NavigationPage(new Views.AdminPages.AdminTabbedPage());
+            else
+                MainPage = new NavigationPage(new Views.MainTabs.MainTabbedPage());
         }
 
         protected override void OnStart()
