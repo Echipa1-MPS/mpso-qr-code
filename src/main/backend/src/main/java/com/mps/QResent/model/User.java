@@ -13,6 +13,9 @@ public class User {
     @Column(name = "user_id")
     private Long id;
 
+    @Column(name = "username")
+    private String username;
+
     @Column(name = "surname")
     private String surname;
 
@@ -104,5 +107,13 @@ public class User {
 
     public void setGroup(String group) {
         this.group = group;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }
