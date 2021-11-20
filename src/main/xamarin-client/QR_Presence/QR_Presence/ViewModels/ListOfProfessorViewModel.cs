@@ -1,5 +1,7 @@
 ﻿using QR_Presence.Models;
 using QR_Presence.Models.APIModels;
+using QR_Presence.Views;
+using QR_Presence.Views.EditPages;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -16,6 +18,25 @@ namespace QR_Presence.ViewModels
         public ObservableCollection<User> ListOf { get; set; }
         public string PageTitle { get; set; }
         public Command<User> Delete { get; private set; }
+
+        User selectedElement;
+        public User SelectedElement
+        {
+            get
+            {
+                return selectedElement;
+            }
+            set
+            {
+                if (selectedElement != value)
+                {
+                    selectedElement = value;
+                    GoToNextPage.Execute(selectedElement);
+                }
+            }
+        }
+        public Command GoToNextPage { get; set; }
+        public Command GoNewElementPage { get; set; }
 
         public ListOfProfessorViewModel()
         {
@@ -36,6 +57,18 @@ namespace QR_Presence.ViewModels
                     OnPropertyChanged(nameof(PageTitle));
                 }
             });
+
+            GoToNextPage = new Command(async () =>
+            {
+                if (SelectedElement != null)
+                    await Application.Current.MainPage.Navigation.PushAsync(new EditProfile{ BindingContext = SelectedElement });
+            });
+
+            GoNewElementPage = new Command(async () =>
+            {
+                await Application.Current.MainPage.Navigation.PushAsync(new RegisterPage(false));
+            });
+
             PageTitle = $"Count {ListOf.Count}";
 
         }

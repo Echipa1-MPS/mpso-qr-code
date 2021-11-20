@@ -2,6 +2,8 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="QR_Presence.Views.AdminPages.ListOfTeamplate"
+             xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin"
+             
              BackgroundColor="{AppThemeBinding Dark={StaticResource BackgroundDark}, Light={StaticResource BackgroundLight}}"
              NavigationPage.HasNavigationBar="False">
     <ContentPage.Content>
@@ -27,27 +29,50 @@
                                     </SwipeItemView>
                                 </SwipeItems>
                             </SwipeView.RightItems>
-                            <Frame Style="{StaticResource FrameList}" Padding="5,5,2,5">
-                                <Grid Padding="10,10,10,10">
+                            <Frame Style="{StaticResource FrameList}" Padding="4,0,2,0">
+                                <Grid Padding="4,10,8,8" RowSpacing="4">
                                     <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
                                     </Grid.RowDefinitions>
 
                                     <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto" />
                                         <ColumnDefinition Width="1.5*" />
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
 
-                                    <Label Text="{Binding FullName}"
-                                       Grid.Row="0"
-                                       FontAttributes="Bold"
-                                       FontSize="Medium"
-                                       TextColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundLight}}"
-                                       Style="{StaticResource TitleStyle}"/>
+                                    <controls:CircleImage Source="{Binding Icon1}" Aspect="AspectFit" BorderColor="{StaticResource AccentYellow}" BorderThickness="2"  FillColor="{Binding BackColor}" Grid.RowSpan="2"  HeightRequest="50" WidthRequest="50" VerticalOptions="Center" HorizontalOptions="Start"/>
+                                    <StackLayout Grid.Row="0" Grid.Column="1" Orientation="Horizontal" VerticalOptions="Center" HorizontalOptions="StartAndExpand" Spacing="8">
+
+                                        <Label Text="{Binding MainTitle}"
+                                               FontAttributes="Bold"
+                                               FontSize="Medium"
+                                               HorizontalOptions="Start"
+                                               TextColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundLight}}"
+                                               Style="{StaticResource TitleStyle}"/>
+                                    </StackLayout>
+
+
+                                    <StackLayout Grid.Row="1" Grid.Column="1" Orientation="Horizontal" VerticalOptions="Center" HorizontalOptions="StartAndExpand" Spacing="8">
+                                        <Label Text="{Binding Icon2}" 
+                                               FontSize="Small" 
+                                               FontFamily="FAS"
+                                               TextColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundLight}}" 
+                                               VerticalOptions="Center" HorizontalOptions="Center"/>
+                                        <Label Text="{Binding SecondTitle}"
+                                               Grid.Row="1"
+                                               FontAttributes="Italic"
+                                               FontSize="Small"
+                                               HorizontalOptions="Start"
+                                               TextColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundLight}}"
+                                               Style="{StaticResource TitleStyle}"/>
+                                    </StackLayout>
 
                                     <Label Grid.Column="1"
+                                           Grid.RowSpan="2"
                                        HorizontalOptions="EndAndExpand"
-                                       Text="Test"
+                                       Text="{Binding EndTitle}"
                                        TextColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundLight}}"
                                        FontAttributes="Bold"
                                        FontSize="Medium"
@@ -115,7 +140,7 @@
                                     FontSize="18"
                                     Style="{StaticResource TitleStyle}"/>
                             </Frame>
-                            
+
                             <Button Grid.Column="1" 
                                     Grid.Row="0"
                                     Text="plus" 
@@ -130,7 +155,7 @@
                                     Command="{Binding GoNewElementPage}"
                                     TextColor="{StaticResource AccentYellow}"
                                     CornerRadius="15" />
-                            
+
                             <Button Text="cog" 
                                     FontFamily="FAS" 
                                     FontSize="24" 
@@ -143,7 +168,7 @@
                                     Grid.Column="2" 
                                     Clicked="Button_Clicked"
                                     HorizontalOptions="CenterAndExpand"/>
-                            
+
                         </Grid>
                     </ContentView>
                 </CollectionView.Header>

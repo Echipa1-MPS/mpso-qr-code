@@ -17,7 +17,7 @@ namespace QR_Presence.Services
         public static string BaseUrlAuth = "http://ec2-3-18-103-144.us-east-2.compute.amazonaws.com:8080/api/user/authentication/";
         public static string BaseUrlAdmin = "http://ec2-3-18-103-144.us-east-2.compute.amazonaws.com:8080/api/user/admin/";
 
-        public async static Task<bool> RegisterUser(UserModel user, string password)
+        public async static Task<bool> RegisterUser(User user, string password)
         {
             using (var c = new HttpClient())
             {
@@ -73,11 +73,11 @@ namespace QR_Presence.Services
 
                 if (response.IsSuccessStatusCode)
                 {
-                    UserModel user;
+                    User user;
 
                     if (!await DatabaseConnection.ExistUser())
                     {
-                        user = new UserModel { email = email };
+                        user = new User { email = email };
                         await DatabaseConnection.AddUser(user);
                     }
                     else
@@ -187,5 +187,78 @@ namespace QR_Presence.Services
                 return false;
             }
         }
+
+        public async static Task<bool> UpdateUserAdminAsync(User user) 
+        {
+            using (var c = new HttpClient())
+            {
+                HttpClient client = new HttpClient();
+                var authHeader = new AuthenticationHeaderValue("Bearer", await SecureStorage.GetAsync("oauth_token"));
+
+                client.DefaultRequestHeaders.Authorization = authHeader;
+
+                var jsonRequest = new
+                {
+                    email = user.email,
+                    name = user.name,
+                    user_id = user.user_id,
+                    group =user.group
+                };
+
+                var serializedJsonRequest = JsonConvert.SerializeObject(jsonRequest);
+                HttpContent content = new StringContent(serializedJsonRequest, Encoding.UTF8, "application/json");
+
+                var method = new HttpMethod("PATCH");
+                HttpRequestMessage request = new HttpRequestMessage
+                {
+                    Content = content,
+                    Method = method,
+                    RequestUri = new Uri(BaseUrlAdmin + "update-user")
+                };
+
+                var response = await client.SendAsync(request);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return true;
+                }
+
+                return false;
+            }
+        }
+
+        public async static Task<bool> AddUserAdminAsync(User user, string password)
+        {
+            using (var c = new HttpClient())
+            {
+                HttpClient client = new HttpClient();
+                var authHeader = new AuthenticationHeaderValue("Bearer", await SecureStorage.GetAsync("oauth_token"));
+
+                client.DefaultRequestHeaders.Authorization = authHeader;
+
+                var jsonRequest = new
+                {
+                    email = user.email,
+                    name = user.name,
+                    surname = user.surname,
+                    password = password,
+                    group = user.group,
+                    role = user.Privilege
+                };
+
+                var serializedJsonRequest = JsonConvert.SerializeObject(jsonRequest);
+                HttpContent content = new StringContent(serializedJsonRequest, Encoding.UTF8, "application/json");
+                
+                var response = await client.PostAsync(new Uri(BaseUrlAdmin + "add-user"), content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return true;
+                }
+
+                return false;
+            }
+        }
+
     }
 }

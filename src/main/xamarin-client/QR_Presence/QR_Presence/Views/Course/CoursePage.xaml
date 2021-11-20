@@ -100,10 +100,10 @@
                             </StackLayout>
 
                             <Button Text="arrow-left" 
-                                    BackgroundColor="{StaticResource AccentLiteBlue}" 
-                                    TextColor="{StaticResource AccentYellow}"
-                                     CornerRadius="90" 
-                                    BorderColor="{StaticResource AccentYellow}" 
+                                    BackgroundColor="Transparent" 
+                                    TextColor="{StaticResource BackgroundLight}"
+                                     CornerRadius="15" 
+                                    BorderColor="{StaticResource BackgroundLight}" 
                                     BorderWidth="2" 
                                     
                                     HorizontalOptions="Start" VerticalOptions="Start" 
@@ -119,10 +119,10 @@
                             </StackLayout>
 
                             <Button Text="pencil-alt" 
-                                    BackgroundColor="{StaticResource AccentLiteBlue}" 
-                                    TextColor="{StaticResource AccentYellow}" 
-                                    CornerRadius="90" 
-                                    BorderColor="{StaticResource AccentYellow}" 
+                                    BackgroundColor="Transparent" 
+                                    TextColor="{StaticResource BackgroundLight}"
+                                     CornerRadius="15" 
+                                    BorderColor="{StaticResource BackgroundLight}" 
                                     BorderWidth="2" 
                                     HorizontalOptions="End" VerticalOptions="Start" 
                                     FontFamily="FAS" 

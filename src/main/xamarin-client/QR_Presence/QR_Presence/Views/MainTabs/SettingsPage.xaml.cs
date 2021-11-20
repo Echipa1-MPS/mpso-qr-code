@@ -153,7 +153,10 @@ namespace QR_Presence.Views.MainTabs
                 return;
 
             SecureStorage.RemoveAll();
-            Preferences.Clear();
+            if (Preferences.ContainsKey("Role"))
+            {
+                Preferences.Remove("Role");
+            }
             Application.Current.MainPage = new NavigationPage(new LoginPage());
         }
 

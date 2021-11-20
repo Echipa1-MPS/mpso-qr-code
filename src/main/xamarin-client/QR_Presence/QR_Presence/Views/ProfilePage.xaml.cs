@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QR_Presence.Models.APIModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -51,7 +52,7 @@ namespace QR_Presence.Views
             }
         };
 
-        public Models.UserModel User { get; set; }
+        public User User { get; set; }
 
         public ProfilePage()
         {

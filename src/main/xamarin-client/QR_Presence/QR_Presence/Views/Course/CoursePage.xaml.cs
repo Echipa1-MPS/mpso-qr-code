@@ -334,7 +334,7 @@ namespace QR_Presence.Views
         private ExcelService excelService;
 
         public IntervalModel SelectedInterval { get; set; }
-        public string SelectedDate { get;set; }
+        public string SelectedDate { get; set; }
 
         public CoursePage()
         {
@@ -356,7 +356,7 @@ namespace QR_Presence.Views
             string filepath = excelService.GenerateExcel(fileName);
 
 
-            PutDataInList(PersonsPresents,"QR_1", filepath);
+            PutDataInList(PersonsPresents, "QR_1", filepath);
             PutDataInList(PersonsAttentive, "QR_2", filepath);
             PutDataInList(PersonsActives, "QR_3", filepath);
 
@@ -439,7 +439,7 @@ namespace QR_Presence.Views
 
         private async void Button_Clicked_1(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new Views.RegisterPage());
+            await Navigation.PushAsync(new Views.AdminPages.EditCoursePage(Course));
         }
 
         private async void Button_Clicked_2(object sender, EventArgs e)

@@ -52,10 +52,10 @@
                         <Button Text="pencil-alt" 
                                 FontFamily="FAS" 
                                 FontSize="Large" 
-                                BackgroundColor="{StaticResource AccentLiteBlue}" 
-                                    TextColor="{StaticResource AccentYellow}" 
-                                    CornerRadius="90" 
-                                    BorderColor="{StaticResource AccentYellow}" 
+                                BackgroundColor="Transparent" 
+                                    TextColor="{AppThemeBinding Dark={StaticResource BackgroundLight}, Light={StaticResource BackgroundDark}}" 
+                                    CornerRadius="15" 
+                                    BorderColor="{AppThemeBinding Dark={StaticResource BackgroundLight}, Light={StaticResource BackgroundDark}}" 
                                     BorderWidth="2" 
                                 WidthRequest="46" 
                                 HeightRequest="46"
@@ -77,10 +77,10 @@
                     </Grid.RowDefinitions>
                     <StackLayout Grid.Row="0" Grid.Column="0" Spacing="2" HorizontalOptions="Start" VerticalOptions="CenterAndExpand" Padding="4,0,0,0" >
                         <Label Text="Welcome Back," FontSize="30" CharacterSpacing="0" Style="{StaticResource TextStyle}"/>
-                        <Label Text="{Binding User.SecondName}" Style="{StaticResource TextStyle}" CharacterSpacing="0"/>
-                        <Label Text="{Binding User.Name}" Style="{StaticResource TextStyle}" CharacterSpacing="0"/>
-                        <Label Text="{Binding User.Group}" Style="{StaticResource TextStyle}" CharacterSpacing="0"/>
-                        <Label Text="{Binding User.LDAP}" Style="{StaticResource TextStyle}" CharacterSpacing="0"/>
+                        <Label Text="{Binding User.surname}" Style="{StaticResource TextStyle}" CharacterSpacing="0"/>
+                        <Label Text="{Binding User.name}" Style="{StaticResource TextStyle}" CharacterSpacing="0"/>
+                        <Label Text="{Binding User.group}" Style="{StaticResource TextStyle}" CharacterSpacing="0"/>
+                        <Label Text="{Binding User.email}" Style="{StaticResource TextStyle}" CharacterSpacing="0"/>
                     </StackLayout>
                     <Image Grid.Row="0" Grid.Column="1" Source="profilem.png"/>
 

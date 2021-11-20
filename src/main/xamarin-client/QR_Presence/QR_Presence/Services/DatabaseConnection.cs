@@ -1,4 +1,5 @@
 ﻿using QR_Presence.Models;
+using QR_Presence.Models.APIModels;
 using SQLite;
 using System;
 using System.Collections.Generic;
@@ -22,22 +23,22 @@ namespace QR_Presence.Services
             var databasePath = Path.Combine(FileSystem.AppDataDirectory, "stateDb.db");
             db = new SQLiteAsyncConnection(databasePath);
 
-            await db.CreateTableAsync<UserModel>();
+            await db.CreateTableAsync<User>();
         }
 
-        public static async Task AddUser(UserModel user)
+        public static async Task AddUser(User user)
         {
             await Init();
             await db.InsertAsync(user);
         }
 
-        public static async Task UpdateUser(UserModel user)
+        public static async Task UpdateUser(User user)
         {
             await Init();
             await db.UpdateAsync(user);
         }
 
-        public static async Task DeleteUser(UserModel user)
+        public static async Task DeleteUser(User user)
         {
             await Init();
             await db.DeleteAsync(user);
@@ -46,21 +47,21 @@ namespace QR_Presence.Services
         public static async Task DeleteAllUsers()
         {
             await Init();
-            await db.DeleteAllAsync<UserModel>();
+            await db.DeleteAllAsync<User>();
         }
 
-        public static async Task<UserModel> GetUser()
+        public static async Task<User> GetUser()
         {
             await Init();
-            var users = await db.Table<UserModel>().ToListAsync();
+            var users = await db.Table<User>().ToListAsync();
 
-            return users.Count == 0 ? new UserModel(): users[0];
+            return users.Count == 0 ? new User(): users[0];
         }
 
         public static async Task<bool> ExistUser()
         {
             await Init();
-            var users = await db.Table<UserModel>().ToListAsync();
+            var users = await db.Table<User>().ToListAsync();
             return users.Count == 0 ? false : true;
         }
 

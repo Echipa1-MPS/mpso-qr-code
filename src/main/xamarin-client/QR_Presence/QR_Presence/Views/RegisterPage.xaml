@@ -50,11 +50,11 @@
                         </StackLayout>
                         <Grid ColumnSpacing="10" RowSpacing="15" Padding="0">
                             <Grid.RowDefinitions>
-                                <RowDefinition Height=".65*" />
-                                <RowDefinition Height=".65*" />
-                                <RowDefinition Height=".65*" />
-                                <RowDefinition Height=".65*" />
-                                <RowDefinition Height=".65*" />
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="auto" />
                             </Grid.RowDefinitions>
 
                             <Grid.ColumnDefinitions>
@@ -93,7 +93,7 @@
                                 <StackLayout Padding="0,4,0,0" >
                                     <Label Text="Select Role" Style="{StaticResource InfoTextSy}"/>
                                     <Picker x:Name="PathPicker" Grid.Row="2" 
-                                            Title="ex:Student"
+                                            Title="Role"
                                  ItemsSource="{Binding Roles}"
                                  ItemDisplayBinding="{Binding .}"
                                  SelectedItem="{Binding SelectedRole}" />
@@ -105,7 +105,7 @@
                                     <Entry x:Name="HighlightsPicker" Grid.Row="2" Grid.Column="1" Placeholder="ex:344CC or - " Text="{Binding Group}"/>
                                 </StackLayout>
                             </Frame>
-                            <Frame  Grid.ColumnSpan="2" Grid.Row="3" Style="{StaticResource FrameAddNews}" >
+                            <Frame  Grid.ColumnSpan="2" Grid.Row="3" IsVisible="{Binding Verify}" Style="{StaticResource FrameAddNews}" >
                                 <StackLayout  Spacing="-8">
                                     <StackLayout  Style="{StaticResource StackEntry}">
                                         <Label Text="Password" Style="{StaticResource InfoTextSy}"/>
@@ -114,7 +114,7 @@
                                     <Entry Grid.ColumnSpan="2" Grid.Row="3"  x:Name="PasswordEntry"  IsPassword="True" Text="{Binding Password}"/>
                                 </StackLayout>
                             </Frame>
-                            <Frame  Grid.ColumnSpan="2" Grid.Row="4" Style="{StaticResource FrameAddNews}" >
+                            <Frame  Grid.ColumnSpan="2" Grid.Row="4" IsVisible="{Binding Verify}" Style="{StaticResource FrameAddNews}" >
                                 <StackLayout Spacing="-8" >
                                     <StackLayout Style="{StaticResource StackEntry}">
                                         <Label Text="Confirm Password" Style="{StaticResource InfoTextSy}"/>

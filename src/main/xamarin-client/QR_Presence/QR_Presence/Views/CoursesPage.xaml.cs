@@ -110,7 +110,7 @@ namespace QR_Presence.Views
 
             if (e.CurrentSelection != null)
             {
-                await Navigation.PushAsync(new CoursePage(course));
+                await Application.Current.MainPage.Navigation.PushAsync(new CoursePage(course));
             }
             ((CollectionView)sender).SelectedItem = null;
         }
