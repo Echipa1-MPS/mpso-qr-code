@@ -13,7 +13,6 @@ namespace QR_Presence.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class CoursesPage : ContentPage
     {
-
         public List<CourseInfoModel> CourseList { get; set; } = new List<Models.CourseInfoModel>
         {
             new Models.CourseInfoModel
@@ -100,7 +99,6 @@ namespace QR_Presence.Views
 
         public List<CourseInfoModel> Courses_Selected { get; set; } = new List<CourseInfoModel>();
         public List<int> Courses_ID_List { get; set; } = new List<int>();
-
 
         private async void AccountsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {

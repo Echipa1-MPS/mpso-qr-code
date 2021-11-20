@@ -204,7 +204,6 @@
                                     <Picker Title="Select Interval" 
                                     TextColor="{AppThemeBinding Light={StaticResource BackgroundDark}, Dark={StaticResource BackgroundLight}}"
                                     TitleColor="{AppThemeBinding Light={StaticResource BackgroundDark}, Dark={StaticResource BackgroundLight}}"
-                                        
                                     ItemsSource="{Binding Course.Intervals}"
                                     ItemDisplayBinding="{Binding IntervalHE}"
                                     SelectedItem="{Binding SelectedInterval}"/>
@@ -231,7 +230,9 @@
                                         CornerRadius="10"
                                         FontFamily="FAS" FontSize="24"  
                                         VerticalOptions="CenterAndExpand" 
-                                        HorizontalOptions="CenterAndExpand" />
+                                        HorizontalOptions="CenterAndExpand"
+                                        Clicked="Button_Clicked_3"
+                                        />
                             </Frame>
 
                         </Grid>

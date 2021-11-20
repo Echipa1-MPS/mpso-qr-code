@@ -80,11 +80,11 @@ namespace QR_Presence.Views
 
             User = new UserModel
             {
-                Name = Name,
-                SecondName = SecondName,
-                LDAP = words[0],
-                Email = Email,
-                Group = Group,
+                name = Name,
+                surname = SecondName,
+                username = words[0],
+                email = Email,
+                group = Group,
                 Privilege = (int)role,
             };
 

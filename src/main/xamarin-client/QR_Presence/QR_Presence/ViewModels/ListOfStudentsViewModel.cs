@@ -1,73 +1,35 @@
 ﻿using QR_Presence.Models;
+using QR_Presence.Models.APIModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace QR_Presence.ViewModels
 {
     public class ListOfStudentsViewModel : BaseViewModel
     {
-        public ObservableCollection<UserModel> ListOf { get; set; }
+        public ObservableCollection<User> ListOf { get; set; }
         public string PageTitle { get; set; }
-        public Command<UserModel> Delete { get; private set; }
+        public Command<User> Delete { get; private set; }
         public ListOfStudentsViewModel()
         {
-            ListOf = new ObservableCollection<UserModel>
+            Task.Run(async () =>
             {
-                new UserModel
-                {
-                    Name = "Mihai",
-                    SecondName = "Vasile",
-                    Email = "mihai_vasile@stud.acs.upb.ro",
-                    Group = "344CC",
-                    LDAP ="mihai_vasile",
-                    Privilege = 2
-                },
-                new UserModel
-                {
-                    Name = "Mihai",
-                    SecondName = "Vasile",
-                    Email = "mihai_vasile@stud.acs.upb.ro",
-                    Group = "344CC",
-                    LDAP ="mihai_vasile",
-                    Privilege = 2
-                },
-                new UserModel
-                {
-                    Name = "Mihai",
-                    SecondName = "Vasile",
-                    Email = "mihai_vasile@stud.acs.upb.ro",
-                    Group = "344CC",
-                    LDAP ="mihai_vasile",
-                    Privilege = 2
-                },
-                new UserModel
-                {
-                    Name = "Mihai",
-                    SecondName = "Vasile",
-                    Email = "mihai_vasile@stud.acs.upb.ro",
-                    Group = "344CC",
-                    LDAP ="mihai_vasile",
-                    Privilege = 2
-                },
-                new UserModel
-                {
-                    Name = "Mihai",
-                    SecondName = "Vasile",
-                    Email = "mihai_vasile@stud.acs.upb.ro",
-                    Group = "344CC",
-                    LDAP ="mihai_vasile",
-                    Privilege = 2
-                }
-            }; 
+                StudentsAdmin stud = await Services.APICalls.GetStudentsAdminAsync();
+                ListOf = new ObservableCollection<User>(stud.students);
+            }).Wait();
 
-            Delete = new Command<UserModel>(model =>
+            Delete = new Command<User>(async model =>
             {
-                ListOf.Remove(model);
-                PageTitle = $"Count {ListOf.Count}";
-                OnPropertyChanged(nameof(PageTitle));
+                if (await Services.APICalls.DeleteUserAdminAsync(model.email))
+                {
+                    ListOf.Remove(model);
+                    PageTitle = $"Count {ListOf.Count}";
+                    OnPropertyChanged(nameof(PageTitle));
+                }
             });
 
             PageTitle = $"Count {ListOf.Count}";
