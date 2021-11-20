@@ -82,15 +82,25 @@ public class UserController {
                             continue;
                         case "email":
                             user.setEmail((String) request.get("email"));
-                            break;
+                            continue;
                         case "username":
                             user.setUsername((String) request.get("username"));
-                            break;
+                            continue;
                         case "group":
                             user.setGroup((String) request.get("group"));
+                            continue;
+                        case "name":
+                            user.setName((String) request.get("name"));
+                            continue;
+                        case "surname":
+                            user.setSurname((String) request.get("surname"));
+                            continue;
                         default:
                             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("The specified key cannot be modified! You can only update the e-mail, username or group if you are a student.");
                     }
+                }
+                if (userService.isPresent(user.getEmail())) {
+                    return ResponseEntity.status(HttpStatus.CONFLICT).body("This user already exists!");
                 }
                 userService.save(user);
                 return ResponseEntity.status(HttpStatus.OK).body("The user has been successfully updated!");
@@ -157,6 +167,28 @@ public class UserController {
             response.put("user_id", userService.findUserIdByEmail(user.getEmail()));
             userService.deleteByEmail(user.getEmail());
             return ResponseEntity.status(HttpStatus.OK).body(response);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
+    @PostMapping(path = "/admin/add-user")
+    @RolesAllowed("ADMIN")
+    public ResponseEntity<?> addUser(@RequestBody User user) {
+        try {
+            if (this.userService.areValidCredentials(user)) {
+                if (!userService.isPresent(user.getEmail())) {
+                    user.setPassword(passwordEncoder.encode(user.getPassword()));
+                    this.userService.save(user);
+                    JSONObject response = new JSONObject();
+                    response.put("user_id", userService.findUserIdByEmail(user.getEmail()));
+                    return ResponseEntity.status(HttpStatus.CREATED).body(response);
+                } else {
+                    return ResponseEntity.status(HttpStatus.CONFLICT).body("This user already exists!");
+                }
+            } else {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Missing required credentials!");
+            }
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }

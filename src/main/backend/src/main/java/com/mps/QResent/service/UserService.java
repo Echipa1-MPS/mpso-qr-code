@@ -44,6 +44,23 @@ public class UserService implements UserDetailsService {
         return role == Role.ADMIN || role == Role.TEACHER || role == Role.STUDENT;
     }
 
+    public boolean areValidCredentials(User user) {
+        if (this.isValidRole(user.getRole())) {
+            if (user.getRole() == Role.STUDENT) {
+                return (!user.getName().isEmpty())
+                        && (!user.getSurname().isEmpty())
+                        && (!user.getGroup().isEmpty())
+                        && (!user.getEmail().isEmpty())
+                        && (!user.getPassword().isEmpty());
+            } else if (user.getRole() == Role.TEACHER) {
+                return (!user.getName().isEmpty())
+                        && (!user.getSurname().isEmpty())
+                        && (!user.getEmail().isEmpty())
+                        && (!user.getPassword().isEmpty());
+            } else return false;
+        } else return false;
+    }
+
     public boolean isPresent(String email) {
         return userRepository.findByEmail(email).isPresent();
     }
