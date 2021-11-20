@@ -30,3 +30,13 @@ export function getUpcomingCourses(params, success, failure) {
     return getUpcomingCoursesMock;
 }
 
+export function postCreateQr(params, success, failure) {
+    console.log('postCreateQr', params);
+    console.log("S-a creat un QR");
+    success({ data: { id_qr: 100 } });
+}
+
+export function postUpdateQr(params, success, failure) {
+    console.log("S-a actualizat un QR");
+    success({ data: { id_qr: 100 } });
+}
