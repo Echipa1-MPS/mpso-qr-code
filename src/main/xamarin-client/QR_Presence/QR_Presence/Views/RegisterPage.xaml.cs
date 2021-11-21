@@ -97,18 +97,22 @@ namespace QR_Presence.Views
                 group = Group ,
                 Privilege = (int)role,
             };
+            loading.IsRunning = true;
 
             bool respons_add = Verify ? await Services.APICalls.RegisterUser(User, Password) : await Services.APICalls.AddUserAdminAsync(User, $"{words[0]}/{Group}");
 
             if (respons_add)
             {
                 await DisplayAlert("All Ok", "Account Registered", "OK");
+                loading.IsRunning = false;
                 await Navigation.PopAsync();
             }
             else
             {
                 await DisplayAlert("Alert!", "Error Ocured, retry", "OK");
             }
+            loading.IsRunning = false;
+
         }
 
         private async void CancelBtn_Clicked(object sender, EventArgs e)

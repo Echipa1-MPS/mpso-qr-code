@@ -20,6 +20,8 @@ namespace QR_Presence.Views
     {
         public string Password { get; set; }
         public string Email { get; set; }
+
+        public bool IsLoading{ get; set; } = false;
         public LoginPage()
         {
             InitializeComponent();
@@ -28,13 +30,11 @@ namespace QR_Presence.Views
 
         private async void Button_Clicked(object sender, EventArgs e)
         {
-            if (await APICalls.LoginUser(Email, Password))
-            {
-                await DisplayAlert("All Ok", "Login succesfully", "OK");
-            }
-            else
+            loading.IsRunning = true;
+            if (!await APICalls.LoginUser(Email, Password))
             {
                 await DisplayAlert("Alert!", "Error Ocured, retry", "OK");
+                loading.IsRunning = false;
                 return;
             }
 
@@ -49,6 +49,7 @@ namespace QR_Presence.Views
                     await Navigation.PushAsync(new MainTabs.MainTabbedPage());
                     break;
             }
+            loading.IsRunning = false;
         }
 
         private async void Button_Clicked_1(object sender, EventArgs e)

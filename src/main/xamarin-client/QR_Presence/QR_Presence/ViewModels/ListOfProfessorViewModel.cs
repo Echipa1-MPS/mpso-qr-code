@@ -35,8 +35,27 @@ namespace QR_Presence.ViewModels
                 }
             }
         }
+
+        private bool _isRefreshing;
+        public bool IsRefreshing
+        {
+            get
+            {
+                return _isRefreshing;
+            }
+            set
+            {
+                if (_isRefreshing != value)
+                {
+                    _isRefreshing = value;
+                    OnPropertyChanged(nameof(IsRefreshing));
+                }
+            }
+        }
         public Command GoToNextPage { get; set; }
         public Command GoNewElementPage { get; set; }
+        public Command RefreshCommand { get; set; }
+
 
         public ListOfProfessorViewModel()
         {
@@ -47,7 +66,7 @@ namespace QR_Presence.ViewModels
                 ListOf = new ObservableCollection<User>(stud.teachers);
             }).Wait();
 
-            
+
             Delete = new Command<User>(async model =>
             {
                 if (await Services.APICalls.DeleteUserAdminAsync(model.email))
@@ -61,12 +80,24 @@ namespace QR_Presence.ViewModels
             GoToNextPage = new Command(async () =>
             {
                 if (SelectedElement != null)
-                    await Application.Current.MainPage.Navigation.PushAsync(new EditProfile{ BindingContext = SelectedElement });
+                    await Application.Current.MainPage.Navigation.PushAsync(new EditProfile { BindingContext = SelectedElement });
             });
 
             GoNewElementPage = new Command(async () =>
             {
                 await Application.Current.MainPage.Navigation.PushAsync(new RegisterPage(false));
+            });
+
+            RefreshCommand = new Command(async () =>
+            {
+                IsRefreshing = true;
+                TeachersAdmin stud = await Services.APICalls.GetProfessorsAdminAsync();
+                ListOf = new ObservableCollection<User>(stud.teachers);
+                OnPropertyChanged(nameof(ListOf));
+                IsRefreshing = false;
+                PageTitle = $"Count {ListOf.Count}";
+
+
             });
 
             PageTitle = $"Count {ListOf.Count}";

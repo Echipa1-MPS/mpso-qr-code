@@ -34,8 +34,27 @@ namespace QR_Presence.ViewModels
             }
         }
 
+        private bool _isRefreshing;
+        public bool IsRefreshing
+        {
+            get
+            {
+                return _isRefreshing;
+            }
+            set
+            {
+                if (_isRefreshing != value)
+                {
+                    _isRefreshing = value;
+                    OnPropertyChanged(nameof(IsRefreshing));
+                }
+            }
+        }
+
         public Command GoToNextPage { get; set; }
         public Command GoNewElementPage { get; set; }
+        public Command RefreshCommand { get; set; }
+
 
 
         public ListOfStudentsViewModel()
@@ -65,6 +84,19 @@ namespace QR_Presence.ViewModels
             GoNewElementPage = new Command(async () =>
             {
                 await Application.Current.MainPage.Navigation.PushAsync(new RegisterPage(false));
+            });
+
+            RefreshCommand = new Command(async () =>
+            {
+                IsRefreshing = true;
+                StudentsAdmin stud = await Services.APICalls.GetStudentsAdminAsync();
+                ListOf = new ObservableCollection<User>(stud.students);
+                OnPropertyChanged(nameof(ListOf));
+                PageTitle = $"Count {ListOf.Count}";
+                OnPropertyChanged(nameof(PageTitle));
+
+                IsRefreshing = false;
+
             });
 
 

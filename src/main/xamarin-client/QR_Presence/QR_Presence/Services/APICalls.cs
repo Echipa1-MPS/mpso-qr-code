@@ -201,6 +201,7 @@ namespace QR_Presence.Services
                 {
                     email = user.email,
                     name = user.name,
+                    surname = user.surname,
                     user_id = user.user_id,
                     group =user.group
                 };

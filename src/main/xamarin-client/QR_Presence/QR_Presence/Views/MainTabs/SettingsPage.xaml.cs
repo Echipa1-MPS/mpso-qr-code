@@ -156,6 +156,8 @@ namespace QR_Presence.Views.MainTabs
             if (Preferences.ContainsKey("Role"))
             {
                 Preferences.Remove("Role");
+                Preferences.Remove("IsLogIn");
+
             }
             Application.Current.MainPage = new NavigationPage(new LoginPage());
         }
