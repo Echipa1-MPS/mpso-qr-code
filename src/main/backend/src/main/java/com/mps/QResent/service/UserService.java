@@ -3,7 +3,6 @@ package com.mps.QResent.service;
 import com.mps.QResent.enums.Role;
 import com.mps.QResent.model.User;
 import com.mps.QResent.repository.UserRepository;
-import net.minidev.json.JSONObject;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -42,6 +41,27 @@ public class UserService implements UserDetailsService {
         return user.orElse(null);
     }
 
+
+    public boolean isValidRole(Role role) {
+        return role == Role.ADMIN || role == Role.TEACHER || role == Role.STUDENT;
+    }
+
+    public boolean areValidCredentials(User user) {
+        if (this.isValidRole(user.getRole())) {
+            if (user.getRole() == Role.STUDENT) {
+                return (!user.getName().isEmpty())
+                        && (!user.getSurname().isEmpty())
+                        && (!user.getGroup().isEmpty())
+                        && (!user.getEmail().isEmpty())
+                        && (!user.getPassword().isEmpty());
+            } else if (user.getRole() == Role.TEACHER) {
+                return (!user.getName().isEmpty())
+                        && (!user.getSurname().isEmpty())
+                        && (!user.getEmail().isEmpty())
+                        && (!user.getPassword().isEmpty());
+            } else return false;
+        } else return false;
+    }
 
     public boolean isPresent(String email) {
         return userRepository.findByEmail(email).isPresent();
@@ -115,10 +135,6 @@ public class UserService implements UserDetailsService {
 
     public List<User> getStudents(Subject subject){
         return userRepository.findAllByRole(Role.STUDENT);
-    }
-
-    public boolean isValidRole(Role role) {
-        return role == Role.ADMIN || role == Role.TEACHER || role == Role.STUDENT;
     }
 
 }
