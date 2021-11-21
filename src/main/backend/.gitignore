@@ -30,7 +30,8 @@ target/
 build/
 !**/src/main/**/build/
 !**/src/test/**/build/
-
+/src/main/xamarin-client
+/src/main/react-client
 ### VS Code ###
 .vscode/
 /src/main/java/com/mps/QResent/runnables/
