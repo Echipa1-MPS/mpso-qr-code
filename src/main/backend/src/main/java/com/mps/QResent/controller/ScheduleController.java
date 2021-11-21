@@ -1,5 +1,6 @@
 package com.mps.QResent.controller;
 
+import com.mps.QResent.helper.Helper;
 import com.mps.QResent.model.QRCode;
 import com.mps.QResent.model.Schedule;
 import com.mps.QResent.model.User;
@@ -24,18 +25,21 @@ public class ScheduleController {
     @Autowired
     QRCodeService qrCodeService;
 
+    //work in progress, needs update after create_qr function
     @GetMapping(path = "/getORUsers/{id}")
     public String getQRListUsers(@PathVariable Long id){
         Schedule schedule = scheduleService.getById(id);
         List<QRCode> qrCodes = qrCodeService.findAllBySchedule(schedule);
         JSONObject jsonObject = new JSONObject();
-        JSONArray jsonArray = new JSONArray();
+        JSONArray jsonArray1 = new JSONArray();
         for(QRCode qrCode: qrCodes){
+            JSONArray jsonArray = new JSONArray();
             for(User user: qrCode.getUsers()){
-                jsonArray.add(UserController.studentJSON(user));
+                jsonArray.add(Helper.studentJSON(user));
             }
+            jsonArray1.add(jsonArray);
         }
-        jsonObject.put("QR", jsonArray);
+        jsonObject.put("QR", jsonArray1);
         return jsonObject.toString();
     }
 }

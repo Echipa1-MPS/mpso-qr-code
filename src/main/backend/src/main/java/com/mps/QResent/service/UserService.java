@@ -95,8 +95,6 @@ public class UserService implements UserDetailsService {
 
 
     public UserSubjectView findUserNextCourses(String name){
-//        return userRepository.findAllByEmail(getCurrentUserEmail());
-        System.out.println(name);
         return userRepository.findAllByEmail(name);
     }
 
@@ -106,7 +104,6 @@ public class UserService implements UserDetailsService {
     }
 
     public Optional<User> findByEmail(String email){
-        System.out.println("in find by email");
         return userRepository.findByEmail(email);
     }
 

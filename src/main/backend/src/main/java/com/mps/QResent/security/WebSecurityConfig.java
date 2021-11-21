@@ -53,6 +53,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().authorizeRequests().antMatchers("api/user/admin/*").hasRole(String.valueOf(Role.ADMIN))
                 .and().authorizeRequests().antMatchers("api/user/student/*").hasRole(String.valueOf(Role.STUDENT))
                 .and().authorizeRequests().antMatchers("api/user/teacher/*").hasRole(String.valueOf(Role.TEACHER))
+                .and().authorizeRequests().antMatchers("api/subject/admin/*").hasRole(String.valueOf(Role.ADMIN))
+                .and().authorizeRequests().antMatchers("api/subject/student/*").hasRole(String.valueOf(Role.STUDENT))
+                .and().authorizeRequests().antMatchers("api/subject/teacher/*").hasRole(String.valueOf(Role.TEACHER))
                 .and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
