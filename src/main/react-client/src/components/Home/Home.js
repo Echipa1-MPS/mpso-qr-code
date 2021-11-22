@@ -1,13 +1,13 @@
 import { useEffect, useState, useContext } from "react";
 import stefan_p from '../../images/avatars/stefan_p.png';
-import { getCourses, 
+import { getCoursesBrief, 
         getProfile,
         getUpcomingCourses } from "../../helpers/apicaller";
 import { ThemeContext } from "../../App";
 
 export default function Home() {
 
-    const [courses, setCourses] = useState({});
+    const [courses, setCourses] = useState([]);
     const [profile, setProfile] = useState({});
     const [upcomingCourses, setUpcomingCourses] = useState([]);
 
@@ -15,7 +15,8 @@ export default function Home() {
 
     useEffect(() => {
         const fetchCourses = async () => {
-            const result = await getCourses();
+            const result = await getCoursesBrief();
+            console.log(result);
             setCourses(result);
         }
         fetchCourses();
@@ -87,7 +88,7 @@ export default function Home() {
                         </div>
                         <div className="white-text-font">
                             { courses.length > 0 && courses.map((course) => {
-                                    return <div style={{fontSize: "1.2rem"}}className="home-courses-item-container light-blue-background" key={course}>{course}</div>
+                                    return <div style={{fontSize: "1.2rem"}}className="home-courses-item-container light-blue-background" key={course.id}>{course.subject}</div>
                                 })}
                             { (!courses || !courses.length) && (<div>No courses available</div>) }
                         </div>
