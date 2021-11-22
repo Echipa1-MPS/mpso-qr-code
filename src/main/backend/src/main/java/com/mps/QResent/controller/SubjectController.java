@@ -3,7 +3,6 @@ package com.mps.QResent.controller;
 import com.mps.QResent.dto.StudentsEnroll;
 import com.mps.QResent.dto.StudentsToEnroll;
 import com.mps.QResent.dto.SubjectDTO;
-import com.mps.QResent.dto.SubjectDTOUpdate;
 import com.mps.QResent.helper.Helper;
 import com.mps.QResent.model.Schedule;
 import com.mps.QResent.model.Subject;
@@ -18,6 +17,7 @@ import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;
@@ -25,6 +25,7 @@ import javax.annotation.security.RolesAllowed;
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -39,13 +40,13 @@ public class SubjectController {
     @Autowired
     private ScheduleService scheduleService;
 
-    @GetMapping(path = "/admin/getAll")
+    @GetMapping(path = "/admin/get-all-subjects")
     @RolesAllowed("ADMIN")
     public List<SubjectView> getAll(){
         return subjectService.getAll();
     }
 
-    @GetMapping(path = "/admin/getAllCourses")
+    @GetMapping(path = "/admin/get-all-courses")
     @RolesAllowed("ADMIN")
     public String getAllCourses(){
         List<SubjectView> subjects = subjectService.getAll();
@@ -65,7 +66,7 @@ public class SubjectController {
         return jsonObject.toString();
     }
 
-    @DeleteMapping(path = "/admin/deleteCourse/{id}")
+    @DeleteMapping(path = "/admin/delete-course/{id}")
     @ResponseStatus(HttpStatus.OK)
     @RolesAllowed("ADMIN")
     public void deleteSubject(@PathVariable Long id){
@@ -73,7 +74,7 @@ public class SubjectController {
         subject.ifPresent(value -> subjectService.delete(value));
     }
 
-    @PostMapping(path = "/admin/createCourse")
+    @PostMapping(path = "/admin/create-course")
     @RolesAllowed("ADMIN")
     public Long createSubject(@RequestBody SubjectDTO subjectDTO) {
         Subject subject = new Subject();
@@ -88,31 +89,46 @@ public class SubjectController {
         return subject.getId();
     }
 
-    //TODO make like Carmina in UserController with switch
-    @PostMapping(path = "/admin/updateCourse")
+    @PostMapping(path = "/admin/update-course")
     @ResponseStatus(HttpStatus.OK)
     @RolesAllowed("ADMIN")
-    public void updateSubject(@RequestBody SubjectDTOUpdate subjectDTO){
-        Optional<Subject> subject = subjectService.findById(subjectDTO.getId());
-        if(subject.isPresent()){
-            if(subjectDTO.getDesc() != null){
-                subject.get().setInfoSubject(subjectDTO.getDesc());
+    public ResponseEntity<?> updateSubject(@RequestBody Map<String, Object> request){
+        try {
+            if (request.get("course_id") != null) {
+                Optional<Subject> subject = subjectService.findById((Long) request.get("course_id"));
+                for (Map.Entry<String, Object> entry : request.entrySet()) {
+                    switch (entry.getKey()) {
+                        case "course_id":
+                            continue;
+                        case "nameC":
+                            subject.ifPresent(value -> value.setName((String) request.get("nameC")));
+                            continue;
+                        case "idProfessor":
+                            Optional<User> user = userService.findByIdOptional((Long) request.get("course_id"));
+                            user.ifPresent(value -> subject.ifPresent(value1->value1.getUsers().add(value)));
+                            user.ifPresent(value -> userService.save(value));
+                            continue;
+                        case "desc":
+                            subject.ifPresent(value -> value.setInfoSubject((String) request.get("desc")));
+                            continue;
+                        case "grading":
+                            subject.ifPresent(value -> value.setGradingSubject((String) request.get("grading")));
+                            continue;
+                        default:
+                            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("The specified key cannot be modified.");
+                    }
+                }
+                subject.ifPresent(value -> subjectService.save(value));
+                return ResponseEntity.status(HttpStatus.OK).body("The course has been successfully updated!");
+            } else {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Missing the course ID!");
             }
-            if(subjectDTO.getGrading()!= null){
-                subject.get().setGradingSubject(subjectDTO.getGrading());
-            }
-            if(subjectDTO.getNameC() != null){
-                subject.get().setName(subjectDTO.getNameC());
-            }
-            if(subjectDTO.getIdProfessor()!= null){
-                Optional<User> user = userService.findByIdOptional(subjectDTO.getId());
-                user.ifPresent(value -> subject.get().getUsers().add(value));
-            }
-            subjectService.save(subject.get());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
 
-    @PostMapping(path = "/admin/enrollStudents")
+    @PostMapping(path = "/admin/enroll-students")
     @ResponseStatus(HttpStatus.OK)
     @RolesAllowed("ADMIN")
     public void enrollStudents(@RequestBody StudentsEnroll studentsEnroll){
@@ -191,6 +207,4 @@ public class SubjectController {
         jsonObject.put("courses_enrolled", courses_enrolled);
         return jsonObject.toString();
     }
-
-
 }

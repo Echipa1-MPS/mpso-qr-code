@@ -11,7 +11,7 @@ public class KeyQr {
     private Long id;
 
     @Column(name = "key_qr_value")
-    private String keyValue;
+    private Integer keyValue;
 
     @OneToOne(mappedBy = "keyQr", cascade = CascadeType.PERSIST)
     private Subject subject;
@@ -29,11 +29,11 @@ public class KeyQr {
         this.id = id;
     }
 
-    public String getKeyValue() {
+    public Integer getKeyValue() {
         return keyValue;
     }
 
-    public void setKeyValue(String keyValue) {
+    public void setKeyValue(Integer keyValue) {
         this.keyValue = keyValue;
     }
 

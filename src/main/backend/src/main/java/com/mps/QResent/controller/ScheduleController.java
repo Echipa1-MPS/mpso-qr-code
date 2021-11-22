@@ -26,7 +26,7 @@ public class ScheduleController {
     QRCodeService qrCodeService;
 
     //work in progress, needs update after create_qr function
-    @GetMapping(path = "/getORUsers/{id}")
+    @GetMapping(path = "/get-qr-users/{id}")
     public String getQRListUsers(@PathVariable Long id){
         Schedule schedule = scheduleService.getById(id);
         List<QRCode> qrCodes = qrCodeService.findAllBySchedule(schedule);
