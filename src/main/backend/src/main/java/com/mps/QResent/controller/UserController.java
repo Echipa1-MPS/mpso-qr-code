@@ -15,6 +15,19 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;
+
+import com.mps.QResent.model.Schedule;
+import com.mps.QResent.model.Subject;
+import com.mps.QResent.projection.ScheduleSubjectView;
+import com.mps.QResent.projection.SubjectView;
+import com.mps.QResent.projection.UserSubjectView;
+import com.mps.QResent.service.ScheduleService;
+import net.minidev.json.JSONArray;
+
+
+import java.time.DayOfWeek;
+import java.time.LocalDateTime;
+
 import java.util.*;
 
 @RestController
@@ -22,10 +35,10 @@ import java.util.*;
 public class UserController {
     @Autowired
     private UserService userService;
-    @Autowired
-    private SubjectService subjectService;
+
     @Autowired
     private PasswordEncoder passwordEncoder;
+
     @Autowired
     private Jwt jwt;
 
@@ -69,6 +82,7 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
+
 
     @PatchMapping(path = "/admin/update-user")
     @RolesAllowed("ADMIN")
@@ -193,4 +207,5 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
+
 }

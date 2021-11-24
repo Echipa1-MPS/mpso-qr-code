@@ -1,7 +1,11 @@
 package com.mps.QResent.model;
 
 import javax.persistence.*;
-import java.util.Date;
+
+import java.time.DayOfWeek;
+import java.time.LocalTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "schedules")
@@ -12,10 +16,20 @@ public class Schedule {
     private Long id;
 
     @Column(name = "date")
-    private Date date;
+    private DayOfWeek day;
 
-    @ManyToOne()
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "subject_id")
     private Subject subject;
+
+    @Column(name = "duration")
+    private Integer length;
+
+    @Column(name = "start_hour")
+    private LocalTime startTime;
+
+    @OneToMany(mappedBy = "schedule")
+    private Set<QRCode> qrCodes = new HashSet<>();
 
     public Schedule() {
     }
@@ -28,12 +42,29 @@ public class Schedule {
         this.id = id;
     }
 
-    public Date getDate() {
-        return date;
+
+    public DayOfWeek getDay() {
+        return day;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setDay(DayOfWeek day) {
+        this.day = day;
+    }
+
+    public Integer getLength() {
+        return length;
+    }
+
+    public void setLength(Integer length) {
+        this.length = length;
+    }
+
+    public LocalTime getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(LocalTime startTime) {
+        this.startTime = startTime;
     }
 
     public Subject getSubject() {
@@ -43,4 +74,13 @@ public class Schedule {
     public void setSubject(Subject subject) {
         this.subject = subject;
     }
+
+    public Set<QRCode> getQrCodes() {
+        return qrCodes;
+    }
+
+    public void setQrCodes(Set<QRCode> qrCodes) {
+        this.qrCodes = qrCodes;
+    }
+
 }

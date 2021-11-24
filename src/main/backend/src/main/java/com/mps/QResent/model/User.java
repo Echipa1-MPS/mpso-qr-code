@@ -3,6 +3,8 @@ package com.mps.QResent.model;
 import com.mps.QResent.enums.Role;
 
 import javax.persistence.*;
+
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -25,6 +27,7 @@ public class User {
     @Column(name = "group_label")
     private String group;
 
+
     @Column(name = "role")
     private Role role;
 
@@ -34,15 +37,31 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(
             name = "user_subject",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "subject_id")}
     )
-    private Set<Subject> subjects;
+    private Set<Subject> subjects = new HashSet<>();
+
+    @ManyToMany(cascade = CascadeType.PERSIST)
+    @JoinTable(
+            name = "presence",
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "qr_code_id")}
+    )
+    private Set<QRCode> qrCodes = new HashSet<>();
 
     public User() {
+    }
+
+    public Set<QRCode> getQrCodes() {
+        return qrCodes;
+    }
+
+    public void setQrCodes(Set<QRCode> qrCodes) {
+        this.qrCodes = qrCodes;
     }
 
     public Set<Subject> getSubjects() {
