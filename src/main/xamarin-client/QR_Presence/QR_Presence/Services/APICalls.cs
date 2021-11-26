@@ -13,9 +13,11 @@ namespace QR_Presence.Services
 {
     public static class APICalls
     {
-
         public static string BaseUrlAuth = "http://ec2-3-18-103-144.us-east-2.compute.amazonaws.com:8080/api/user/authentication/";
         public static string BaseUrlAdmin = "http://ec2-3-18-103-144.us-east-2.compute.amazonaws.com:8080/api/user/admin/";
+
+        public static string BaseUrlSubject = "http://ec2-3-18-103-144.us-east-2.compute.amazonaws.com:8080/api/subject/";
+        public static string BaseUrlSubjectAdmin = "http://ec2-3-18-103-144.us-east-2.compute.amazonaws.com:8080/api/subject/admin/";
 
         public async static Task<bool> RegisterUser(User user, string password)
         {
@@ -44,7 +46,7 @@ namespace QR_Presence.Services
                     {
                         Preferences.Remove("Role");
                     }
-                        await DatabaseConnection.DeleteAllUsers();
+                    await DatabaseConnection.DeleteAllUsers();
 
                     Preferences.Set("Role", $"{user.Privilege}");
                     await DatabaseConnection.AddUser(user);
@@ -122,7 +124,7 @@ namespace QR_Presence.Services
                 if (response.IsSuccessStatusCode)
                 {
                     string content = await response.Content.ReadAsStringAsync();
-                    
+
                     Items = JsonConvert.DeserializeObject<StudentsAdmin>(content);
                 }
 
@@ -188,7 +190,7 @@ namespace QR_Presence.Services
             }
         }
 
-        public async static Task<bool> UpdateUserAdminAsync(User user) 
+        public async static Task<bool> UpdateUserAdminAsync(User user)
         {
             using (var c = new HttpClient())
             {
@@ -203,7 +205,7 @@ namespace QR_Presence.Services
                     name = user.name,
                     surname = user.surname,
                     user_id = user.user_id,
-                    group =user.group
+                    group = user.group
                 };
 
                 var serializedJsonRequest = JsonConvert.SerializeObject(jsonRequest);
@@ -249,7 +251,7 @@ namespace QR_Presence.Services
 
                 var serializedJsonRequest = JsonConvert.SerializeObject(jsonRequest);
                 HttpContent content = new StringContent(serializedJsonRequest, Encoding.UTF8, "application/json");
-                
+
                 var response = await client.PostAsync(new Uri(BaseUrlAdmin + "add-user"), content);
 
                 if (response.IsSuccessStatusCode)
@@ -260,6 +262,143 @@ namespace QR_Presence.Services
                 return false;
             }
         }
+
+        public async static Task<GetCoursesModel> GetAllCourses()
+        {
+
+            using (var c = new HttpClient())
+            {
+                HttpClient client = new HttpClient();
+                var authHeader = new AuthenticationHeaderValue("Bearer", await SecureStorage.GetAsync("oauth_token"));
+
+                client.DefaultRequestHeaders.Authorization = authHeader;
+
+                var response = await client.GetAsync(new Uri(BaseUrlSubjectAdmin + "get-all-courses"));
+
+                GetCoursesModel Items = new GetCoursesModel();
+                if (response.IsSuccessStatusCode)
+                {
+                    string content = await response.Content.ReadAsStringAsync();
+
+                    Items = JsonConvert.DeserializeObject<GetCoursesModel>(content);
+                }
+
+                return Items;
+            }
+        }
+
+        public async static Task<bool> CreateCourse(CourseInfoModel course, int Id_Professor)
+        {
+            using (var c = new HttpClient())
+            {
+                HttpClient client = new HttpClient();
+                var authHeader = new AuthenticationHeaderValue("Bearer", await SecureStorage.GetAsync("oauth_token"));
+
+                client.DefaultRequestHeaders.Authorization = authHeader;
+
+                var jsonRequest = new
+                {
+                    nameC = course.Name_C,
+                    idProfessor = Id_Professor,
+                    desc = course.Desc,
+                    grading = course.Grading
+                };
+
+                var serializedJsonRequest = JsonConvert.SerializeObject(jsonRequest);
+                HttpContent content = new StringContent(serializedJsonRequest, Encoding.UTF8, "application/json");
+
+                var response = await client.PostAsync(new Uri(BaseUrlSubjectAdmin + "create-course"), content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return true;
+                }
+
+                return false;
+            }
+        }
+
+        public async static Task<bool> UpdateCourseAdminAsync(CourseInfoModel course, int Id_Professor)
+        {
+            using (var c = new HttpClient())
+            {
+                HttpClient client = new HttpClient();
+                var authHeader = new AuthenticationHeaderValue("Bearer", await SecureStorage.GetAsync("oauth_token"));
+
+                client.DefaultRequestHeaders.Authorization = authHeader;
+
+                var jsonRequest = new
+                {
+                    id = course.Id_Course,
+                    nameC = course.Name_C,
+                    idProfessor = Id_Professor,
+                    desc = course.Desc,
+                    grading = course.Grading
+                };
+
+                var serializedJsonRequest = JsonConvert.SerializeObject(jsonRequest);
+                HttpContent content = new StringContent(serializedJsonRequest, Encoding.UTF8, "application/json");
+
+                var response = await client.PostAsync(new Uri(BaseUrlSubjectAdmin + "update-course"), content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return true;
+                }
+
+                return false;
+            }
+        }
+
+        public async static Task<bool> DeleteCourseAdminAsync(int id_course)
+        {
+            using (var c = new HttpClient())
+            {
+                HttpClient client = new HttpClient();
+                var authHeader = new AuthenticationHeaderValue("Bearer", await SecureStorage.GetAsync("oauth_token"));
+
+                client.DefaultRequestHeaders.Authorization = authHeader;
+
+                HttpRequestMessage request = new HttpRequestMessage
+                {
+                    Method = HttpMethod.Delete,
+                    RequestUri = new Uri(BaseUrlSubjectAdmin + "delete-course/" + id_course + "\n")
+                };
+
+                var response = await client.SendAsync(request);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return true;
+                }
+
+                return false;
+            }
+        }
+
+        public async static Task<bool> EnroleStudentsAdminAsync(EnrolleStudents student_to_enrolle)
+        {
+            using (var c = new HttpClient())
+            {
+                HttpClient client = new HttpClient();
+                var authHeader = new AuthenticationHeaderValue("Bearer", await SecureStorage.GetAsync("oauth_token"));
+
+                client.DefaultRequestHeaders.Authorization = authHeader;
+
+                var serializedJsonRequest = JsonConvert.SerializeObject(student_to_enrolle);
+                HttpContent content = new StringContent(serializedJsonRequest, Encoding.UTF8, "application/json");
+
+                var response = await client.PostAsync(new Uri(BaseUrlSubjectAdmin + "enroll-students"), content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return true;
+                }
+
+                return false;
+            }
+        }
+
 
     }
 }

@@ -80,7 +80,7 @@
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
 
-                                    <Label Text="{Binding FullName}"
+                                <Label Text="{Binding MainTitle}"
                                        Grid.Row="0"
                                        FontAttributes="Bold"
                                        FontSize="Medium"
@@ -158,7 +158,7 @@
                                     BorderColor="{StaticResource AccentYellow}"
                                     BorderWidth="2"
                                     TextColor="{StaticResource AccentYellow}"
-                                    Clicked="Button_Clicked"
+                                    Clicked="Button_Clicked_1"
                                     CornerRadius="15" />
 
                         </Grid>

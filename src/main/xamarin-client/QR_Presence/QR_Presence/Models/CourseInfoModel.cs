@@ -13,7 +13,7 @@ namespace QR_Presence.Models
         public string Desc { get; set; }
         public string Grading { get; set; }
         public List<IntervalModel> Intervals { get; set; }
-        public string MainTitle => $"{Name_C}";
+        public string MainTitle => $"{Id_Course} {Name_C}";
         public string SecondTitle => $"{Professor}";
         public string Icon1 => "course.png";
         public string Icon2 => "chalkboard-teacher";
