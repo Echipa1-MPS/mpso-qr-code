@@ -27,6 +27,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 @RestController
 @RequestMapping(path = "/subject")
@@ -69,9 +70,21 @@ public class SubjectController {
     @DeleteMapping(path = "/admin/delete-course/{id}")
     @ResponseStatus(HttpStatus.OK)
     @RolesAllowed("ADMIN")
-    public void deleteSubject(@PathVariable Long id){
+    public ResponseEntity<?> deleteSubject(@PathVariable Long id){
         Optional<Subject> subject = subjectService.findById(id);
-        subject.ifPresent(value -> subjectService.delete(value));
+        try {
+            if(subject.isPresent()){
+                Set<User> users = subject.get().getUsers();
+                for(User user: users){
+                    user.getSubjects().remove(subject.get());
+                    userService.save(user);
+                }
+            }
+            subject.ifPresent(value -> subjectService.delete(value));
+            return ResponseEntity.status(HttpStatus.OK).body("Deleted successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
     }
 
     @PostMapping(path = "/admin/create-course")
@@ -85,6 +98,8 @@ public class SubjectController {
         if(userService.findByIdOptional(subjectDTO.getIdProfessor()).isPresent()){
             subject.getUsers().add(userService.findByIdOptional(subjectDTO.getIdProfessor()).get());
             subjectService.save(subject);
+            userService.findByIdOptional(subjectDTO.getIdProfessor()).get().getSubjects().add(subject);
+            userService.save(userService.findByIdOptional(subjectDTO.getIdProfessor()).get());
         }
         return subject.getId();
     }
@@ -131,7 +146,7 @@ public class SubjectController {
     @PostMapping(path = "/admin/enroll-students")
     @ResponseStatus(HttpStatus.OK)
     @RolesAllowed("ADMIN")
-    public void enrollStudents(@RequestBody StudentsEnroll studentsEnroll){
+    public ResponseEntity<?> enrollStudents(@RequestBody StudentsEnroll studentsEnroll){
         Optional<Subject> subject = subjectService.findById(studentsEnroll.getId_course());
         if(subject.isPresent()){
             for (StudentsToEnroll student: studentsEnroll.getStudents_to_enroll()){
@@ -144,6 +159,7 @@ public class SubjectController {
                 }
             }
         }
+        return ResponseEntity.status(HttpStatus.OK).body("Students were added successfully");
     }
 
     @GetMapping(path = "/get-subjects-for-current-user")
