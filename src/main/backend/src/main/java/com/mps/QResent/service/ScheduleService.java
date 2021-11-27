@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.DayOfWeek;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ScheduleService {
@@ -19,6 +20,10 @@ public class ScheduleService {
 
     public void save(Schedule schedule){
         scheduleRepository.save(schedule);
+    }
+
+    public Optional<Schedule> findById(Long id) {
+        return this.scheduleRepository.findById(id);
     }
 
     public List<ScheduleSubjectView> getNextSubjects(DayOfWeek day, Long subjectId){

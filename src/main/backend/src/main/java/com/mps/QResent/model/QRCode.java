@@ -3,7 +3,7 @@ package com.mps.QResent.model;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -17,11 +17,11 @@ public class QRCode {
 
     @Column(name = "date")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date date;
+    private Timestamp date;
 
     @Column(name = "date_finish")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date dateFinish;
+    private Timestamp dateFinish;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "schedule_id")
@@ -59,11 +59,11 @@ public class QRCode {
         this.id = id;
     }
 
-    public Date getDate() {
+    public Timestamp getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(Timestamp date) {
         this.date = date;
     }
 
@@ -75,11 +75,11 @@ public class QRCode {
         this.schedule = schedules;
     }
 
-    public Date getDateFinish() {
+    public Timestamp getDateFinish() {
         return dateFinish;
     }
 
-    public void setDateFinish(Date dateFinish) {
+    public void setDateFinish(Timestamp dateFinish) {
         this.dateFinish = dateFinish;
     }
 }

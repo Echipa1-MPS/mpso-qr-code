@@ -3,7 +3,6 @@ package com.mps.QResent.controller;
 import com.mps.QResent.enums.Role;
 import com.mps.QResent.model.User;
 import com.mps.QResent.security.Jwt;
-import com.mps.QResent.service.SubjectService;
 import com.mps.QResent.service.UserService;
 import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,18 +14,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;
-
-import com.mps.QResent.model.Schedule;
-import com.mps.QResent.model.Subject;
-import com.mps.QResent.projection.ScheduleSubjectView;
-import com.mps.QResent.projection.SubjectView;
-import com.mps.QResent.projection.UserSubjectView;
-import com.mps.QResent.service.ScheduleService;
-import net.minidev.json.JSONArray;
-
-
-import java.time.DayOfWeek;
-import java.time.LocalDateTime;
 
 import java.util.*;
 

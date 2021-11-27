@@ -7,8 +7,10 @@ import com.mps.QResent.projection.ScheduleSubjectView;
 
 import java.time.DayOfWeek;
 import java.util.List;
+import java.util.Optional;
 
 public interface ScheduleRepository extends JpaRepository<Schedule,Long> {
     List<ScheduleSubjectView> findAllByDayAfterAndSubject_Id(DayOfWeek day, Long id);
     List<ScheduleSubjectView> findAllBySubject(Subject subject);
+    Optional<Schedule> findById(Long id);
 }
