@@ -96,7 +96,6 @@ public class SubjectController {
         subject.setGradingSubject(subjectDTO.getGrading());
         subjectService.save(subject);
         if(userService.findByIdOptional(subjectDTO.getIdProfessor()).isPresent()){
-            System.out.println(userService.findByIdOptional(subjectDTO.getIdProfessor()).get().getId());
             subject.getUsers().add(userService.findByIdOptional(subjectDTO.getIdProfessor()).get());
             subjectService.save(subject);
             userService.findByIdOptional(subjectDTO.getIdProfessor()).get().getSubjects().add(subject);
