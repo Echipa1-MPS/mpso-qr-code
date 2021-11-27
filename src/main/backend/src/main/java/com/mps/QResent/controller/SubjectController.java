@@ -58,7 +58,7 @@ public class SubjectController {
             jsonObject1.put("Id_Course",subject.getId());
             jsonObject1.put("Name_C", subject.getName());
             subjectService.findById(subject.getId()).ifPresent(value -> jsonObject1.put("Id_Professor", userService.getProfId(value)));
-//            subjectService.findById(subject.getId()).ifPresent(value -> jsonObject1.put("Id_Professor", userService.getProf(value)));
+            subjectService.findById(subject.getId()).ifPresent(value -> jsonObject1.put("Id_Professor", userService.getProf(value)));
             jsonObject1.put("Desc", subject.getInfoSubject());
             jsonObject1.put("Grading", subject.getGradingSubject());
             jsonArray.add(jsonObject1);
