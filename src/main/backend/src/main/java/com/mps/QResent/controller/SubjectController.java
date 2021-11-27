@@ -24,10 +24,7 @@ import javax.annotation.security.RolesAllowed;
 
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @RestController
 @RequestMapping(path = "/subject")
@@ -110,7 +107,8 @@ public class SubjectController {
     public ResponseEntity<?> updateSubject(@RequestBody Map<String, Object> request){
         try {
             if (request.get("course_id") != null) {
-                Optional<Subject> subject = subjectService.findById((Long) request.get("course_id"));
+                Long course_id = Long.valueOf((Integer)request.get("course_id"));
+                Optional<Subject> subject = subjectService.findById(course_id);
                 for (Map.Entry<String, Object> entry : request.entrySet()) {
                     switch (entry.getKey()) {
                         case "course_id":
@@ -119,7 +117,7 @@ public class SubjectController {
                             subject.ifPresent(value -> value.setName((String) request.get("nameC")));
                             continue;
                         case "idProfessor":
-                            Optional<User> user = userService.findByIdOptional((Long) request.get("course_id"));
+                            Optional<User> user = userService.findByIdOptional(course_id);
                             user.ifPresent(value -> subject.ifPresent(value1->value1.getUsers().add(value)));
                             user.ifPresent(value -> userService.save(value));
                             continue;
@@ -162,19 +160,29 @@ public class SubjectController {
         return ResponseEntity.status(HttpStatus.OK).body("Students were added successfully");
     }
 
-    @GetMapping(path = "/get-subjects-for-current-user")
+    @GetMapping(path = "/get-next-courses-for-current-user")
     public String getSubjects() {
         UserSubjectView userSubjectView = userService.findUserNextCourses(userService.getCurrentUserEmail());
         JSONArray jsonArray = new JSONArray();
+        ArrayList<DayOfWeek> dayOfWeeks = new ArrayList<>();
+        DayOfWeek today = LocalDateTime.now().getDayOfWeek();
+        int nextDay;
+        for(int i = 0; i < 3; i++){
+            dayOfWeeks.add(today);
+            nextDay = ((today.getValue() + 1) <= 7)? (today.getValue() + 1): 1;
+            today = DayOfWeek.of(nextDay);
+        }
         for(SubjectView subjectView: userSubjectView.getSubjects()){
-            System.out.println(DayOfWeek.from(LocalDateTime.now()));
-            for(ScheduleSubjectView subjectView1: scheduleService.getNextSubjects(DayOfWeek.MONDAY, subjectView.getId())){
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.put("CourseName", subjectView1.getSubject().getName());
-                jsonObject.put("day", subjectView1.getDay());
-                jsonObject.put("length", subjectView1.getLength());
-                jsonObject.put("startTime", subjectView1.getStartTime());
-                jsonArray.add(jsonObject);
+
+            for(DayOfWeek day : dayOfWeeks) {
+                for (ScheduleSubjectView subjectView1 : scheduleService.getNextSubjects(day, subjectView.getId())) {
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("CourseName", subjectView1.getSubject().getName());
+                    jsonObject.put("day", subjectView1.getDay());
+                    jsonObject.put("length", subjectView1.getLength());
+                    jsonObject.put("startTime", subjectView1.getStartTime());
+                    jsonArray.add(jsonObject);
+                }
             }
         }
         JSONObject jsonObject = new JSONObject();
