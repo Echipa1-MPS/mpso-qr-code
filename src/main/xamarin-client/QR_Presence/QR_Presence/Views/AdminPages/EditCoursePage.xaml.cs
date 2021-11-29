@@ -15,7 +15,11 @@ namespace QR_Presence.Views.AdminPages
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class EditCoursePage : ContentPage
     {
-        public ObservableCollection<User> ListOf { get; set; } 
+        public ObservableCollection<User> ListOf { get; set; }
+
+        public ObservableCollection<User> Professors { get; set; }
+        public User Professor { get; set; }
+
         public List<Student> Students_Selected { get; set; }
         public int SelectedItemsNumber { get; set; }
         public CourseInfoModel Course { get; set; }
@@ -28,7 +32,12 @@ namespace QR_Presence.Views.AdminPages
             Task.Run(async () =>
             {
                 StudentsAdmin stud = await Services.APICalls.GetStudentsAdminAsync();
+                TeachersAdmin prof = await Services.APICalls.GetProfessorsAdminAsync();
+
                 ListOf = new ObservableCollection<User>(stud.students);
+                Professors = new ObservableCollection<User>(prof.teachers);
+
+
             }).Wait();
 
             Course = new CourseInfoModel();
@@ -43,7 +52,12 @@ namespace QR_Presence.Views.AdminPages
             Task.Run(async () =>
             {
                 StudentsAdmin stud = await Services.APICalls.GetStudentsAdminAsync();
+                TeachersAdmin prof = await Services.APICalls.GetProfessorsAdminAsync();
+
                 ListOf = new ObservableCollection<User>(stud.students);
+                Professors = new ObservableCollection<User>(prof.teachers);
+
+                Professor = prof.teachers.Find(x => x.MainTitleID == course.Id_Professor);
             }).Wait();
 
             Course = course;
@@ -73,13 +87,17 @@ namespace QR_Presence.Views.AdminPages
             bool isok2 = false;
 
             if (IsUpdate)
-                isok1 = await Services.APICalls.UpdateCourseAdminAsync(Course, 2);
+                isok1 = await Services.APICalls.UpdateCourseAdminAsync(Course, Professor.user_id);
             else
-                isok1 = await Services.APICalls.CreateCourse(Course, 2);
+                isok1 = await Services.APICalls.CreateCourseAdminAsync(Course, Professor.user_id);
 
-            if (Students_Selected.Count != 0)
-                isok2 = await Services.APICalls.EnroleStudentsAdminAsync(new EnrolleStudents { id_course = Course.Id_Course, students_to_enroll = Students_Selected});
-            
+            if ( Students_Selected?.Count != 0)
+                isok2 = await Services.APICalls.EnroleStudentsAdminAsync(new EnrolleStudents { id_course = Course.Id_Course, students_to_enroll = Students_Selected });
+            if (Students_Selected == null)
+            {
+                isok2 = true;
+            }
+
             if (isok1 && isok2)
                 await Navigation.PopAsync();
             else

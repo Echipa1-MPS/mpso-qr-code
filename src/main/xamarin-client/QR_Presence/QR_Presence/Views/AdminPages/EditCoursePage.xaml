@@ -37,9 +37,13 @@
                            Placeholder="Course Name"/>
                 </Frame>
                 <Frame Style="{StaticResource FrameAddNews}" Grid.Column="1">
-                    <Entry Text="{Binding Course.Professor}" 
-                           Style="{StaticResource EntryStyle }" 
-                           Placeholder="Professor Name"/>
+                    <Picker x:Name="ProfessorPicker" Grid.Column="1" 
+                                Title="Role"
+                                TextColor="{AppThemeBinding Light={StaticResource BackgroundDark}, Dark={StaticResource BackgroundLight}}"
+                                ItemsSource="{Binding Professors}"
+                                ItemDisplayBinding="{Binding MainTitle}"
+                                SelectedItem="{Binding Professor}" />
+
                 </Frame>
                 <Frame Style="{StaticResource FrameAddNews}" Grid.Row="1" Grid.ColumnSpan="2">
                     <Editor Text="{Binding Course.Desc}" 

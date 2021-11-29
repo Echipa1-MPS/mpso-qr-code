@@ -63,7 +63,7 @@ namespace QR_Presence.ViewModels
 
             Task.Run(async () =>
             {
-                GetCoursesModel cour = await Services.APICalls.GetAllCourses();
+                GetCoursesModel cour = await Services.APICalls.GetAllCoursesAdminAsync();
                 ListOf = new ObservableCollection<CourseInfoModel>(cour.Courses);
             }).Wait();
 
@@ -92,7 +92,7 @@ namespace QR_Presence.ViewModels
             RefreshCommand = new Command(async () =>
             {
                 IsRefreshing = true;
-                GetCoursesModel cour = await Services.APICalls.GetAllCourses();
+                GetCoursesModel cour = await Services.APICalls.GetAllCoursesAdminAsync();
                 ListOf = new ObservableCollection<CourseInfoModel>(cour.Courses);
                 OnPropertyChanged(nameof(ListOf));
                 IsRefreshing = false;

@@ -17,6 +17,8 @@ namespace QR_Presence.Models.APIModels
         public int Privilege { get;set; }
 
         public string MainTitle => $"{user_id} {name} {surname} ";
+        public string MainTitleID => $"{name}{surname}";
+
         public string SecondTitle => $"{email}";
         public string EndTitle => $"{group}";
         public string Icon1 => "profilem.png";

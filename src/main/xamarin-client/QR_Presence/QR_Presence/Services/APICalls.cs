@@ -13,11 +13,15 @@ namespace QR_Presence.Services
 {
     public static class APICalls
     {
+        #region URLs
         public static string BaseUrlAuth = "http://ec2-3-18-103-144.us-east-2.compute.amazonaws.com:8080/api/user/authentication/";
         public static string BaseUrlAdmin = "http://ec2-3-18-103-144.us-east-2.compute.amazonaws.com:8080/api/user/admin/";
 
         public static string BaseUrlSubject = "http://ec2-3-18-103-144.us-east-2.compute.amazonaws.com:8080/api/subject/";
         public static string BaseUrlSubjectAdmin = "http://ec2-3-18-103-144.us-east-2.compute.amazonaws.com:8080/api/subject/admin/";
+        #endregion URLs
+
+        #region Login/Register
 
         public async static Task<bool> RegisterUser(User user, string password)
         {
@@ -108,6 +112,9 @@ namespace QR_Presence.Services
                 return false;
             }
         }
+        #endregion Login/Register
+
+        #region Admin
 
         public async static Task<StudentsAdmin> GetStudentsAdminAsync()
         {
@@ -263,7 +270,7 @@ namespace QR_Presence.Services
             }
         }
 
-        public async static Task<GetCoursesModel> GetAllCourses()
+        public async static Task<GetCoursesModel> GetAllCoursesAdminAsync()
         {
 
             using (var c = new HttpClient())
@@ -287,7 +294,7 @@ namespace QR_Presence.Services
             }
         }
 
-        public async static Task<bool> CreateCourse(CourseInfoModel course, int Id_Professor)
+        public async static Task<bool> CreateCourseAdminAsync(CourseInfoModel course, int Id_Professor)
         {
             using (var c = new HttpClient())
             {
@@ -329,7 +336,7 @@ namespace QR_Presence.Services
 
                 var jsonRequest = new
                 {
-                    id = course.Id_Course,
+                    course_id = course.Id_Course,
                     nameC = course.Name_C,
                     idProfessor = Id_Professor,
                     desc = course.Desc,
@@ -398,7 +405,12 @@ namespace QR_Presence.Services
                 return false;
             }
         }
+        #endregion Admin
 
+        #region Student
+
+
+        #endregion Student
 
     }
 }
