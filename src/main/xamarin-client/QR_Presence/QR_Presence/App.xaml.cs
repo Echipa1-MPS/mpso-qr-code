@@ -18,7 +18,7 @@ namespace QR_Presence
             string role = Preferences.Get("Role", "");
 
 
-            if (string.IsNullOrEmpty(isLogIn))
+            if (string.IsNullOrEmpty(role))
                 MainPage = new NavigationPage(new LoginPage());
             else if (role == "0")
                 MainPage = new NavigationPage(new Views.AdminPages.AdminTabbedPage());

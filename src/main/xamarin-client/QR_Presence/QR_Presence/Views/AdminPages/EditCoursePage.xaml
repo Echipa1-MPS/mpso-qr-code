@@ -32,16 +32,32 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Frame Style="{StaticResource FrameAddNews}">
-                    <Entry Text="{Binding Course.Name_C}" TextColor="{AppThemeBinding Dark={StaticResource BackgroundLight}, Light={StaticResource BackgroundDark}}" Placeholder="Course Name"/>
+                    <Entry Text="{Binding Course.Name_C}" 
+                           Style="{StaticResource EntryStyle }" 
+                           Placeholder="Course Name"/>
                 </Frame>
                 <Frame Style="{StaticResource FrameAddNews}" Grid.Column="1">
-                    <Entry Text="{Binding Course.Professor}" TextColor="{AppThemeBinding Dark={StaticResource BackgroundLight}, Light={StaticResource BackgroundDark}}"  Placeholder="Professor Name"/>
+                    <Picker x:Name="ProfessorPicker" Grid.Column="1" 
+                                Title="Role"
+                                TextColor="{AppThemeBinding Light={StaticResource BackgroundDark}, Dark={StaticResource BackgroundLight}}"
+                                ItemsSource="{Binding Professors}"
+                                ItemDisplayBinding="{Binding MainTitle}"
+                                SelectedItem="{Binding Professor}" />
+
                 </Frame>
                 <Frame Style="{StaticResource FrameAddNews}" Grid.Row="1" Grid.ColumnSpan="2">
-                    <Editor Text="{Binding Course.Desc}" TextColor="{AppThemeBinding Dark={StaticResource BackgroundLight}, Light={StaticResource BackgroundDark}}" Placeholder="Description" Grid.Row="1" Grid.ColumnSpan="2" HeightRequest="120"/>
+                    <Editor Text="{Binding Course.Desc}" 
+                            Style="{StaticResource EntryStyle }" 
+                            Placeholder="Description" 
+                            Grid.Row="1" Grid.ColumnSpan="2" 
+                            HeightRequest="120"/>
                 </Frame>
                 <Frame Style="{StaticResource FrameAddNews}" Grid.Row="2" Grid.ColumnSpan="2">
-                    <Editor Text="{Binding Course.Grading}" TextColor="{AppThemeBinding Dark={StaticResource BackgroundLight}, Light={StaticResource BackgroundDark}}" Placeholder="Minimal Grading" Grid.Row="2" Grid.ColumnSpan="2"  HeightRequest="120"/>
+                    <Editor Text="{Binding Course.Grading}" 
+                            Style="{StaticResource EntryStyle }" 
+                            Placeholder="Minimal Grading" 
+                            Grid.Row="2" Grid.ColumnSpan="2"  
+                            HeightRequest="120"/>
                 </Frame>
             </Grid>
 
@@ -68,7 +84,7 @@
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
 
-                                    <Label Text="{Binding FullName}"
+                                <Label Text="{Binding MainTitle}"
                                        Grid.Row="0"
                                        FontAttributes="Bold"
                                        FontSize="Medium"
@@ -146,7 +162,7 @@
                                     BorderColor="{StaticResource AccentYellow}"
                                     BorderWidth="2"
                                     TextColor="{StaticResource AccentYellow}"
-                                    Clicked="Button_Clicked"
+                                    Clicked="Button_Clicked_1"
                                     CornerRadius="15" />
 
                         </Grid>

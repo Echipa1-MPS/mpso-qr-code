@@ -56,7 +56,7 @@
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
 
-                                <Label Text="{Binding Name_C}"
+                                <Label Text="{Binding name_course}"
                                        Grid.Row="0"
                                        FontAttributes="Bold"
                                        FontSize="Medium"
@@ -65,7 +65,7 @@
 
                                 <Label Grid.Column="1"
                                        HorizontalOptions="EndAndExpand"
-                                       Text="{Binding Professor}"
+                                       Text="{Binding name_prof}"
                                        TextColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundLight}}"
                                        FontAttributes="Bold"
                                        FontSize="Medium"
@@ -116,7 +116,7 @@
                     <ContentView>
                         <StackLayout>
                             <Frame BackgroundColor="{StaticResource AccentDarkBlue} " CornerRadius="15" Padding="0" HeightRequest="45">
-                            <Label Text="Number of courses enroled: 3"
+                                <Label Text="{Binding Count}"
                                     HorizontalOptions="CenterAndExpand"
                                     VerticalOptions="CenterAndExpand"
                                     TextColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundLight}}"

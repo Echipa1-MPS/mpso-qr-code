@@ -52,10 +52,10 @@
                         <Button Text="pencil-alt" 
                                 FontFamily="FAS" 
                                 FontSize="Large" 
-                                BackgroundColor="{StaticResource AccentLiteBlue}" 
-                                    TextColor="{StaticResource AccentYellow}" 
-                                    CornerRadius="90" 
-                                    BorderColor="{StaticResource AccentYellow}" 
+                                BackgroundColor="Transparent" 
+                                    TextColor="{AppThemeBinding Dark={StaticResource BackgroundLight}, Light={StaticResource BackgroundDark}}" 
+                                    CornerRadius="15" 
+                                    BorderColor="{AppThemeBinding Dark={StaticResource BackgroundLight}, Light={StaticResource BackgroundDark}}" 
                                     BorderWidth="2" 
                                 WidthRequest="46" 
                                 HeightRequest="46"
@@ -77,26 +77,26 @@
                     </Grid.RowDefinitions>
                     <StackLayout Grid.Row="0" Grid.Column="0" Spacing="2" HorizontalOptions="Start" VerticalOptions="CenterAndExpand" Padding="4,0,0,0" >
                         <Label Text="Welcome Back," FontSize="30" CharacterSpacing="0" Style="{StaticResource TextStyle}"/>
-                        <Label Text="{Binding User.SecondName}" Style="{StaticResource TextStyle}" CharacterSpacing="0"/>
-                        <Label Text="{Binding User.Name}" Style="{StaticResource TextStyle}" CharacterSpacing="0"/>
-                        <Label Text="{Binding User.Group}" Style="{StaticResource TextStyle}" CharacterSpacing="0"/>
-                        <Label Text="{Binding User.LDAP}" Style="{StaticResource TextStyle}" CharacterSpacing="0"/>
+                        <Label Text="{Binding Profile.SecondName}" Style="{StaticResource TextStyle}" CharacterSpacing="0"/>
+                        <Label Text="{Binding Profile.name}" Style="{StaticResource TextStyle}" CharacterSpacing="0"/>
+                        <Label Text="{Binding Profile.Group}" Style="{StaticResource TextStyle}" CharacterSpacing="0"/>
+                        <Label Text="{Binding Profile.LDAP}" Style="{StaticResource TextStyle}" CharacterSpacing="0"/>
                     </StackLayout>
                     <Image Grid.Row="0" Grid.Column="1" Source="profilem.png"/>
 
                     <StackLayout Grid.Row="1" Grid.ColumnSpan="2" VerticalOptions="CenterAndExpand" Spacing="15">
                         <Label Text="Next Courses List" Style="{StaticResource TextStyle}" Padding="4,0,0,0"/>
                         <ScrollView Orientation="Both">
-                            <StackLayout Orientation="Horizontal" BindableLayout.ItemsSource="{Binding NextCourses}"  Spacing="12">
+                            <StackLayout Orientation="Horizontal" BindableLayout.ItemsSource="{Binding Profile.NextCourses}"  Spacing="12">
                                 <BindableLayout.ItemTemplate>
                                     <DataTemplate>
 
                                         <Frame CornerRadius="15" BackgroundColor="{StaticResource LiteGray}" HorizontalOptions="Center" VerticalOptions="Center" WidthRequest="100" Padding="12">
                                             <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
-                                                <Label Text="{Binding Name}" FontSize="Large" Style="{StaticResource IntervalCardTextStyle}"/>
-                                                <Label Text="{Binding Day}" Style="{StaticResource IntervalCardTextStyle}"/>
-                                                <Label Text="{Binding StartH}" Style="{StaticResource IntervalCardTextStyle}"/>
-                                                <Label Text="{Binding StartE}" Style="{StaticResource IntervalCardTextStyle}"/>
+                                                <Label Text="{Binding CourseName}" FontSize="Large" Style="{StaticResource IntervalCardTextStyle}"/>
+                                                <Label Text="{Binding day}" Style="{StaticResource IntervalCardTextStyle}"/>
+                                                <Label Text="{Binding STime}" Style="{StaticResource IntervalCardTextStyle}"/>
+                                                <Label Text="{Binding ETime}" Style="{StaticResource IntervalCardTextStyle}"/>
                                             </StackLayout>
                                         </Frame>
 

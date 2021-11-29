@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using QR_Presence.Helpers;
 using QR_Presence.Models;
+using QR_Presence.Models.APIModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,12 +34,12 @@ namespace QR_Presence.Views
         public string Name { get; set; }
         public string SecondName { get; set; }
         public string Email { get; set; }
-        public string Password { get; set; }
-        public string ConfPassword { get; set; }
+        public string Password { get; set; } = "";
+        public string ConfPassword { get; set; } = "";
         public string Group { get; set; }
 
 
-        public UserModel User { get; set; }
+        public User User { get; set; }
 
         public RegisterPage()
         {
@@ -46,11 +47,20 @@ namespace QR_Presence.Views
             BindingContext = this;
         }
 
+        public bool Verify { get; set; } = true;
+
+        public RegisterPage(bool role)
+        {
+            InitializeComponent();
+            Verify = role;
+            BindingContext = this;
+        }
+
         private async void SaveBtn_Clicked(object sender, EventArgs e)
         {
             string[] words = Email.Split('@');
 
-            if (!Password.Equals(ConfPassword))
+            if (!Password.Equals(ConfPassword) && Verify)
             {
                 await DisplayAlert("Alert!", "Conf Pass Incorect", "OK");
                 return;
@@ -78,25 +88,31 @@ namespace QR_Presence.Views
                     break;
             }
 
-            User = new UserModel
+            User = new User
             {
                 name = Name,
                 surname = SecondName,
                 username = words[0],
-                email = Email,
-                group = Group,
+                email =  Email ,
+                group = Group ,
                 Privilege = (int)role,
             };
+            loading.IsRunning = true;
 
-            if (await Services.APICalls.RegisterUser(User, Password))
+            bool respons_add = Verify ? await Services.APICalls.RegisterUser(User, Password) : await Services.APICalls.AddUserAdminAsync(User, $"{words[0]}/{Group}");
+
+            if (respons_add)
             {
                 await DisplayAlert("All Ok", "Account Registered", "OK");
+                loading.IsRunning = false;
                 await Navigation.PopAsync();
             }
             else
             {
                 await DisplayAlert("Alert!", "Error Ocured, retry", "OK");
             }
+            loading.IsRunning = false;
+
         }
 
         private async void CancelBtn_Clicked(object sender, EventArgs e)

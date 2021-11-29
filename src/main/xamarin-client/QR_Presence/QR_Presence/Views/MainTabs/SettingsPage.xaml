@@ -31,7 +31,7 @@
                                 HeightRequest="46"  BorderWidth="2"   HorizontalOptions="EndAndExpand" Clicked="Button_Clicked"/>
             </StackLayout>
             <StackLayout Orientation="Horizontal"  HorizontalOptions="Center" VerticalOptions="Center" Spacing="26"  >
-                <Button x:Name="defaultTheme" Text="Default" FontSize="Small" HeightRequest="5"  Style="{StaticResource ButtonUnCheckStyle}" Clicked="DefaultTheme_Clicked"/>
+                <Button x:Name="defaultTheme" Text="Default" FontSize="Small" HeightRequest="5"  Style="{StaticResource ButtonCheckedStyle}" Clicked="DefaultTheme_Clicked"/>
                 <Button x:Name="lightTheme" Text="Light" FontSize="Small"  Style="{StaticResource ButtonCheckedStyle}" Clicked="DefaultTheme_Clicked"/>
                 <Button x:Name="darkTheme" Text="Dark" FontSize="Small"  Style="{StaticResource ButtonCheckedStyle}" Clicked="DefaultTheme_Clicked"/>
             </StackLayout>
@@ -63,7 +63,7 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
 
-                            <controls:CircleImage Source="{Binding ProfileImage}" Aspect="AspectFill" Grid.Column="0" Grid.Row="0" HorizontalOptions="Center" VerticalOptions="Center" BorderThickness="4" BorderColor="{StaticResource AccentYellow}"/>
+                            <controls:CircleImage Source="{Binding ProfileImage}" Aspect="AspectFill"  Grid.Column="0" Grid.Row="0" HorizontalOptions="Center" VerticalOptions="Center" BorderThickness="4" BorderColor="{StaticResource AccentYellow}"/>
                             <StackLayout Grid.Column="0" Grid.Row="1">
                                 <StackLayout Orientation="Horizontal" VerticalOptions="Center" HorizontalOptions="Center">
                                     <Label Text="user" FontFamily="FAS" FontSize="Large" Style="{StaticResource ProfileInfoStyle}" />

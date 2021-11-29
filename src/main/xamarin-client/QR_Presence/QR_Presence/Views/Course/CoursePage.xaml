@@ -95,15 +95,15 @@
                             </Grid.RowDefinitions>
 
                             <StackLayout Grid.Row="0" Grid.Column="0" Spacing="2" HorizontalOptions="Start" VerticalOptions="Center" Padding="4,16,0,0" >
-                                <Label Text="{Binding Course.Name_C}" FontSize="30" CharacterSpacing="1" Style="{StaticResource TextStyle}"/>
-                                <Label Text="{Binding Course.Professor}" FontSize="20" CharacterSpacing="1" Style="{StaticResource TextStyle}"/>
+                                <Label Text="{Binding Course.name_course}" FontSize="30" CharacterSpacing="1" Style="{StaticResource TextStyle}"/>
+                                <Label Text="{Binding Course.name_prof}" FontSize="20" CharacterSpacing="1" Style="{StaticResource TextStyle}"/>
                             </StackLayout>
 
                             <Button Text="arrow-left" 
-                                    BackgroundColor="{StaticResource AccentLiteBlue}" 
-                                    TextColor="{StaticResource AccentYellow}"
-                                     CornerRadius="90" 
-                                    BorderColor="{StaticResource AccentYellow}" 
+                                    BackgroundColor="Transparent" 
+                                    TextColor="{StaticResource BackgroundLight}"
+                                     CornerRadius="15" 
+                                    BorderColor="{StaticResource BackgroundLight}" 
                                     BorderWidth="2" 
                                     
                                     HorizontalOptions="Start" VerticalOptions="Start" 
@@ -119,10 +119,10 @@
                             </StackLayout>
 
                             <Button Text="pencil-alt" 
-                                    BackgroundColor="{StaticResource AccentLiteBlue}" 
-                                    TextColor="{StaticResource AccentYellow}" 
-                                    CornerRadius="90" 
-                                    BorderColor="{StaticResource AccentYellow}" 
+                                    BackgroundColor="Transparent" 
+                                    TextColor="{StaticResource BackgroundLight}"
+                                     CornerRadius="15" 
+                                    BorderColor="{StaticResource BackgroundLight}" 
                                     BorderWidth="2" 
                                     HorizontalOptions="End" VerticalOptions="Start" 
                                     FontFamily="FAS" 
@@ -134,13 +134,13 @@
 
                             <StackLayout  Grid.Row="1" Grid.ColumnSpan="2" >
                                 <Label Text="Description" CharacterSpacing="1" FontSize="24" Style="{StaticResource TextStyle}" Padding="4,0,0,0"/>
-                                <Label Text="{Binding Course.Desc}" CharacterSpacing="0" FontSize="15" Style="{StaticResource TextStyle}" Padding="4,0,0,0"/>
+                                <Label Text="{Binding Course.desc}" CharacterSpacing="0" FontSize="15" Style="{StaticResource TextStyle}" Padding="4,0,0,0"/>
                             </StackLayout>
 
 
                             <StackLayout  Grid.Row="2" Grid.ColumnSpan="2" >
                                 <Label Text="Grading" CharacterSpacing="1" FontSize="24" Style="{StaticResource TextStyle}" Padding="4,0,0,0"/>
-                                <Label Text="{Binding Course.Grading}" CharacterSpacing="0" FontSize="15" Style="{StaticResource TextStyle}" Padding="4,0,0,0"/>
+                                <Label Text="{Binding Course.grading}" CharacterSpacing="0" FontSize="15" Style="{StaticResource TextStyle}" Padding="4,0,0,0"/>
                             </StackLayout>
 
                             <StackLayout Grid.Row="3" Grid.ColumnSpan="2"  Spacing="15">
@@ -152,9 +152,9 @@
 
                                                 <Frame CornerRadius="15" BackgroundColor="{StaticResource LiteGray}" HorizontalOptions="Center" VerticalOptions="Center" WidthRequest="100" Padding="12">
                                                     <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
-                                                        <Label Text="{Binding Day}" TextColor="{StaticResource BackgroundDark}" FontSize="Large" FontAttributes="Bold" CharacterSpacing="0" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"/>
-                                                        <Label Text="{Binding StartH}" TextColor="{StaticResource BackgroundDark}" FontSize="Large" FontAttributes="Bold" CharacterSpacing="0" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"/>
-                                                        <Label Text="{Binding StartE}" TextColor="{StaticResource BackgroundDark}" FontSize="Large" FontAttributes="Bold" CharacterSpacing="0" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"/>
+                                                        <Label Text="{Binding day}" TextColor="{StaticResource BackgroundDark}" FontSize="17" FontAttributes="Bold" CharacterSpacing="0" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"/>
+                                                        <Label Text="{Binding STime}" TextColor="{StaticResource BackgroundDark}" FontSize="Large" FontAttributes="Bold" CharacterSpacing="0" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"/>
+                                                        <Label Text="{Binding ETime}" TextColor="{StaticResource BackgroundDark}" FontSize="Large" FontAttributes="Bold" CharacterSpacing="0" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"/>
                                                     </StackLayout>
                                                 </Frame>
 
@@ -414,7 +414,7 @@
                 <StackLayout Padding="8,70,8,8">
                     <CollectionView x:Name="enroleStudentsList"
                             SelectionMode="Single"
-                            ItemsSource="{Binding PersonsPresents}">
+                            ItemsSource="{Binding Course.Students_Enrolled}">
 
                         <CollectionView.ItemsLayout>
                             <GridItemsLayout Orientation="Vertical" Span="1" HorizontalItemSpacing="7" VerticalItemSpacing="7"/>
@@ -442,7 +442,7 @@
 
                                         <Label Grid.Column="1"
                                        HorizontalOptions="EndAndExpand"
-                                       Text="{Binding Group}"
+                                       Text="{Binding group}"
                                        TextColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundLight}}"
                                        FontAttributes="Bold"
                                        FontSize="Medium"
@@ -455,7 +455,7 @@
                         <CollectionView.Header>
                             <ContentView>
                                 <Frame BackgroundColor="{StaticResource AccentDarkBlue} " CornerRadius="15" Padding="0" HeightRequest="45">
-                                    <Label Text="Number of students enrolled: 23"
+                                    <Label Text="{Binding EnrolledStudentsCount}"
                                     HorizontalOptions="CenterAndExpand"
                                     VerticalOptions="CenterAndExpand"
                                     TextColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundLight}}"

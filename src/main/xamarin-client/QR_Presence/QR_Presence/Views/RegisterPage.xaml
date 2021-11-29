@@ -20,6 +20,8 @@
                 <Setter Property="FontAttributes" Value="Bold"/>
             </Style>
 
+           
+
             <Style x:Key="RequierSy" TargetType="Label">
                 <Setter Property="TextColor" Value="Red"/>
                 <Setter Property="FontSize" Value="Medium"/>
@@ -28,7 +30,19 @@
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.Content>
-        <ScrollView Padding="4,16,4,16">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="0.5*"/>
+                <ColumnDefinition Width="*"/>
+
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="0.5*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <ScrollView Padding="4,16,4,16" Grid.ColumnSpan="3" Grid.RowSpan="3">
             <Frame x:Name="outerFrame" 
                    HasShadow="False" 
                    Padding="2"
@@ -50,11 +64,11 @@
                         </StackLayout>
                         <Grid ColumnSpacing="10" RowSpacing="15" Padding="0">
                             <Grid.RowDefinitions>
-                                <RowDefinition Height=".65*" />
-                                <RowDefinition Height=".65*" />
-                                <RowDefinition Height=".65*" />
-                                <RowDefinition Height=".65*" />
-                                <RowDefinition Height=".65*" />
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="auto" />
                             </Grid.RowDefinitions>
 
                             <Grid.ColumnDefinitions>
@@ -68,7 +82,7 @@
                                         <Label Text="Name" Style="{StaticResource InfoTextSy}"/>
                                         <Label Text="*" Style="{StaticResource RequierSy}"/>
                                     </StackLayout>
-                                    <Entry x:Name="FirstNameEntry" Placeholder="ex:Ionescu" Text="{Binding Name}"/>
+                                    <Entry x:Name="FirstNameEntry" Placeholder="ex:Ionescu" Style="{StaticResource EntryStyle}" Text="{Binding Name}"/>
                                 </StackLayout>
                             </Frame>
                             <Frame Grid.Column="1" Style="{StaticResource FrameAddNews}">
@@ -77,7 +91,7 @@
                                         <Label Text="SecondName" Style="{StaticResource InfoTextSy}"/>
                                         <Label Text="*" Style="{StaticResource RequierSy}"/>
                                     </StackLayout>
-                                    <Entry Grid.Column="1" x:Name="LasttNameEntry" Placeholder="ex:Mihai"  Text="{Binding SecondName}"/>
+                                    <Entry Grid.Column="1" x:Name="LasttNameEntry" Placeholder="ex:Mihai" Style="{StaticResource EntryStyle}" Text="{Binding SecondName}"/>
                                 </StackLayout>
                             </Frame>
                             <Frame Grid.ColumnSpan="2" Grid.Row="1" Style="{StaticResource FrameAddNews}">
@@ -86,14 +100,15 @@
                                         <Label Text="Email" Style="{StaticResource InfoTextSy}"/>
                                         <Label Text="*" Style="{StaticResource RequierSy}"/>
                                     </StackLayout>
-                                    <Entry Grid.ColumnSpan="2" Grid.Row="1" x:Name="EmailEntry" Placeholder="ex:ldap@stud.acs.upb.ro" Text="{Binding Email}" />
+                                    <Entry Grid.ColumnSpan="2" Grid.Row="1" x:Name="EmailEntry" Placeholder="ex:ldap@stud.acs.upb.ro" Style="{StaticResource EntryStyle}" Text="{Binding Email}" />
                                 </StackLayout>
                             </Frame>
                             <Frame  Grid.Row="2" Style="{StaticResource FrameAddNews}">
                                 <StackLayout Padding="0,4,0,0" >
                                     <Label Text="Select Role" Style="{StaticResource InfoTextSy}"/>
                                     <Picker x:Name="PathPicker" Grid.Row="2" 
-                                            Title="ex:Student"
+                                            Title="Role"
+                                            TextColor="{AppThemeBinding Light={StaticResource BackgroundDark}, Dark={StaticResource BackgroundLight}}"
                                  ItemsSource="{Binding Roles}"
                                  ItemDisplayBinding="{Binding .}"
                                  SelectedItem="{Binding SelectedRole}" />
@@ -102,25 +117,25 @@
                             <Frame  Grid.Row="2"  Grid.Column="1"  Style="{StaticResource FrameAddNews}">
                                 <StackLayout Padding="0,4,0,0">
                                     <Label Text="Group" Style="{StaticResource InfoTextSy}"/>
-                                    <Entry x:Name="HighlightsPicker" Grid.Row="2" Grid.Column="1" Placeholder="ex:344CC or - " Text="{Binding Group}"/>
+                                    <Entry x:Name="HighlightsPicker" Grid.Row="2" Grid.Column="1" Placeholder="ex:344CC or - " Style="{StaticResource EntryStyle}" Text="{Binding Group}"/>
                                 </StackLayout>
                             </Frame>
-                            <Frame  Grid.ColumnSpan="2" Grid.Row="3" Style="{StaticResource FrameAddNews}" >
+                            <Frame  Grid.ColumnSpan="2" Grid.Row="3" IsVisible="{Binding Verify}" Style="{StaticResource FrameAddNews}" >
                                 <StackLayout  Spacing="-8">
                                     <StackLayout  Style="{StaticResource StackEntry}">
                                         <Label Text="Password" Style="{StaticResource InfoTextSy}"/>
                                         <Label Text="*" Style="{StaticResource RequierSy}"/>
                                     </StackLayout>
-                                    <Entry Grid.ColumnSpan="2" Grid.Row="3"  x:Name="PasswordEntry"  IsPassword="True" Text="{Binding Password}"/>
+                                    <Entry Grid.ColumnSpan="2" Grid.Row="3"  x:Name="PasswordEntry" Style="{StaticResource EntryStyle}"  IsPassword="True" Text="{Binding Password}"/>
                                 </StackLayout>
                             </Frame>
-                            <Frame  Grid.ColumnSpan="2" Grid.Row="4" Style="{StaticResource FrameAddNews}" >
+                            <Frame  Grid.ColumnSpan="2" Grid.Row="4" IsVisible="{Binding Verify}" Style="{StaticResource FrameAddNews}" >
                                 <StackLayout Spacing="-8" >
                                     <StackLayout Style="{StaticResource StackEntry}">
                                         <Label Text="Confirm Password" Style="{StaticResource InfoTextSy}"/>
                                         <Label Text="*" Style="{StaticResource RequierSy}"/>
                                     </StackLayout>
-                                    <Entry Grid.ColumnSpan="2" Grid.Row="4" x:Name="ConfirmPasswordEntry" IsPassword="True"  Text="{Binding ConfPassword}"/>
+                                    <Entry Grid.ColumnSpan="2" Grid.Row="4" x:Name="ConfirmPasswordEntry" Style="{StaticResource EntryStyle}" IsPassword="True"  Text="{Binding ConfPassword}"/>
                                 </StackLayout>
                             </Frame>
                         </Grid>
@@ -133,5 +148,9 @@
                 </Frame>
             </Frame>
         </ScrollView>
+            <ActivityIndicator x:Name="loading" IsRunning="False" Grid.Column="1" Grid.Row="1" HeightRequest="5" WidthRequest="5" />
+
+        </Grid>
+
     </ContentPage.Content>
 </ContentPage>
