@@ -1,5 +1,6 @@
 ﻿using Microcharts;
 using QR_Presence.Models;
+using QR_Presence.Models.APIModels;
 using QR_Presence.Services;
 using SkiaSharp;
 using System;
@@ -19,31 +20,7 @@ namespace QR_Presence.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class CoursePage : ContentPage
     {
-        public CourseInfoModel Course { get; set; } = new CourseInfoModel
-        {
-            Id_Course = 1,
-            Name_C = "IOCLA",
-            Id_Professor = "Prof. Razvan Deaconescu",
-            Desc = "Programare in limbaj de asamblare este un curs de din Anul 2 in care se invata notiuni de hardware",
-            Grading = "30% 3 Teme \n20% Teste de curs \n50% examenul \nCerinte minime min 50% parcurs si min 50% examen \n",
-            Intervals = new List<IntervalModel>
-            {
-                new IntervalModel
-                {
-                    Name="MPS",
-                    Day="Marti",
-                    StartHour=18,
-                    Step=2
-                },
-                new IntervalModel
-                {
-                    Name="EP",
-                    Day="Miercuri",
-                    StartHour=12,
-                    Step=2
-                }
-            }
-        };
+        public CoursesEnrolled Course { get; set; } 
 
         public List<UserModel> PersonsPresents { get; set; } = new List<Models.UserModel>
         {
@@ -336,23 +313,27 @@ namespace QR_Presence.Views
         public IntervalModel SelectedInterval { get; set; }
         public string SelectedDate { get; set; }
 
+        public string EnrolledStudentsCount { get; set; }
+
         public CoursePage()
         {
             InitializeComponent();
             BindingContext = this;
         }
 
-        public CoursePage(CourseInfoModel course)
+        public CoursePage(CoursesEnrolled course)
         {
             InitializeComponent();
             Course = course;
+            EnrolledStudentsCount = $"Number of students enrolled:{Course.Students_Enrolled.Count}";
             BindingContext = this;
             excelService = new ExcelService();
+
         }
 
         async Task ExportToExcel()
         {
-            var fileName = $"Presence{Course.Name_C}-{SelectedInterval + SelectedDate }.xlsx";
+            var fileName = $"Presence{Course.name_course}-{SelectedInterval + SelectedDate }.xlsx";
             string filepath = excelService.GenerateExcel(fileName);
 
 
@@ -362,7 +343,7 @@ namespace QR_Presence.Views
 
             await Share.RequestAsync(new ShareFileRequest()
             {
-                Title = $"{Course.Name_C}-{DateTime.Now.ToString("dd-MMMM-yyyy")}",
+                Title = $"{Course.name_course}-{DateTime.Now.ToString("dd-MMMM-yyyy")}",
                 File = new ShareFile(filepath)
             });
         }
@@ -439,7 +420,7 @@ namespace QR_Presence.Views
 
         private async void Button_Clicked_1(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new Views.AdminPages.EditCoursePage(Course));
+        //    await Navigation.PushAsync(new Views.AdminPages.EditCoursePage(Course));
         }
 
         private async void Button_Clicked_2(object sender, EventArgs e)

@@ -36,8 +36,6 @@ namespace QR_Presence.Views.AdminPages
 
                 ListOf = new ObservableCollection<User>(stud.students);
                 Professors = new ObservableCollection<User>(prof.teachers);
-
-
             }).Wait();
 
             Course = new CourseInfoModel();

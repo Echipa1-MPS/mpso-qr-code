@@ -54,12 +54,15 @@ namespace QR_Presence.Views
 
         public User User { get; set; }
 
+        public ProfileModel Profile { get; set; }
+
         public ProfilePage()
         {
             InitializeComponent();
             Task.Run(async () =>
             {
                 User = await Services.DatabaseConnection.GetUser();
+                Profile = await Services.APICalls.GetProfileAsync();
             }).Wait();
             BindingContext = this;
         }

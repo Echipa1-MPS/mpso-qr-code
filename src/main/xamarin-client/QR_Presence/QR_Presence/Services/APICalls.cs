@@ -409,7 +409,50 @@ namespace QR_Presence.Services
 
         #region Student
 
+        public async static Task<UserCourses> GetUserCoursesAsync()
+        {
+            using (var c = new HttpClient())
+            {
+                HttpClient client = new HttpClient();
+                var authHeader = new AuthenticationHeaderValue("Bearer", await SecureStorage.GetAsync("oauth_token"));
 
+                client.DefaultRequestHeaders.Authorization = authHeader;
+
+                var response = await client.GetAsync(new Uri(BaseUrlSubject + "get-all-courses-for-current-user"));
+
+                UserCourses Items = new UserCourses();
+                if (response.IsSuccessStatusCode)
+                {
+                    string content = await response.Content.ReadAsStringAsync();
+
+                    Items = JsonConvert.DeserializeObject<UserCourses>(content);
+                }
+
+                return Items;
+            }
+        }
+        public async static Task<ProfileModel> GetProfileAsync()
+        {
+            using (var c = new HttpClient())
+            {
+                HttpClient client = new HttpClient();
+                var authHeader = new AuthenticationHeaderValue("Bearer", await SecureStorage.GetAsync("oauth_token"));
+
+                client.DefaultRequestHeaders.Authorization = authHeader;
+
+                var response = await client.GetAsync(new Uri(BaseUrlSubject + "get-next-courses-for-current-user"));
+
+                ProfileModel Items = new ProfileModel();
+                if (response.IsSuccessStatusCode)
+                {
+                    string content = await response.Content.ReadAsStringAsync();
+
+                    Items = JsonConvert.DeserializeObject<ProfileModel>(content);
+                }
+
+                return Items;
+            }
+        }
         #endregion Student
 
     }
