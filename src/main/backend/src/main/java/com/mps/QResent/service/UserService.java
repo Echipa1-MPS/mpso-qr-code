@@ -100,7 +100,7 @@ public class UserService implements UserDetailsService {
 
     public String getCurrentUserEmail() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        return auth.getPrincipal().toString();
+        return auth.getName();
     }
 
     public Optional<User> findByEmail(String email){

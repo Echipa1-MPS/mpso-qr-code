@@ -24,9 +24,7 @@ import javax.annotation.security.RolesAllowed;
 
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping(path = "/subject")
@@ -69,9 +67,21 @@ public class SubjectController {
     @DeleteMapping(path = "/admin/delete-course/{id}")
     @ResponseStatus(HttpStatus.OK)
     @RolesAllowed("ADMIN")
-    public void deleteSubject(@PathVariable Long id){
+    public ResponseEntity<?> deleteSubject(@PathVariable Long id){
         Optional<Subject> subject = subjectService.findById(id);
-        subject.ifPresent(value -> subjectService.delete(value));
+        try {
+            if(subject.isPresent()){
+                Set<User> users = subject.get().getUsers();
+                for(User user: users){
+                    user.getSubjects().remove(subject.get());
+                    userService.save(user);
+                }
+            }
+            subject.ifPresent(value -> subjectService.delete(value));
+            return ResponseEntity.status(HttpStatus.OK).body("Deleted successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
     }
 
     @PostMapping(path = "/admin/create-course")
@@ -85,6 +95,8 @@ public class SubjectController {
         if(userService.findByIdOptional(subjectDTO.getIdProfessor()).isPresent()){
             subject.getUsers().add(userService.findByIdOptional(subjectDTO.getIdProfessor()).get());
             subjectService.save(subject);
+            userService.findByIdOptional(subjectDTO.getIdProfessor()).get().getSubjects().add(subject);
+            userService.save(userService.findByIdOptional(subjectDTO.getIdProfessor()).get());
         }
         return subject.getId();
     }
@@ -95,7 +107,8 @@ public class SubjectController {
     public ResponseEntity<?> updateSubject(@RequestBody Map<String, Object> request){
         try {
             if (request.get("course_id") != null) {
-                Optional<Subject> subject = subjectService.findById((Long) request.get("course_id"));
+                Long course_id = Long.valueOf((Integer)request.get("course_id"));
+                Optional<Subject> subject = subjectService.findById(course_id);
                 for (Map.Entry<String, Object> entry : request.entrySet()) {
                     switch (entry.getKey()) {
                         case "course_id":
@@ -104,7 +117,7 @@ public class SubjectController {
                             subject.ifPresent(value -> value.setName((String) request.get("nameC")));
                             continue;
                         case "idProfessor":
-                            Optional<User> user = userService.findByIdOptional((Long) request.get("course_id"));
+                            Optional<User> user = userService.findByIdOptional(course_id);
                             user.ifPresent(value -> subject.ifPresent(value1->value1.getUsers().add(value)));
                             user.ifPresent(value -> userService.save(value));
                             continue;
@@ -131,7 +144,7 @@ public class SubjectController {
     @PostMapping(path = "/admin/enroll-students")
     @ResponseStatus(HttpStatus.OK)
     @RolesAllowed("ADMIN")
-    public void enrollStudents(@RequestBody StudentsEnroll studentsEnroll){
+    public ResponseEntity<?> enrollStudents(@RequestBody StudentsEnroll studentsEnroll){
         Optional<Subject> subject = subjectService.findById(studentsEnroll.getId_course());
         if(subject.isPresent()){
             for (StudentsToEnroll student: studentsEnroll.getStudents_to_enroll()){
@@ -144,21 +157,32 @@ public class SubjectController {
                 }
             }
         }
+        return ResponseEntity.status(HttpStatus.OK).body("Students were added successfully");
     }
 
-    @GetMapping(path = "/get-subjects-for-current-user")
+    @GetMapping(path = "/get-next-courses-for-current-user")
     public String getSubjects() {
         UserSubjectView userSubjectView = userService.findUserNextCourses(userService.getCurrentUserEmail());
         JSONArray jsonArray = new JSONArray();
+        ArrayList<DayOfWeek> dayOfWeeks = new ArrayList<>();
+        DayOfWeek today = LocalDateTime.now().getDayOfWeek();
+        int nextDay;
+        for(int i = 0; i < 3; i++){
+            dayOfWeeks.add(today);
+            nextDay = ((today.getValue() + 1) <= 7)? (today.getValue() + 1): 1;
+            today = DayOfWeek.of(nextDay);
+        }
         for(SubjectView subjectView: userSubjectView.getSubjects()){
-            System.out.println(DayOfWeek.from(LocalDateTime.now()));
-            for(ScheduleSubjectView subjectView1: scheduleService.getNextSubjects(DayOfWeek.MONDAY, subjectView.getId())){
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.put("CourseName", subjectView1.getSubject().getName());
-                jsonObject.put("day", subjectView1.getDay());
-                jsonObject.put("length", subjectView1.getLength());
-                jsonObject.put("startTime", subjectView1.getStartTime());
-                jsonArray.add(jsonObject);
+
+            for(DayOfWeek day : dayOfWeeks) {
+                for (ScheduleSubjectView subjectView1 : scheduleService.getNextSubjects(day, subjectView.getId())) {
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("CourseName", subjectView1.getSubject().getName());
+                    jsonObject.put("day", subjectView1.getDay());
+                    jsonObject.put("length", subjectView1.getLength());
+                    jsonObject.put("startTime", subjectView1.getStartTime());
+                    jsonArray.add(jsonObject);
+                }
             }
         }
         JSONObject jsonObject = new JSONObject();
