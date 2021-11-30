@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+@CrossOrigin(maxAge = 3600)
 @RestController
 @RequestMapping(path = "/schedule")
 public class ScheduleController {
@@ -51,8 +52,14 @@ public class ScheduleController {
                     return ResponseEntity.status(HttpStatus.NOT_FOUND).body("The specified course does not exist!");
                 }
                 schedule.setSubject(subject.get());
-                scheduleService.save(schedule);
-                return ResponseEntity.status(HttpStatus.CREATED).body("A new interval was added!");
+
+                // Verify if the schedule record already exists
+                if (scheduleService.findByScheduleInfo(subjectId, schedule.getStartTime(), schedule.getDay()) != null) {
+                    return ResponseEntity.status(HttpStatus.CONFLICT).body("A course is already set for this interval! Choose another one!");
+                } else {
+                    scheduleService.save(schedule);
+                    return ResponseEntity.status(HttpStatus.CREATED).body("A new interval is a motherfucker!");
+                }
             } else {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Missing required credentials!");
             }

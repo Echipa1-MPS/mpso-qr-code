@@ -7,6 +7,8 @@ import com.mps.QResent.repository.ScheduleRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.DayOfWeek;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -34,6 +36,11 @@ public class ScheduleService {
     public List<ScheduleSubjectView> getSubjects(Subject subject){
         return scheduleRepository.findAllBySubject(subject);
     }
+
+    public Schedule findByScheduleInfo(Long subjectId, LocalTime start, DayOfWeek day) {
+        return this.scheduleRepository.findByScheduleInfo(subjectId, start, day);
+    }
+
 
     public boolean areValidCredentials(Map<String, Object> request) {
         return (request.get("day") != null)

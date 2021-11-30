@@ -17,6 +17,7 @@ import javax.annotation.security.RolesAllowed;
 
 import java.util.*;
 
+@CrossOrigin(maxAge = 3600)
 @RestController
 @RequestMapping(path = "/user")
 public class UserController {

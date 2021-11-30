@@ -20,6 +20,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
+@CrossOrigin(maxAge = 3600)
 @RestController
 @RequestMapping(path = "/qr")
 public class QRController {
