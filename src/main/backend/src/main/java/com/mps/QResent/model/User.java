@@ -37,7 +37,7 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    @ManyToMany(cascade = CascadeType.PERSIST)
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "user_subject",
             joinColumns = {@JoinColumn(name = "user_id")},
@@ -45,7 +45,7 @@ public class User {
     )
     private Set<Subject> subjects = new HashSet<>();
 
-    @ManyToMany(cascade = CascadeType.PERSIST)
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "presence",
             joinColumns = {@JoinColumn(name = "user_id")},

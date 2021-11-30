@@ -29,7 +29,7 @@ public class ScheduleService {
         return this.scheduleRepository.findById(id);
     }
 
-    public List<ScheduleSubjectView> getNextSubjects(DayOfWeek day, Long subjectId){
+    public ScheduleSubjectView getNextSubjects(DayOfWeek day, Long subjectId){
         return scheduleRepository.findAllByDayAfterAndSubject_Id(day, subjectId);
     }
 
