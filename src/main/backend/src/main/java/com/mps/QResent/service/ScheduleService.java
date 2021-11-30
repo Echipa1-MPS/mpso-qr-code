@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.DayOfWeek;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -34,7 +35,10 @@ public class ScheduleService {
         return scheduleRepository.findAllBySubject(subject);
     }
 
-    public Schedule getById(Long id){
-        return scheduleRepository.getById(id);
+    public boolean areValidCredentials(Map<String, Object> request) {
+        return (request.get("day") != null)
+                && (request.get("duration") != null)
+                && (request.get("subject") != null)
+                && (request.get("start_time") != null);
     }
 }

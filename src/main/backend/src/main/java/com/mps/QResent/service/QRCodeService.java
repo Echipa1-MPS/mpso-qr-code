@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class QRCodeService {
@@ -20,13 +21,18 @@ public class QRCodeService {
         return qrCodeRepository.findAllBySchedule(schedule);
     }
 
+    public QRCode findById(Long id) {
+        Optional<QRCode> qrCode = this.qrCodeRepository.findById(id);
+        return qrCode.orElse(null);
+    }
+
 
     public boolean areValidCredentials(Map<String, Object> request) {
         return ((request.get("schedule") != null)
-                && (request.get("date") != null)
+                && (request.get("reps") != null)
                 && (request.get("offset") != null)
                 && (request.get("subject") != null)
-                && (request.get("keyValue") != null));
+                && (request.get("key") != null));
     }
 
     public void save(QRCode qrCode) {

@@ -13,10 +13,7 @@ import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;
 import java.util.Map;
@@ -59,19 +56,21 @@ public class QRController {
 
                 KeyQr keyQr = new KeyQr();
                 keyQr.setSubject(subject.get());
-                keyQr.setKeyValue(Integer.parseInt(String.valueOf(request.get("keyValue"))));
+                keyQr.setKeyValue(Integer.parseInt(String.valueOf(request.get("key"))));
 
                 keyQrService.save(keyQr);
+                subject.get().setKeyQr(keyQr);
+                subjectService.save(subject.get());
 
                 qrCode.setSchedule(schedule.get());
 
-                java.util.Date date = Helper.StringToDate(String.valueOf(request.get("date")));
-                // TODO: verify if it's in the right interval
+                java.util.Date date = Helper.StringToDate();
                 java.sql.Timestamp sqlTime = new java.sql.Timestamp(date.getTime());
                 qrCode.setDate(sqlTime);
 
                 int offset = Integer.parseInt(String.valueOf(request.get("offset")));
-                qrCode.setDateFinish(new java.sql.Timestamp(sqlTime.getTime() + TimeUnit.MINUTES.toMillis(offset)));
+                int reps = Integer.parseInt(String.valueOf(request.get("reps")));
+                qrCode.setDateFinish(new java.sql.Timestamp(sqlTime.getTime() + reps * TimeUnit.MINUTES.toMillis(offset)));
 
                 qrService.save(qrCode);
 
@@ -85,6 +84,26 @@ public class QRController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
 
+    }
+
+    @PatchMapping(path = "/teacher/update-qr-key")
+    @RolesAllowed("TEACHER")
+    public ResponseEntity<?> updateQrKey(@RequestBody Map<String, Object> request) {
+        try {
+
+            if (request.get("qr_id") != null && request.get("key") != null) {
+                QRCode qrCode = qrService.findById(Long.parseLong(String.valueOf(request.get("qr_id"))));
+                KeyQr key = qrCode.getSchedule().getSubject().getKeyQr();
+                key.setKeyValue(Integer.parseInt(String.valueOf(request.get("key"))));
+                keyQrService.save(key);
+                return ResponseEntity.status(HttpStatus.OK).body("The key was successfully updated!");
+
+            } else {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Missing required credentials!");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
     }
 
 }
