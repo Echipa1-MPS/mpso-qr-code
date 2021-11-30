@@ -1,6 +1,8 @@
 package com.mps.QResent.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
@@ -16,6 +18,8 @@ public class Schedule {
     private Long id;
 
     @Column(name = "date")
+    @Min(1)
+    @Max(5)
     private DayOfWeek day;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
