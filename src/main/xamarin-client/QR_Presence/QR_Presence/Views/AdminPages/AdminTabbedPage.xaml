@@ -4,9 +4,10 @@
              x:Class="QR_Presence.Views.AdminPages.AdminTabbedPage"
             xmlns:adminPage ="clr-namespace:QR_Presence.Views.AdminPages"
              xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
-            android:TabbedPage.ToolbarPlacement="Bottom" 
+            android:TabbedPage.ToolbarPlacement="Top" 
             android:TabbedPage.IsSwipePagingEnabled="False"
             NavigationPage.HasNavigationBar="False"
+            SelectedTabColor="{StaticResource AccentYellow}"
             >
     <NavigationPage Title="Students" >
         <x:Arguments>
@@ -14,13 +15,13 @@
         </x:Arguments>
     </NavigationPage>
 
-    <NavigationPage Title="Professor" >
+    <NavigationPage Title="Professors" >
         <x:Arguments>
             <adminPage:ListOfTeamplate BindingContext="{Binding ListOfProfessor}"/>
         </x:Arguments>
     </NavigationPage>
 
-    <NavigationPage Title="Courses"  >
+    <NavigationPage Title="Courses" >
         <x:Arguments>
             <adminPage:ListOfTeamplate BindingContext="{Binding ListOfCourses}"/>
         </x:Arguments>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QR_Presence.Models.APIModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,7 +20,23 @@ namespace QR_Presence.Views.EditPages
 
         private async void CancelBtn_Clicked(object sender, EventArgs e)
         {
-           await Navigation.PopAsync();
+            await Navigation.PopAsync();
+        }
+
+        private async void SaveBtn_Clicked(object sender, EventArgs e)
+        {
+
+            if (await Services.APICalls.UpdateUserAdminAsync((BindingContext as User)))
+            {
+                await DisplayAlert("All Ok", "Login succesfully", "OK");
+            }
+            else
+            {
+                await DisplayAlert("Alert!", "Error Ocured, retry", "OK");
+                return;
+            }
+
+            await Navigation.PopAsync();
         }
     }
 }

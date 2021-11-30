@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QR_Presence.Models.APIModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -51,18 +52,18 @@ namespace QR_Presence.Views
             }
         };
 
-        public Models.UserModel User { get; set; } = new Models.UserModel
-        {
-            Name = "Sandu",
-            SecondName = "Ilie-Cristian",
-            LDAP = "ilie_crsitian.sandu",
-            Email = "ilie_cristian.sandu@stud.acs.upb.ro",
-            Group = "344C5"
-        };
+        public User User { get; set; }
+
+        public ProfileModel Profile { get; set; }
 
         public ProfilePage()
         {
             InitializeComponent();
+            Task.Run(async () =>
+            {
+                User = await Services.DatabaseConnection.GetUser();
+                Profile = await Services.APICalls.GetProfileAsync();
+            }).Wait();
             BindingContext = this;
         }
 

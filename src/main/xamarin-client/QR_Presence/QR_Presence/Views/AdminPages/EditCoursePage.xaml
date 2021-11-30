@@ -1,0 +1,175 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="QR_Presence.Views.AdminPages.EditCoursePage"
+             NavigationPage.HasNavigationBar="False"
+             BackgroundColor="{AppThemeBinding Dark={StaticResource BackgroundDark}, Light={StaticResource BackgroundLight}}"
+             >
+    <ContentPage.Content>
+        <Grid Padding="8,16,8,8">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="0.8*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <StackLayout Orientation="Horizontal" HorizontalOptions="StartAndExpand" Spacing="16" VerticalOptions="CenterAndExpand">
+                <Button Text="arrow-left" FontFamily="FAS" FontSize="Large" TextColor="{AppThemeBinding Dark={StaticResource BackgroundLight}, Light={StaticResource BackgroundDark}}" HeightRequest="30" Padding="0,0,0,0" WidthRequest="30" CornerRadius="90" BackgroundColor="Transparent" Clicked="Button_Clicked"/>
+                <Label Text="Edit Course" FontSize="Large" TextColor="{AppThemeBinding Dark={StaticResource BackgroundLight}, Light={StaticResource BackgroundDark}}"  VerticalOptions="Center" FontAttributes="Bold" />
+            </StackLayout>
+
+            <Grid Padding="0,0,0,4" Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.5*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Frame Style="{StaticResource FrameAddNews}">
+                    <Entry Text="{Binding Course.Name_C}" 
+                           Style="{StaticResource EntryStyle }" 
+                           Placeholder="Course Name"/>
+                </Frame>
+                <Frame Style="{StaticResource FrameAddNews}" Grid.Column="1">
+                    <Picker x:Name="ProfessorPicker" Grid.Column="1" 
+                                Title="Role"
+                                TextColor="{AppThemeBinding Light={StaticResource BackgroundDark}, Dark={StaticResource BackgroundLight}}"
+                                ItemsSource="{Binding Professors}"
+                                ItemDisplayBinding="{Binding MainTitle}"
+                                SelectedItem="{Binding Professor}" />
+
+                </Frame>
+                <Frame Style="{StaticResource FrameAddNews}" Grid.Row="1" Grid.ColumnSpan="2">
+                    <Editor Text="{Binding Course.Desc}" 
+                            Style="{StaticResource EntryStyle }" 
+                            Placeholder="Description" 
+                            Grid.Row="1" Grid.ColumnSpan="2" 
+                            HeightRequest="120"/>
+                </Frame>
+                <Frame Style="{StaticResource FrameAddNews}" Grid.Row="2" Grid.ColumnSpan="2">
+                    <Editor Text="{Binding Course.Grading}" 
+                            Style="{StaticResource EntryStyle }" 
+                            Placeholder="Minimal Grading" 
+                            Grid.Row="2" Grid.ColumnSpan="2"  
+                            HeightRequest="120"/>
+                </Frame>
+            </Grid>
+
+            <CollectionView x:Name="accountsList"
+                            SelectionMode="Multiple"
+                            SelectionChanged="accountsList_SelectionChanged"
+                            ItemsSource="{Binding ListOf}"
+                            Grid.Row="2">
+
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical" Span="1" HorizontalItemSpacing="7" VerticalItemSpacing="7"/>
+                </CollectionView.ItemsLayout>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                            <Frame Style="{StaticResource FrameList}" BackgroundColor="Transparent" Padding="5,5,2,5">
+                                <Grid Padding="10,10,10,10">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1.5*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+
+                                <Label Text="{Binding MainTitle}"
+                                       Grid.Row="0"
+                                       FontAttributes="Bold"
+                                       FontSize="Medium"
+                                       TextColor="{AppThemeBinding Light={StaticResource BackgroundDark}, Dark={StaticResource BackgroundLight}}"
+                                       Style="{StaticResource TitleStyle}"/>
+                                </Grid>
+                            </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+
+                <CollectionView.EmptyView>
+                    <ContentView>
+                        <StackLayout HorizontalOptions="CenterAndExpand"
+                                 VerticalOptions="CenterAndExpand">
+                            <Label Text="Go to Bill Page and "
+                                   FontAttributes="Bold"
+                                   TextColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundDark}}"
+                                   FontSize="18"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center"/>
+                            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Center">
+                                <Label Text="Press "
+                                   FontAttributes="Bold"
+                                   TextColor="{AppThemeBinding Light={StaticResource BackgroundDark}, Dark={StaticResource BackgroundLight}}"
+                                   FontSize="18"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center"/>
+
+                                <Label Text="+"
+                                   WidthRequest="20" 
+                                   TextColor="{AppThemeBinding Light={StaticResource BackgroundDark}, Dark={StaticResource BackgroundLight}}"
+                                   FontAttributes="Bold"
+                                   FontSize="34"
+                                   VerticalOptions="Center"
+                                   HorizontalOptions="Center"/>
+                            </StackLayout>
+                            <Label Text="for adding new Transaction"
+                                   FontAttributes="Bold"
+                                   TextColor="{AppThemeBinding Light={StaticResource BackgroundDark}, Dark={StaticResource BackgroundLight}}"
+                                   FontSize="18"
+                                   VerticalOptions="Center"
+                                   HorizontalOptions="Center" />
+
+                        </StackLayout>
+                    </ContentView>
+                </CollectionView.EmptyView>
+
+                <CollectionView.Header>
+                    <ContentView>
+                        <Grid ColumnSpacing="8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="auto"/>
+
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Frame BackgroundColor="{StaticResource AccentDarkBlue} " CornerRadius="15" Padding="0" HorizontalOptions="CenterAndExpand" HeightRequest="45" WidthRequest="500"  Grid.Row="0">
+                                <Label x:Name="selectedNumber" Text="Selected Students: 0"
+                                   HorizontalOptions="CenterAndExpand"
+                                    TextColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundLight}}"
+                                    FontAttributes="Bold"
+                                    FontSize="18"
+                                    Style="{StaticResource TitleStyle}"/>
+                            </Frame>
+                            <Button Text="save" TextTransform="None"  
+                                    Grid.Column="1"
+                                    FontSize="24" 
+                                    FontFamily="FAS" 
+                                    WidthRequest="50"
+                                    HeightRequest="50" HorizontalOptions="CenterAndExpand" 
+                                    Style="{StaticResource ButtonCheckedStyle}" 
+                                    BackgroundColor="{StaticResource AccentLiteBlue}"
+                                    BorderColor="{StaticResource AccentYellow}"
+                                    BorderWidth="2"
+                                    TextColor="{StaticResource AccentYellow}"
+                                    Clicked="Button_Clicked_1"
+                                    CornerRadius="15" />
+
+                        </Grid>
+                    </ContentView>
+                </CollectionView.Header>
+
+            </CollectionView>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

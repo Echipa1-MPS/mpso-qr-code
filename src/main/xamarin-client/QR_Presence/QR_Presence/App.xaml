@@ -11,6 +11,9 @@
             <Color x:Key="AccentDarkRed">#8F2D56</Color>
 
             <Color x:Key="AccentDarkBlue70">#4d97c1</Color>
+            <Color x:Key="AccentLiteRed70">#DDC0CC</Color>
+
+            
 
 
             <Color x:Key="ChartColor1">#FF0000</Color>
@@ -89,6 +92,11 @@
                 <Setter Property="FontAttributes" Value="Bold"/>
                 <Setter Property="BackgroundColor" Value="{StaticResource AccentLiteBlue}"/>
                 <Setter Property="BorderWidth" Value="2"/>
+            </Style>
+
+            <Style x:Key="EntryStyle" TargetType="Entry">
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource BackgroundDark}, Dark={StaticResource BackgroundLight}}"/>
+                <Setter Property="PlaceholderColor" Value="{AppThemeBinding Light={StaticResource LiteGray}, Dark={StaticResource LiteGray}}"/>
             </Style>
 
         </ResourceDictionary>

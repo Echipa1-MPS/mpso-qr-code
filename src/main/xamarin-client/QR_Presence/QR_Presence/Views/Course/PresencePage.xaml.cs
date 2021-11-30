@@ -21,162 +21,162 @@ namespace QR_Presence.Views.Course
         {
             new Models.UserModel
             {
-                Name = "Maria",
-                SecondName = "Lipan",
-                Group="344C4",
-                LDAP = "maria_lipan2902",
+                name = "Maria",
+                surname = "Lipan",
+                group="344C4",
+                username = "maria_lipan2902",
                 Privilege = 1
             },
             new Models.UserModel
             {
-                Name = "Maria",
-                SecondName = "Lipan",
-                Group="344C4",
-                LDAP = "maria_lipan2902",
+                name = "Maria",
+                surname = "Lipan",
+                group="344C4",
+                username = "maria_lipan2902",
                 Privilege = 1
             },
             new Models.UserModel
             {
-                Name = "Maria",
-                SecondName = "Lipan",
-                Group="344C4",
-                LDAP = "maria_lipan2902",
+                name = "Maria",
+                surname = "Lipan",
+                group="344C4",
+                username = "maria_lipan2902",
                 Privilege = 1
             },
             new Models.UserModel
             {
-                Name = "Maria",
-                SecondName = "Lipan",
-                Group="344C4",
-                LDAP = "maria_lipan2902",
+                name = "Maria",
+                surname = "Lipan",
+                group="344C4",
+                username = "maria_lipan2902",
                 Privilege = 1
             },
              new Models.UserModel
             {
-                Name = "Maria",
-                SecondName = "Lipan",
-                Group="344C4",
-                LDAP = "maria_lipan2902",
+                name = "Maria",
+                surname = "Lipan",
+                group="344C4",
+                username = "maria_lipan2902",
                 Privilege = 1
             },
             new Models.UserModel
             {
-                Name = "Maria",
-                SecondName = "Lipan",
-                Group="344C4",
-                LDAP = "maria_lipan2902",
+                name = "Maria",
+                surname = "Lipan",
+                group="344C4",
+                username = "maria_lipan2902",
                 Privilege = 1
             },
             new Models.UserModel
             {
-                Name = "Maria",
-                SecondName = "Lipan",
-                Group="344C4",
-                LDAP = "maria_lipan2902",
+                name = "Maria",
+                surname = "Lipan",
+                group="344C4",
+                username = "maria_lipan2902",
                 Privilege = 1
             },
             new Models.UserModel
             {
-                Name = "Maria",
-                SecondName = "Lipan",
-                Group="344C4",
-                LDAP = "maria_lipan2902",
+                name = "Maria",
+                surname = "Lipan",
+                group="344C4",
+                username = "maria_lipan2902",
                 Privilege = 1
             },
              new Models.UserModel
             {
-                Name = "Maria",
-                SecondName = "Lipan",
-                Group="344C4",
-                LDAP = "maria_lipan2902",
+                name = "Maria",
+                surname = "Lipan",
+                group="344C4",
+                username = "maria_lipan2902",
                 Privilege = 1
             },
             new Models.UserModel
             {
-                Name = "Maria",
-                SecondName = "Lipan",
-                Group="344C4",
-                LDAP = "maria_lipan2902",
+                name = "Maria",
+                surname = "Lipan",
+                group="344C4",
+                username = "maria_lipan2902",
                 Privilege = 1
             },
             new Models.UserModel
             {
-                Name = "Maria",
-                SecondName = "Lipan",
-                Group="344C4",
-                LDAP = "maria_lipan2902",
+                name = "Maria",
+                surname = "Lipan",
+                group="344C4",
+                username = "maria_lipan2902",
                 Privilege = 1
             },
             new Models.UserModel
             {
-                Name = "Maria",
-                SecondName = "Lipan",
-                Group="344C4",
-                LDAP = "maria_lipan2902",
+                name = "Maria",
+                surname = "Lipan",
+                group="344C4",
+                username = "maria_lipan2902",
                 Privilege = 1
             },
              new Models.UserModel
             {
-                Name = "Maria",
-                SecondName = "Lipan",
-                Group="344C4",
-                LDAP = "maria_lipan2902",
+                name = "Maria",
+                surname = "Lipan",
+                group="344C4",
+                username = "maria_lipan2902",
                 Privilege = 1
             },
             new Models.UserModel
             {
-                Name = "Maria",
-                SecondName = "Lipan",
-                Group="344C4",
-                LDAP = "maria_lipan2902",
+                name = "Maria",
+                surname = "Lipan",
+                group="344C4",
+                username = "maria_lipan2902",
                 Privilege = 1
             },
             new Models.UserModel
             {
-                Name = "Maria",
-                SecondName = "Lipan",
-                Group="344C4",
-                LDAP = "maria_lipan2902",
+                name = "Maria",
+                surname = "Lipan",
+                group="344C4",
+                username = "maria_lipan2902",
                 Privilege = 1
             },
             new Models.UserModel
             {
-                Name = "Maria",
-                SecondName = "Lipan",
-                Group="344C4",
-                LDAP = "maria_lipan2902",
+                name = "Maria",
+                surname = "Lipan",
+                group="344C4",
+                username = "maria_lipan2902",
                 Privilege = 1
             },
              new Models.UserModel
             {
-                Name = "Maria",
-                SecondName = "Lipan",
-                Group="344C4",
-                LDAP = "maria_lipan2902",
+                name = "Maria",
+                surname = "Lipan",
+                group="344C4",
+                username = "maria_lipan2902",
                 Privilege = 1
             },
             new Models.UserModel
             {
-                Name = "Maria",
-                SecondName = "Lipan",
-                Group="344C4",
-                LDAP = "maria_lipan2902",
+                name = "Maria",
+                surname = "Lipan",
+                group="344C4",
+                username = "maria_lipan2902",
                 Privilege = 1
             },
             new Models.UserModel
             {
-                Name = "Maria",
-                SecondName = "Lipan",
-                Group="344C4",
-                LDAP = "maria_lipan2902",
+                name = "Maria",
+                surname = "Lipan",
+                group="344C4",
+                username = "maria_lipan2902",
                 Privilege = 1
             },
             new Models.UserModel
             {
-                Name = "Maria",
-                SecondName = "Lipan",
-                Group="344C4",
-                LDAP = "maria_lipan2902",
+                name = "Maria",
+                surname = "Lipan",
+                group="344C4",
+                username = "maria_lipan2902",
                 Privilege = 1
             }
         };
@@ -184,34 +184,34 @@ namespace QR_Presence.Views.Course
         {
             new Models.UserModel
             {
-                Name = "Maria",
-                SecondName = "Lipan",
-                Group="344C4",
-                LDAP = "maria_lipan2902",
+                name = "Maria",
+                surname = "Lipan",
+                group="344C4",
+                username = "maria_lipan2902",
                 Privilege = 1
             },
             new Models.UserModel
             {
-                Name = "Maria",
-                SecondName = "Lipan",
-                Group="344C4",
-                LDAP = "maria_lipan2902",
+                name = "Maria",
+                surname = "Lipan",
+                group="344C4",
+                username = "maria_lipan2902",
                 Privilege = 1
             },
             new Models.UserModel
             {
-                Name = "Maria",
-                SecondName = "Lipan",
-                Group="344C4",
-                LDAP = "maria_lipan2902",
+                name = "Maria",
+                surname = "Lipan",
+                group="344C4",
+                username = "maria_lipan2902",
                 Privilege = 1
             },
             new Models.UserModel
             {
-                Name = "Maria",
-                SecondName = "Lipan",
-                Group="344C4",
-                LDAP = "maria_lipan2902",
+                name = "Maria",
+                surname = "Lipan",
+                group="344C4",
+                username = "maria_lipan2902",
                 Privilege = 1
             }
         };
@@ -219,34 +219,34 @@ namespace QR_Presence.Views.Course
         {
             new Models.UserModel
             {
-                Name = "Maria",
-                SecondName = "Lipan",
-                Group="344C4",
-                LDAP = "maria_lipan2902",
+                name = "Maria",
+                surname = "Lipan",
+                group="344C4",
+                username = "maria_lipan2902",
                 Privilege = 1
             },
             new Models.UserModel
             {
-                Name = "Maria",
-                SecondName = "Lipan",
-                Group="344C4",
-                LDAP = "maria_lipan2902",
+                name = "Maria",
+                surname = "Lipan",
+                group="344C4",
+                username = "maria_lipan2902",
                 Privilege = 1
             },
             new Models.UserModel
             {
-                Name = "Maria",
-                SecondName = "Lipan",
-                Group="344C4",
-                LDAP = "maria_lipan2902",
+                name = "Maria",
+                surname = "Lipan",
+                group="344C4",
+                username = "maria_lipan2902",
                 Privilege = 1
             },
             new Models.UserModel
             {
-                Name = "Maria",
-                SecondName = "Lipan",
-                Group="344C4",
-                LDAP = "maria_lipan2902",
+                name = "Maria",
+                surname = "Lipan",
+                group="344C4",
+                username = "maria_lipan2902",
                 Privilege = 1
             }
         };
@@ -263,9 +263,9 @@ namespace QR_Presence.Views.Course
 
         public CourseInfoModel Course { get; set; } = new CourseInfoModel
         {
-            Id_Cours = 1,
+            Id_Course = 1,
             Name_C = "IOCLA",
-            Professor = "Prof. Razvan Deaconescu",
+            Id_Professor = "Prof. Razvan Deaconescu",
             Desc = "Programare in limbaj de asamblare este un curs de din Anul 2 in care se invata notiuni de hardware",
             Grading = "30% 3 Teme \n20% Teste de curs \n50% examenul \nCerinte minime min 50% parcurs si min 50% examen \n",
             Intervals = new List<IntervalModel>

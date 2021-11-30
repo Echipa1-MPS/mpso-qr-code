@@ -16,60 +16,78 @@
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.Content>
-        <StackLayout Padding="16,40,16,16" >
-            <Image Source="login.png" VerticalOptions="StartAndExpand"/>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="0.5*"/>
+                <ColumnDefinition Width="*"/>
 
-            <Frame x:Name="outerFrame" 
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="0.5*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            
+            
+            <StackLayout Padding="16,40,16,16" Grid.ColumnSpan="3" Grid.RowSpan="3">
+                <Image Source="login.png" VerticalOptions="StartAndExpand"/>
+
+                <Frame x:Name="outerFrame" 
                    HasShadow="False" 
                    Padding="0"
                    HorizontalOptions="FillAndExpand" 
                    CornerRadius="20" 
                    OutlineColor="#DDC0CC" 
                    BackgroundColor="{Binding Source={RelativeSource Self}, Path=OutlineColor}" >
-                <Frame x:Name="innerFrame" 
+                    <Frame x:Name="innerFrame" 
                        Margin="2" 
                        Padding="16,32,16,36" 
                        HasShadow="False" 
                        HorizontalOptions="FillAndExpand" CornerRadius="20" 
                        OutlineColor="{Binding Source={x:Reference outerFrame}, Path=OutlineColor}" 
                        BackgroundColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundDark}}" >
-                    <StackLayout VerticalOptions="CenterAndExpand" Spacing="80">
-                        <Label Text="Login Page"
+                        <StackLayout VerticalOptions="CenterAndExpand" Spacing="80">
+                            <Label Text="Login Page"
                                 FontAttributes="Bold"
                                 FontSize="24"   
                                 HorizontalOptions="CenterAndExpand"
                                 TextColor="{AppThemeBinding Dark={StaticResource BackgroundLight}, Light={StaticResource BackgroundDark}}"/>
 
-                        <StackLayout Spacing="12">
-                            <Frame Style="{StaticResource FrameAddNews}" Padding="12,4,12,4" CornerRadius="10" >
-                                <Entry Placeholder="User  Email" 
+                            <StackLayout Spacing="12">
+                                <Frame Style="{StaticResource FrameAddNews}" Padding="12,4,12,4" CornerRadius="10" >
+                                    <Entry Placeholder="User  Email" 
+                                       Text="{Binding Email}"
                                        FontFamily="FAR" Keyboard="Email"
                                        ClearButtonVisibility="WhileEditing" 
                                        IsSpellCheckEnabled="True" 
                                        TextColor="{AppThemeBinding Dark={StaticResource BackgroundLight}, Light={StaticResource BackgroundDark}}" 
                                        PlaceholderColor="{AppThemeBinding Dark={StaticResource BackgroundLight}, Light={StaticResource DarkGray}}">
-                                    <Entry.Behaviors>
-                                        <xct:EmailValidationBehavior DecorationFlags="Trim" InvalidStyle="{StaticResource InvaildEmail}"/>
-                                    </Entry.Behaviors>
-                                </Entry>
-                            </Frame>
-                            <Frame Style="{StaticResource FrameAddNews}" Padding="12,4,12,4" CornerRadius="10" >
-                                <Entry Placeholder="ellipsis-h  Password" FontFamily="FAS" 
+                                        <Entry.Behaviors>
+                                            <xct:EmailValidationBehavior DecorationFlags="Trim" InvalidStyle="{StaticResource InvaildEmail}"/>
+                                        </Entry.Behaviors>
+                                    </Entry>
+                                </Frame>
+                                <Frame Style="{StaticResource FrameAddNews}" Padding="12,4,12,4" CornerRadius="10" >
+                                    <Entry Placeholder="ellipsis-h  Password" FontFamily="FAS" 
+                                       Text="{Binding Password}"
                                        IsPassword="True" 
                                        ClearButtonVisibility="WhileEditing" 
                                        TextColor="{AppThemeBinding Dark={StaticResource BackgroundLight}, Light={StaticResource BackgroundDark}}"
                                        PlaceholderColor="{AppThemeBinding Dark={StaticResource BackgroundLight}, Light={StaticResource DarkGray}}"/>
 
-                            </Frame>
+                                </Frame>
+                            </StackLayout>
+                            <StackLayout Padding="20,0,20,0">
+                                <Button Text="Login"  Style="{StaticResource MainButtonUnChecked}" TextTransform="None" FontSize="Medium" HeightRequest="52" Clicked="Button_Clicked"/>
+                                <Button Text="Register" Style="{StaticResource ButtonUnCheckStyle}" TextTransform="None" FontSize="Medium" HeightRequest="52" Clicked="Button_Clicked_1"/>
+                            </StackLayout>
                         </StackLayout>
-                        <StackLayout Padding="20,0,20,0">
-                            <Button Text="Login"  Style="{StaticResource MainButtonUnChecked}" TextTransform="None" FontSize="Medium" HeightRequest="52" Clicked="Button_Clicked"/>
-                            <Button Text="Register" Style="{StaticResource ButtonUnCheckStyle}" TextTransform="None" FontSize="Medium" HeightRequest="52" Clicked="Button_Clicked_1"/>
-                        </StackLayout>
-                    </StackLayout>
+                    </Frame>
                 </Frame>
-            </Frame>
 
-        </StackLayout>
+            </StackLayout>
+            <ActivityIndicator x:Name="loading" IsRunning="False" Grid.Column="1" Grid.Row="1" HeightRequest="5" WidthRequest="5" />
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

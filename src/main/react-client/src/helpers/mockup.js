@@ -12,7 +12,7 @@ export const getUpcomingCoursesMock = [
         interval: "miercuri 10:00-12:00"
     }
 ];
-    
+
 export const getCoursesBriefMock = [
     {
         id: 7,

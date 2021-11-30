@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SQLite;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,12 +7,14 @@ namespace QR_Presence.Models
 {
     public class UserModel
     {
-        public string Name { get; set; }
-        public string SecondName { get; set; }
-        public string LDAP { get; set; }
-        public string Email { get; set; }
-        public string Group { get; set; }
+        [PrimaryKey]
+        public int user_id { get; set; }
+        public string name { get; set; }
+        public string surname { get; set; }
+        public string username { get; set; }
+        public string email { get; set; }
+        public string group { get; set; }
         public int Privilege { get; set; }
-        public string FullName => $"Name:{Name} {SecondName} Group:{Group}";
+        public string FullName => $"Name:{name} {surname} Group:{group}";
     }
 }
