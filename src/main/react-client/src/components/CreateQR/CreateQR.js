@@ -6,7 +6,7 @@ import Dropdown from 'react-bootstrap/Dropdown'
 import { 
     getCoursesDetails,
     postCreateQr,
-    postUpdateQr
+    patchUpdateQr
 } from "../../helpers/apicaller";
 
 export default function CreateQR() {
@@ -21,7 +21,6 @@ export default function CreateQR() {
     const [randomQrInt, setRandomQrInt] = useState();
     const [receivedQrId, setReceivedQrId] = useState();
     const [finishedSession, setFinishedSession] = useState(false);
-    //const [lockSubmitButton, setLockSubmitButton] = useState(false);
 
     const theme = useContext(ThemeContext);
 
@@ -45,17 +44,20 @@ export default function CreateQR() {
 
         if (!receivedQrId) {
             postCreateQr({
-                id_curs: chosenCourse.id_curs,
-                id_interval: chosenInterval.id_interval,
+                schedule: 8,
+                subject: 20,
+                reps: chosenRepeats,
                 offset: chosenDuration,
-                key: randomQrInt}, 
+                key: randomQrInt},
+                localStorage.getItem('user'),
                 succesfulQrSubmit, 
                 failureQrSubmit);
         }
         else {
-            postUpdateQr({
-                id_curs: chosenCourse,
-                key: randomQrInt}, 
+            patchUpdateQr({
+                qr_id: receivedQrId,
+                key: randomQrInt},
+                localStorage.getItem('user'),
                 succesfulQrUpdate, 
                 failureQrUpdate);
         }
@@ -69,10 +71,7 @@ export default function CreateQR() {
             return;
 
             await delay(chosenDuration * 1000);
-            if (chosenRepeats > 1) 
-                regenerateQrCode();
-            else
-                setFinishedSession(true);
+            (chosenRepeats > 1) ? regenerateQrCode() : finishQrSession();
         }
         regenerate();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -114,15 +113,15 @@ export default function CreateQR() {
 
     const submitQrSession = () => {
         setRandomQrInt(generateRandomInt());
-        //setLockSubmitButton(true);
     }
 
     const succesfulQrSubmit = (result) => {
-        setReceivedQrId(result.data.id_qr);
+        console.log(result.data);
+        setReceivedQrId(result.data.qr_id);
     }
 
     const failureQrSubmit = (error) => {
-        //setLockSubmitButton(false);
+        console.log("Failure to submit QR");
     }
 
     const succesfulQrUpdate = (result) => {
@@ -130,6 +129,25 @@ export default function CreateQR() {
     }
 
     const failureQrUpdate = (error) => {
+        console.log("Failure to update QR");
+    }
+
+    const finishQrSession = () => {
+        patchUpdateQr({
+            qr_id: receivedQrId,
+            key: -1 },
+            localStorage.getItem('user'),
+            succesfulQrFinish, 
+            failureQrFinish);
+    }
+
+    const succesfulQrFinish = (result) => {
+        console.log("Successful QR finish");
+        setFinishedSession(true);
+    }
+
+    const failureQrFinish = (error) => {
+        console.log("Failure to finish QR");
     }
 
     const delay = ms => new Promise(res => setTimeout(res, ms));
@@ -196,7 +214,7 @@ export default function CreateQR() {
                         }
                         { chosenInterval && chosenCourse ?
                             <div className="flex-container-column" style={{marginTop: "20px"}}>
-                                <div className="qr-input-header">Choose how much a QR should be available (sec): </div>
+                                <div className="qr-input-header">Choose how much a QR should be available (min): </div>
                                 <input type="number"
                                     onChange = {(e) => hasChosenDuration(e.target.value)}
                                     className="form-control" 
