@@ -4,11 +4,7 @@ import com.mps.QResent.enums.Role;
 import com.mps.QResent.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import com.mps.QResent.model.Subject;
-import com.mps.QResent.model.User;
 import com.mps.QResent.projection.UserSubjectView;
-import com.mps.QResent.service.UserService;
-import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 import java.util.Optional;
