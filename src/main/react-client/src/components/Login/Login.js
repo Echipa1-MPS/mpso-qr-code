@@ -1,4 +1,5 @@
 import {useState, useEffect} from 'react';
+import { postLogin } from '../../helpers/apicaller';
 
 export default function Login() {
 
@@ -6,14 +7,30 @@ export default function Login() {
     const [password, setPassword] = useState("");
 
     useEffect(() => {
-        // if (localStorage.getItem('user')) {
-        //     window.location.href = '/';
-        // }
+        if (localStorage.getItem('user')) {
+            window.location.href = '/';
+        }
     });
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        localStorage.setItem('user', username);
+        if (username && password) {
+            postLogin({email: username, password: password}, 
+                successfulLogin, 
+                failedLogin);
+        }
+    }
+
+    const successfulLogin = (response) => {
+        if (response && response.data) {
+            localStorage.setItem('user', response.data.jwt_token);
+            window.location.href = '/';
+        }
+    }
+
+    const failedLogin = (response) => {
+        console.log("Failed login");
+        console.log(response);
     }
 
     return (
@@ -21,7 +38,7 @@ export default function Login() {
             <div style={{width: "400px", marginTop: "50px"}}>
                 <form>
                     <div className="form-group">
-                        <label for="loginEmail">Email address</label>
+                        <label htmlFor="loginEmail">Email address</label>
                         <input type="email"
                                 value = {username}
                                 onChange = {(e) => setUsername(e.target.value)}
@@ -32,7 +49,7 @@ export default function Login() {
                         <small id="emailHelp" className="form-text text-muted">Please login using the LDAP account</small>
                     </div>
                     <div className="form-group">
-                        <label for="loginPassword">Password</label>
+                        <label htmlFor="loginPassword">Password</label>
                         <input type="password"
                                 value = {password}
                                 onChange = {(e) => setPassword(e.target.value)}
