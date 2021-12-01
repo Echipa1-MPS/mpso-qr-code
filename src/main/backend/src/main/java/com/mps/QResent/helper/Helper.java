@@ -14,6 +14,7 @@ public class Helper {
         studentJson.put("name", student.getName());
         studentJson.put("secondName", student.getSurname());
         studentJson.put("ldap", student.getUsername());
+        studentJson.put("email", student.getEmail());
         studentJson.put("group", student.getGroup());
         studentJson.put("privilege", student.getRole().ordinal());
         return studentJson;

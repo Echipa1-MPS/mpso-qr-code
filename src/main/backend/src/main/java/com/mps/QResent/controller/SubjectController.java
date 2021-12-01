@@ -25,6 +25,7 @@ import javax.annotation.security.RolesAllowed;
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @CrossOrigin(maxAge = 3600)
 @RestController
@@ -46,7 +47,7 @@ public class SubjectController {
     }
 
     @GetMapping(path = "/admin/get-all-courses")
-    @RolesAllowed("ADMIN")
+//    @RolesAllowed("ADMIN")
     public String getAllCourses() {
         List<SubjectView> subjects = subjectService.getAll();
         JSONObject jsonObject = new JSONObject();
@@ -69,9 +70,7 @@ public class SubjectController {
             }
             JSONArray students = new JSONArray();
             if(subjectService.findById(subject.getId()).isPresent()) {
-                for (User student : userService.getStudents(subjectService.findById(subject.getId()).get())) {
-                    students.add(Helper.studentJSON(student));
-                }
+                students = userService.getStudents(subjectService.findById(subject.getId()).get()).stream().map(Helper::studentJSON).collect(Collectors.toCollection(JSONArray::new));
             }
             jsonObject1.put("Students_Enrolled", students);
             jsonObject1.put("intervals", jsonArray1);
