@@ -41,19 +41,19 @@ public class SubjectController {
 
     @GetMapping(path = "/admin/get-all-subjects")
     @RolesAllowed("ADMIN")
-    public List<SubjectView> getAll(){
+    public List<SubjectView> getAll() {
         return subjectService.getAll();
     }
 
     @GetMapping(path = "/admin/get-all-courses")
     @RolesAllowed("ADMIN")
-    public String getAllCourses(){
+    public String getAllCourses() {
         List<SubjectView> subjects = subjectService.getAll();
         JSONObject jsonObject = new JSONObject();
         JSONArray jsonArray = new JSONArray();
-        for(SubjectView subject: subjects){
-            JSONObject jsonObject1 =  new JSONObject();
-            jsonObject1.put("Id_Course",subject.getId());
+        for (SubjectView subject : subjects) {
+            JSONObject jsonObject1 = new JSONObject();
+            jsonObject1.put("Id_Course", subject.getId());
             jsonObject1.put("Name_C", subject.getName());
             subjectService.findById(subject.getId()).ifPresent(value -> jsonObject1.put("Id_Professor", userService.getProfId(value)));
             subjectService.findById(subject.getId()).ifPresent(value -> jsonObject1.put("Id_Professor", userService.getProf(value)));
@@ -68,12 +68,12 @@ public class SubjectController {
     @DeleteMapping(path = "/admin/delete-course/{id}")
     @ResponseStatus(HttpStatus.OK)
     @RolesAllowed("ADMIN")
-    public ResponseEntity<?> deleteSubject(@PathVariable Long id){
+    public ResponseEntity<?> deleteSubject(@PathVariable Long id) {
         Optional<Subject> subject = subjectService.findById(id);
         try {
-            if(subject.isPresent()){
+            if (subject.isPresent()) {
                 Set<User> users = subject.get().getUsers();
-                for(User user: users){
+                for (User user : users) {
                     user.getSubjects().remove(subject.get());
                     userService.save(user);
                 }
@@ -93,7 +93,7 @@ public class SubjectController {
         subject.setName(subjectDTO.getNameC());
         subject.setGradingSubject(subjectDTO.getGrading());
         subjectService.save(subject);
-        if(userService.findByIdOptional(subjectDTO.getIdProfessor()).isPresent()){
+        if (userService.findByIdOptional(subjectDTO.getIdProfessor()).isPresent()) {
             subject.getUsers().add(userService.findByIdOptional(subjectDTO.getIdProfessor()).get());
             subjectService.save(subject);
             userService.findByIdOptional(subjectDTO.getIdProfessor()).get().getSubjects().add(subject);
@@ -105,10 +105,10 @@ public class SubjectController {
     @PostMapping(path = "/admin/update-course")
     @ResponseStatus(HttpStatus.OK)
     @RolesAllowed("ADMIN")
-    public ResponseEntity<?> updateSubject(@RequestBody Map<String, Object> request){
+    public ResponseEntity<?> updateSubject(@RequestBody Map<String, Object> request) {
         try {
             if (request.get("course_id") != null) {
-                Long course_id = Long.valueOf((Integer)request.get("course_id"));
+                Long course_id = Long.valueOf((Integer) request.get("course_id"));
                 Optional<Subject> subject = subjectService.findById(course_id);
                 for (Map.Entry<String, Object> entry : request.entrySet()) {
                     switch (entry.getKey()) {
@@ -119,7 +119,7 @@ public class SubjectController {
                             continue;
                         case "idProfessor":
                             Optional<User> user = userService.findByIdOptional(course_id);
-                            user.ifPresent(value -> subject.ifPresent(value1->value1.getUsers().add(value)));
+                            user.ifPresent(value -> subject.ifPresent(value1 -> value1.getUsers().add(value)));
                             user.ifPresent(value -> userService.save(value));
                             continue;
                         case "desc":
@@ -145,12 +145,12 @@ public class SubjectController {
     @PostMapping(path = "/admin/enroll-students")
     @ResponseStatus(HttpStatus.OK)
     @RolesAllowed("ADMIN")
-    public ResponseEntity<?> enrollStudents(@RequestBody StudentsEnroll studentsEnroll){
+    public ResponseEntity<?> enrollStudents(@RequestBody StudentsEnroll studentsEnroll) {
         Optional<Subject> subject = subjectService.findById(studentsEnroll.getId_course());
-        if(subject.isPresent()){
-            for (StudentsToEnroll student: studentsEnroll.getStudents_to_enroll()){
+        if (subject.isPresent()) {
+            for (StudentsToEnroll student : studentsEnroll.getStudents_to_enroll()) {
                 Optional<User> user = userService.findByIdOptional(student.getId_user());
-                if(user.isPresent()){
+                if (user.isPresent()) {
                     user.get().getSubjects().add(subject.get());
                     userService.save(user.get());
                     subject.get().getUsers().add(user.get());
@@ -168,14 +168,14 @@ public class SubjectController {
         ArrayList<DayOfWeek> dayOfWeeks = new ArrayList<>();
         DayOfWeek today = LocalDateTime.now().getDayOfWeek();
         int nextDay;
-        for(int i = 0; i < 3; i++){
+        for (int i = 0; i < 3; i++) {
             dayOfWeeks.add(today);
-            nextDay = ((today.getValue() + 1) <= 7)? (today.getValue() + 1): 1;
+            nextDay = ((today.getValue() + 1) <= 7) ? (today.getValue() + 1) : 1;
             today = DayOfWeek.of(nextDay);
         }
-        for(SubjectView subjectView: userSubjectView.getSubjects()){
+        for (SubjectView subjectView : userSubjectView.getSubjects()) {
 
-            for(DayOfWeek day : dayOfWeeks) {
+            for (DayOfWeek day : dayOfWeeks) {
                 for (ScheduleSubjectView subjectView1 : scheduleService.getNextSubjects(day, subjectView.getId())) {
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put("CourseName", subjectView1.getSubject().getName());
@@ -198,12 +198,12 @@ public class SubjectController {
     }
 
     @GetMapping(path = "/get-all-courses-for-current-user")
-    public String getAllCoursesForCurrentUser(){
+    public String getAllCoursesForCurrentUser() {
         Optional<User> user = userService.findByEmail(userService.getCurrentUserEmail());
         JSONObject jsonObject = new JSONObject();
         JSONArray courses_enrolled = new JSONArray();
-        if(user.isPresent()){
-            for(Subject subject: user.get().getSubjects()){
+        if (user.isPresent()) {
+            for (Subject subject : user.get().getSubjects()) {
                 JSONObject course = new JSONObject();
                 course.put("id_course", subject.getId());
                 course.put("name_course", subject.getName());
@@ -211,7 +211,7 @@ public class SubjectController {
                 course.put("grading", subject.getGradingSubject());
                 course.put("name_prof", userService.getProf(subject));
                 JSONArray intervals = new JSONArray();
-                for(Schedule schedule: subject.getSchedule()){
+                for (Schedule schedule : subject.getSchedule()) {
                     JSONObject interval = new JSONObject();
                     interval.put("id_interval", schedule.getId());
                     interval.put("day", schedule.getDay());
@@ -221,7 +221,7 @@ public class SubjectController {
                 }
                 course.put("Intervals", intervals);
                 JSONArray students = new JSONArray();
-                for(User student: userService.getStudents(subject)){
+                for (User student : userService.getStudents(subject)) {
                     students.add(Helper.studentJSON(student));
                 }
                 course.put("Students_Enrolled", students);
@@ -235,18 +235,18 @@ public class SubjectController {
 
     @GetMapping(path = "teacher/courses")
     @RolesAllowed("TEACHER")
-    public ResponseEntity<?> getTeacherCourses(@RequestBody Map<String, Object> request) {
+    public ResponseEntity<?> getTeacherCourses() {
         try {
-            if (request.containsKey("user_id")) {
-                User user = this.userService.findById(Long.parseLong(String.valueOf(request.get("user_id"))));
-                JSONObject response = new JSONObject();
-                List<JSONObject> teacherCourses = new ArrayList<>();
-                for (Subject subject: user.getSubjects()) {
+            Optional<User> user = userService.findByEmail(userService.getCurrentUserEmail());
+            JSONObject response = new JSONObject();
+            List<JSONObject> teacherCourses = new ArrayList<>();
+            if (user.isPresent()) {
+                for (Subject subject : user.get().getSubjects()) {
                     JSONObject course = new JSONObject();
                     course.put("id_course", subject.getId());
                     course.put("name_course", subject.getName());
                     List<JSONObject> intervals = new ArrayList<>();
-                    for(Schedule schedule: subject.getSchedule()){
+                    for (Schedule schedule : subject.getSchedule()) {
                         JSONObject interval = new JSONObject();
                         interval.put("day", schedule.getDay().getValue());
                         interval.put("start_hour", schedule.getStartTime());
@@ -257,9 +257,8 @@ public class SubjectController {
                 }
                 response.put("teacher_courses", teacherCourses);
                 return ResponseEntity.status(HttpStatus.OK).body(response);
-
             } else {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Missing required credentials!");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("The user was not found!");
             }
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());

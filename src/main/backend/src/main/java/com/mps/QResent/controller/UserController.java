@@ -198,18 +198,18 @@ public class UserController {
 
     @GetMapping(path = "/teacher/profile")
     @RolesAllowed("TEACHER")
-    public ResponseEntity<?> getProfile(@RequestBody Map<String, Object> request) {
+    public ResponseEntity<?> getProfile() {
         try {
-            if (request.containsKey("user_id")) {
-                User user = this.userService.findById(Long.parseLong(String.valueOf(request.get("user_id"))));
-                JSONObject response = new JSONObject();
-                response.put("email", user.getEmail());
-                response.put("username", user.getUsername());
-                response.put("name", user.getName());
-                response.put("surname", user.getSurname());
+            Optional<User> user = userService.findByEmail(userService.getCurrentUserEmail());
+            JSONObject response = new JSONObject();
+            if (user.isPresent()) {
+                response.put("email", user.get().getEmail());
+                response.put("username", user.get().getUsername());
+                response.put("name", user.get().getName());
+                response.put("surname", user.get().getSurname());
                 return ResponseEntity.status(HttpStatus.OK).body(response);
             } else {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Missing required credentials!");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("The user was not found!");
             }
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
