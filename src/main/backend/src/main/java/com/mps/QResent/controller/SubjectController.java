@@ -232,4 +232,37 @@ public class SubjectController {
         jsonObject.put("courses_enrolled", courses_enrolled);
         return jsonObject.toString();
     }
+
+    @GetMapping(path = "teacher/courses")
+    @RolesAllowed("TEACHER")
+    public ResponseEntity<?> getTeacherCourses(@RequestBody Map<String, Object> request) {
+        try {
+            if (request.containsKey("user_id")) {
+                User user = this.userService.findById(Long.parseLong(String.valueOf(request.get("user_id"))));
+                JSONObject response = new JSONObject();
+                List<JSONObject> teacherCourses = new ArrayList<>();
+                for (Subject subject: user.getSubjects()) {
+                    JSONObject course = new JSONObject();
+                    course.put("id_course", subject.getId());
+                    course.put("name_course", subject.getName());
+                    List<JSONObject> intervals = new ArrayList<>();
+                    for(Schedule schedule: subject.getSchedule()){
+                        JSONObject interval = new JSONObject();
+                        interval.put("day", schedule.getDay().getValue());
+                        interval.put("start_hour", schedule.getStartTime());
+                        intervals.add(interval);
+                    }
+                    course.put("intervals", intervals);
+                    teacherCourses.add(course);
+                }
+                response.put("teacher_courses", teacherCourses);
+                return ResponseEntity.status(HttpStatus.OK).body(response);
+
+            } else {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Missing required credentials!");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
 }
