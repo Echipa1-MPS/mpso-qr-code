@@ -59,6 +59,22 @@ public class SubjectController {
             subjectService.findById(subject.getId()).ifPresent(value -> jsonObject1.put("Professor_Name", userService.getProf(value)));
             jsonObject1.put("Desc", subject.getInfoSubject());
             jsonObject1.put("Grading", subject.getGradingSubject());
+            JSONArray jsonArray1 = new JSONArray();
+            for(ScheduleSubjectView scheduleSubjectView: subject.getSchedule()){
+                JSONObject jsonObject2 = new JSONObject();
+                jsonObject2.put("day", scheduleSubjectView.getDay());
+                jsonObject2.put("start_h", scheduleSubjectView.getStartTime().getHour());
+                jsonObject2.put("length", scheduleSubjectView.getLength());
+                jsonArray1.add(jsonObject2);
+            }
+            JSONArray students = new JSONArray();
+            if(subjectService.findById(subject.getId()).isPresent()) {
+                for (User student : userService.getStudents(subjectService.findById(subject.getId()).get())) {
+                    students.add(Helper.studentJSON(student));
+                }
+            }
+            jsonObject1.put("Students_Enrolled", students);
+            jsonObject1.put("intervals", jsonArray1);
             jsonArray.add(jsonObject1);
         }
         jsonObject.put("Courses", jsonArray);
@@ -174,7 +190,7 @@ public class SubjectController {
                 jsonObject.put("CourseName", subjectView1.getSubject().getName());
                 jsonObject.put("day", subjectView1.getDay());
                 jsonObject.put("length", subjectView1.getLength());
-                jsonObject.put("startTime", subjectView1.getStartTime());
+                jsonObject.put("startTime", subjectView1.getStartTime().getHour());
                 jsonArray.add(jsonObject);
             }
         }
@@ -209,7 +225,7 @@ public class SubjectController {
                     interval.put("id_interval", schedule.getId());
                     interval.put("day", schedule.getDay());
                     interval.put("length", schedule.getLength());
-                    interval.put("start_h", schedule.getStartTime());
+                    interval.put("start_h", schedule.getStartTime().getHour());
                     intervals.add(interval);
                 }
                 course.put("Intervals", intervals);
