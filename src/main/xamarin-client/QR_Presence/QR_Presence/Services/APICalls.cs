@@ -19,6 +19,8 @@ namespace QR_Presence.Services
 
         public static string BaseUrlSubject = "http://ec2-3-18-103-144.us-east-2.compute.amazonaws.com:8080/api/subject/";
         public static string BaseUrlSubjectAdmin = "http://ec2-3-18-103-144.us-east-2.compute.amazonaws.com:8080/api/subject/admin/";
+        public static string BaseUrlSchedAdmin = "http://ec2-3-18-103-144.us-east-2.compute.amazonaws.com:8080/api/schedule/admin/";
+
         #endregion URLs
 
         #region Login/Register
@@ -294,7 +296,7 @@ namespace QR_Presence.Services
             }
         }
 
-        public async static Task<bool> CreateCourseAdminAsync(CourseInfoModel course, int Id_Professor)
+        public async static Task<int> CreateCourseAdminAsync(CourseInfoModel course, int Id_Professor)
         {
             using (var c = new HttpClient())
             {
@@ -318,10 +320,13 @@ namespace QR_Presence.Services
 
                 if (response.IsSuccessStatusCode)
                 {
-                    return true;
+                    string cont = await response.Content.ReadAsStringAsync();
+
+                    int id = JsonConvert.DeserializeObject<int>(cont);
+                    return id;
                 }
 
-                return false;
+                return -1;
             }
         }
 
@@ -405,6 +410,39 @@ namespace QR_Presence.Services
                 return false;
             }
         }
+
+        public async static Task<bool> AddIntervalsCoursAsync(IntervalPicker interval, int subject)
+        {
+            using (var c = new HttpClient())
+            {
+                HttpClient client = new HttpClient();
+                var authHeader = new AuthenticationHeaderValue("Bearer", await SecureStorage.GetAsync("oauth_token"));
+
+                client.DefaultRequestHeaders.Authorization = authHeader;
+                
+                var jsonRequest = new
+                {
+                    day = interval.Day,
+                    duration = interval.Duration,
+                    start_time = $"{interval.StartH}:00",
+                    subject = subject
+                };
+
+                var serializedJsonRequest = JsonConvert.SerializeObject(jsonRequest);
+                HttpContent content = new StringContent(serializedJsonRequest, Encoding.UTF8, "application/json");
+
+                var response = await client.PostAsync(new Uri(BaseUrlSchedAdmin + "add-schedule"), content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return true;
+                }
+
+                return false;
+            }
+        }
+
+
         #endregion Admin
 
         #region Student
@@ -428,7 +466,7 @@ namespace QR_Presence.Services
                     Items = JsonConvert.DeserializeObject<UserCourses>(content);
                 }
 
-                return Items;
+                  return Items;
             }
         }
         public async static Task<ProfileModel> GetProfileAsync()

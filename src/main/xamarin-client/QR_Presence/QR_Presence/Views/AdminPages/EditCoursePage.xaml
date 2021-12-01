@@ -9,7 +9,8 @@
         <Grid Padding="8,16,8,8">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
-                <RowDefinition Height="0.8*"/>
+                <RowDefinition Height="0.9*"/>
+                <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
@@ -17,7 +18,9 @@
             </Grid.ColumnDefinitions>
 
             <StackLayout Orientation="Horizontal" HorizontalOptions="StartAndExpand" Spacing="16" VerticalOptions="CenterAndExpand">
-                <Button Text="arrow-left" FontFamily="FAS" FontSize="Large" TextColor="{AppThemeBinding Dark={StaticResource BackgroundLight}, Light={StaticResource BackgroundDark}}" HeightRequest="30" Padding="0,0,0,0" WidthRequest="30" CornerRadius="90" BackgroundColor="Transparent" Clicked="Button_Clicked"/>
+                <Button Text="arrow-left" FontFamily="FAS" FontSize="30"  
+                        TextColor="{AppThemeBinding Dark={StaticResource BackgroundLight}, Light={StaticResource BackgroundDark}}" 
+                        HeightRequest="30" Padding="0,0,0,0" WidthRequest="30" HorizontalOptions="Center" VerticalOptions="Center"  BackgroundColor="Transparent" Clicked="Button_Clicked"/>
                 <Label Text="Edit Course" FontSize="Large" TextColor="{AppThemeBinding Dark={StaticResource BackgroundLight}, Light={StaticResource BackgroundDark}}"  VerticalOptions="Center" FontAttributes="Bold" />
             </StackLayout>
 
@@ -25,6 +28,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="0.5*"/>
                     <RowDefinition Height="*"/>
+
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
@@ -40,6 +44,8 @@
                     <Picker x:Name="ProfessorPicker" Grid.Column="1" 
                                 Title="Role"
                                 TextColor="{AppThemeBinding Light={StaticResource BackgroundDark}, Dark={StaticResource BackgroundLight}}"
+                                TitleColor="{AppThemeBinding Light={StaticResource DarkGray}, Dark={StaticResource BackgroundLight}}"
+                            
                                 ItemsSource="{Binding Professors}"
                                 ItemDisplayBinding="{Binding MainTitle}"
                                 SelectedItem="{Binding Professor}" />
@@ -61,11 +67,66 @@
                 </Frame>
             </Grid>
 
+
+            <StackLayout BindableLayout.ItemsSource="{Binding ListOfIntervals}"  Grid.Row="2">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate>
+                        <Grid ColumnSpacing="2">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width=".5*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Frame Style="{StaticResource FrameAddNews}"  Grid.Column="0">
+
+                                <Picker Grid.Column="0" 
+                                Title="Day"
+                                TextColor="{AppThemeBinding Light={StaticResource BackgroundDark}, Dark={StaticResource BackgroundLight}}"
+                                TitleColor="{AppThemeBinding Light={StaticResource DarkGray}, Dark={StaticResource BackgroundLight}}"
+                                ItemsSource="{Binding DayOfWeekCourse}"
+                                ItemDisplayBinding="{Binding .}"
+                                SelectedItem="{Binding Day}" />
+
+                            </Frame>
+                            <Frame Style="{StaticResource FrameAddNews}"  Grid.Column="1">
+
+                                <Picker  Grid.Column="1" 
+                                Title="Start H"
+                                TextColor="{AppThemeBinding Light={StaticResource BackgroundDark}, Dark={StaticResource BackgroundLight}}"
+                                TitleColor="{AppThemeBinding Light={StaticResource DarkGray}, Dark={StaticResource BackgroundLight}}"
+                                         
+                                ItemsSource="{Binding StartHOfCourse}"
+                                ItemDisplayBinding="{Binding .}"
+                                SelectedItem="{Binding StartH}" />
+                            </Frame>
+
+                            <Frame Style="{StaticResource FrameAddNews}"  Grid.Column="2">
+
+                                <Picker Grid.Column="2" 
+                                Title="Lenght"
+                                TextColor="{AppThemeBinding Light={StaticResource BackgroundDark}, Dark={StaticResource BackgroundLight}}"
+                                TitleColor="{AppThemeBinding Light={StaticResource DarkGray}, Dark={StaticResource BackgroundLight}}"
+                                        
+                                ItemsSource="{Binding LenghtOfCourse}"
+                                ItemDisplayBinding="{Binding .}"
+                                SelectedItem="{Binding Duration}" />
+                            </Frame>
+
+                            <Button Text="{Binding TextButton}" FontFamily="FAS" Grid.Column="3" HeightRequest="10" WidthRequest="10" CornerRadius="15" Clicked="Button_Clicked_2"/>
+                        </Grid>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </StackLayout>
             <CollectionView x:Name="accountsList"
                             SelectionMode="Multiple"
                             SelectionChanged="accountsList_SelectionChanged"
                             ItemsSource="{Binding ListOf}"
-                            Grid.Row="2">
+                            Grid.Row="3">
 
                 <CollectionView.ItemsLayout>
                     <GridItemsLayout Orientation="Vertical" Span="1" HorizontalItemSpacing="7" VerticalItemSpacing="7"/>
@@ -73,16 +134,16 @@
 
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                            <Frame Style="{StaticResource FrameList}" BackgroundColor="Transparent" Padding="5,5,2,5">
-                                <Grid Padding="10,10,10,10">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
-                                    </Grid.RowDefinitions>
+                        <Frame Style="{StaticResource FrameList}" BackgroundColor="Transparent" Padding="5,5,2,5">
+                            <Grid Padding="10,10,10,10">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
 
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="1.5*" />
-                                        <ColumnDefinition Width="Auto" />
-                                    </Grid.ColumnDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1.5*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
 
                                 <Label Text="{Binding MainTitle}"
                                        Grid.Row="0"
@@ -90,8 +151,8 @@
                                        FontSize="Medium"
                                        TextColor="{AppThemeBinding Light={StaticResource BackgroundDark}, Dark={StaticResource BackgroundLight}}"
                                        Style="{StaticResource TitleStyle}"/>
-                                </Grid>
-                            </Frame>
+                            </Grid>
+                        </Frame>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
 
