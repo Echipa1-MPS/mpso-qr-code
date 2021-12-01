@@ -232,36 +232,4 @@ public class SubjectController {
         jsonObject.put("courses_enrolled", courses_enrolled);
         return jsonObject.toString();
     }
-
-    @GetMapping(path = "teacher/courses")
-    @RolesAllowed("TEACHER")
-    public ResponseEntity<?> getTeacherCourses() {
-        try {
-            Optional<User> user = userService.findByEmail(userService.getCurrentUserEmail());
-            JSONObject response = new JSONObject();
-            List<JSONObject> teacherCourses = new ArrayList<>();
-            if (user.isPresent()) {
-                for (Subject subject : user.get().getSubjects()) {
-                    JSONObject course = new JSONObject();
-                    course.put("id_course", subject.getId());
-                    course.put("name_course", subject.getName());
-                    List<JSONObject> intervals = new ArrayList<>();
-                    for (Schedule schedule : subject.getSchedule()) {
-                        JSONObject interval = new JSONObject();
-                        interval.put("day", schedule.getDay().getValue());
-                        interval.put("start_hour", schedule.getStartTime());
-                        intervals.add(interval);
-                    }
-                    course.put("intervals", intervals);
-                    teacherCourses.add(course);
-                }
-                response.put("teacher_courses", teacherCourses);
-                return ResponseEntity.status(HttpStatus.OK).body(response);
-            } else {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("The user was not found!");
-            }
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
-        }
-    }
 }
