@@ -42,19 +42,19 @@ public class SubjectController {
 
     @GetMapping(path = "/admin/get-all-subjects")
     @RolesAllowed("ADMIN")
-    public List<SubjectView> getAll(){
+    public List<SubjectView> getAll() {
         return subjectService.getAll();
     }
 
     @GetMapping(path = "/admin/get-all-courses")
     @RolesAllowed("ADMIN")
-    public String getAllCourses(){
+    public String getAllCourses() {
         List<SubjectView> subjects = subjectService.getAll();
         JSONObject jsonObject = new JSONObject();
         JSONArray jsonArray = new JSONArray();
-        for(SubjectView subject: subjects){
-            JSONObject jsonObject1 =  new JSONObject();
-            jsonObject1.put("Id_Course",subject.getId());
+        for (SubjectView subject : subjects) {
+            JSONObject jsonObject1 = new JSONObject();
+            jsonObject1.put("Id_Course", subject.getId());
             jsonObject1.put("Name_C", subject.getName());
             subjectService.findById(subject.getId()).ifPresent(value -> jsonObject1.put("Id_Professor", userService.getProfId(value)));
             subjectService.findById(subject.getId()).ifPresent(value -> jsonObject1.put("Professor_Name", userService.getProf(value)));
@@ -69,7 +69,7 @@ public class SubjectController {
     @DeleteMapping(path = "/admin/delete-course/{id}")
     @ResponseStatus(HttpStatus.OK)
     @RolesAllowed("ADMIN")
-    public ResponseEntity<?> deleteSubject(@PathVariable Long id){
+    public ResponseEntity<?> deleteSubject(@PathVariable Long id) {
         Optional<Subject> subject = subjectService.findById(id);
         try {
             subjectService.delete(id);
@@ -87,7 +87,7 @@ public class SubjectController {
         subject.setName(subjectDTO.getNameC());
         subject.setGradingSubject(subjectDTO.getGrading());
         subjectService.save(subject);
-        if(userService.findByIdOptional(subjectDTO.getIdProfessor()).isPresent()){
+        if (userService.findByIdOptional(subjectDTO.getIdProfessor()).isPresent()) {
             subject.getUsers().add(userService.findByIdOptional(subjectDTO.getIdProfessor()).get());
             subjectService.save(subject);
             userService.findByIdOptional(subjectDTO.getIdProfessor()).get().getSubjects().add(subject);
@@ -99,10 +99,10 @@ public class SubjectController {
     @PostMapping(path = "/admin/update-course")
     @ResponseStatus(HttpStatus.OK)
     @RolesAllowed("ADMIN")
-    public ResponseEntity<?> updateSubject(@RequestBody Map<String, Object> request){
+    public ResponseEntity<?> updateSubject(@RequestBody Map<String, Object> request) {
         try {
             if (request.get("course_id") != null) {
-                Long course_id = Long.valueOf((Integer)request.get("course_id"));
+                Long course_id = Long.valueOf((Integer) request.get("course_id"));
                 Optional<Subject> subject = subjectService.findById(course_id);
                 for (Map.Entry<String, Object> entry : request.entrySet()) {
                     switch (entry.getKey()) {
@@ -112,8 +112,8 @@ public class SubjectController {
                             subject.ifPresent(value -> value.setName((String) request.get("nameC")));
                             continue;
                         case "idProfessor":
-                            Optional<User> user = userService.findByIdOptional(Long.valueOf((Integer)request.get("idProfessor")));
-                            user.ifPresent(value -> subject.ifPresent(value1->value1.getUsers().add(value)));
+                            Optional<User> user = userService.findByIdOptional(Long.valueOf((Integer) request.get("idProfessor")));
+                            user.ifPresent(value -> subject.ifPresent(value1 -> value1.getUsers().add(value)));
                             user.ifPresent(value -> userService.save(value));
                             continue;
                         case "desc":
@@ -139,12 +139,12 @@ public class SubjectController {
     @PostMapping(path = "/admin/enroll-students")
     @ResponseStatus(HttpStatus.OK)
     @RolesAllowed("ADMIN")
-    public ResponseEntity<?> enrollStudents(@RequestBody StudentsEnroll studentsEnroll){
+    public ResponseEntity<?> enrollStudents(@RequestBody StudentsEnroll studentsEnroll) {
         Optional<Subject> subject = subjectService.findById(studentsEnroll.getId_course());
-        if(subject.isPresent()){
-            for (StudentsToEnroll student: studentsEnroll.getStudents_to_enroll()){
+        if (subject.isPresent()) {
+            for (StudentsToEnroll student : studentsEnroll.getStudents_to_enroll()) {
                 Optional<User> user = userService.findByIdOptional(student.getId_user());
-                if(user.isPresent()){
+                if (user.isPresent()) {
                     user.get().getSubjects().add(subject.get());
                     userService.save(user.get());
                     subject.get().getUsers().add(user.get());
@@ -163,14 +163,14 @@ public class SubjectController {
         ArrayList<DayOfWeek> dayOfWeeks = new ArrayList<>();
         DayOfWeek today = LocalDateTime.now().getDayOfWeek();
         int nextDay;
-        for(int i = 0; i < 3; i++){
+        for (int i = 0; i < 3; i++) {
             dayOfWeeks.add(today);
-            nextDay = ((today.getValue() + 1) <= 7)? (today.getValue() + 1): 1;
+            nextDay = ((today.getValue() + 1) <= 7) ? (today.getValue() + 1) : 1;
             today = DayOfWeek.of(nextDay);
         }
-        for(SubjectView subjectView: userSubjectView.getSubjects()){
+        for (SubjectView subjectView : userSubjectView.getSubjects()) {
 
-            for(DayOfWeek day : dayOfWeeks) {
+            for (DayOfWeek day : dayOfWeeks) {
                 ScheduleSubjectView subjectView1 = scheduleService.getNextSubjects(day, subjectView.getId());
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("CourseName", subjectView1.getSubject().getName());
@@ -193,12 +193,12 @@ public class SubjectController {
 
     @GetMapping(path = "/get-all-courses-for-current-user")
     @ResponseStatus(HttpStatus.OK)
-    public String getAllCoursesForCurrentUser(){
+    public String getAllCoursesForCurrentUser() {
         Optional<User> user = userService.findByEmail(userService.getCurrentUserEmail());
         JSONObject jsonObject = new JSONObject();
         JSONArray courses_enrolled = new JSONArray();
-        if(user.isPresent()){
-            for(Subject subject: user.get().getSubjects()){
+        if (user.isPresent()) {
+            for (Subject subject : user.get().getSubjects()) {
                 JSONObject course = new JSONObject();
                 course.put("id_course", subject.getId());
                 course.put("name_course", subject.getName());
@@ -206,7 +206,7 @@ public class SubjectController {
                 course.put("grading", subject.getGradingSubject());
                 course.put("name_prof", userService.getProf(subject));
                 JSONArray intervals = new JSONArray();
-                for(Schedule schedule: subject.getSchedule()){
+                for (Schedule schedule : subject.getSchedule()) {
                     JSONObject interval = new JSONObject();
                     interval.put("id_interval", schedule.getId());
                     interval.put("day", schedule.getDay());
@@ -216,7 +216,7 @@ public class SubjectController {
                 }
                 course.put("Intervals", intervals);
                 JSONArray students = new JSONArray();
-                for(User student: userService.getStudents(subject)){
+                for (User student : userService.getStudents(subject)) {
                     students.add(Helper.studentJSON(student));
                 }
                 course.put("Students_Enrolled", students);
@@ -228,29 +228,30 @@ public class SubjectController {
         return jsonObject.toString();
     }
 
-    @GetMapping(path = "/get-next-courses-for-current-user-brief")
+    @GetMapping(path = "/teacher/upcoming/courses")
     @ResponseStatus(HttpStatus.OK)
+    @RolesAllowed("TEACHER")
     public String getSubjectsBriefVersion() {
         UserSubjectView userSubjectView = userService.findUserNextCourses(userService.getCurrentUserEmail());
         JSONArray jsonArray = new JSONArray();
         ArrayList<DayOfWeek> dayOfWeeks = new ArrayList<>();
         DayOfWeek today = LocalDateTime.now().getDayOfWeek();
         int nextDay;
-        for(int i = 0; i < 3; i++){
+        for (int i = 0; i < 3; i++) {
             dayOfWeeks.add(today);
-            nextDay = ((today.getValue() + 1) <= 7)? (today.getValue() + 1) : 1;
+            nextDay = ((today.getValue() + 1) <= 7) ? (today.getValue() + 1) : 1;
             today = DayOfWeek.of(nextDay);
         }
-        for(SubjectView subjectView: userSubjectView.getSubjects()){
+        for (SubjectView subjectView : userSubjectView.getSubjects()) {
 
-            for(DayOfWeek day : dayOfWeeks) {
+            for (DayOfWeek day : dayOfWeeks) {
                 ScheduleSubjectView subjectView1 = scheduleService.getNextSubjects(day, subjectView.getId());
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("name", subjectView1.getSubject().getName());
                 String interval = subjectView1.getDay() + " " + subjectView1.getStartTime().getHour() + "." +
-                        ((subjectView1.getStartTime().getMinute() < 10)? (subjectView1.getStartTime().getMinute() + "0") : subjectView1.getStartTime().getMinute()) + "-" +
+                        ((subjectView1.getStartTime().getMinute() < 10) ? (subjectView1.getStartTime().getMinute() + "0") : subjectView1.getStartTime().getMinute()) + "-" +
                         subjectView1.getStartTime().plusHours(subjectView1.getLength()).getHour() + "." +
-                        ((subjectView1.getStartTime().plusHours(subjectView1.getLength()).getMinute() < 10)? (subjectView1.getStartTime().plusHours(subjectView1.getLength()).getMinute() + "0") : subjectView1.getStartTime().plusHours(subjectView1.getLength()).getMinute());
+                        ((subjectView1.getStartTime().plusHours(subjectView1.getLength()).getMinute() < 10) ? (subjectView1.getStartTime().plusHours(subjectView1.getLength()).getMinute() + "0") : subjectView1.getStartTime().plusHours(subjectView1.getLength()).getMinute());
 
                 jsonObject.put("interval", interval);
                 jsonArray.add(jsonObject);
@@ -259,11 +260,12 @@ public class SubjectController {
         return jsonArray.toJSONString();
     }
 
-    @GetMapping(path = "/get-courses-brief")
+    @GetMapping(path = "/teacher/courses/brief")
     @ResponseStatus(HttpStatus.OK)
+    @RolesAllowed("TEACHER")
     public String getAllSubjectsBriefVersion() {
         JSONArray jsonArray = new JSONArray();
-        for(SubjectView subjectView: subjectService.getAll()){
+        for (SubjectView subjectView : subjectService.getAll()) {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("id", subjectView.getId());
             jsonObject.put("subject", subjectView.getName());
@@ -272,23 +274,24 @@ public class SubjectController {
         return jsonArray.toJSONString();
     }
 
-    @GetMapping(path = "/get-courses-details")
+    @GetMapping(path = "/teacher/courses/details")
     @ResponseStatus(HttpStatus.OK)
+    @RolesAllowed("TEACHER")
     public String getAllSubjectsDetails() {
         JSONArray jsonArray = new JSONArray();
-        for(Subject subject: subjectService.getAllModelView()){
+        for (Subject subject : subjectService.getAllModelView()) {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("id", subject.getId());
             jsonObject.put("title", subject.getName());
             jsonObject.put("description", subject.getInfoSubject());
             JSONArray jsonArray1 = new JSONArray();
-            for(Schedule schedule: subject.getSchedule()){
+            for (Schedule schedule : subject.getSchedule()) {
                 JSONObject jsonObject1 = new JSONObject();
                 jsonObject1.put("id", schedule.getId());
                 String interval = schedule.getDay() + " " + schedule.getStartTime().getHour() + "." +
-                        ((schedule.getStartTime().getMinute() < 10)? (schedule.getStartTime().getMinute() + "0") : schedule.getStartTime().getMinute()) + "-" +
+                        ((schedule.getStartTime().getMinute() < 10) ? (schedule.getStartTime().getMinute() + "0") : schedule.getStartTime().getMinute()) + "-" +
                         schedule.getStartTime().plusHours(schedule.getLength()).getHour() + "." +
-                        ((schedule.getStartTime().plusHours(schedule.getLength()).getMinute() < 10)? (schedule.getStartTime().plusHours(schedule.getLength()).getMinute() + "0") : schedule.getStartTime().plusHours(schedule.getLength()).getMinute());
+                        ((schedule.getStartTime().plusHours(schedule.getLength()).getMinute() < 10) ? (schedule.getStartTime().plusHours(schedule.getLength()).getMinute() + "0") : schedule.getStartTime().plusHours(schedule.getLength()).getMinute());
                 jsonObject1.put("interval", interval);
                 jsonArray1.add(jsonObject1);
             }
