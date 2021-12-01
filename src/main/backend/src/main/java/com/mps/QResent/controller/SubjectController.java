@@ -3,7 +3,6 @@ package com.mps.QResent.controller;
 import com.mps.QResent.dto.StudentsEnroll;
 import com.mps.QResent.dto.StudentsToEnroll;
 import com.mps.QResent.dto.SubjectDTO;
-import com.mps.QResent.enums.Role;
 import com.mps.QResent.helper.Helper;
 import com.mps.QResent.model.Schedule;
 import com.mps.QResent.model.Subject;
@@ -70,7 +69,6 @@ public class SubjectController {
     @ResponseStatus(HttpStatus.OK)
     @RolesAllowed("ADMIN")
     public ResponseEntity<?> deleteSubject(@PathVariable Long id) {
-        Optional<Subject> subject = subjectService.findById(id);
         try {
             subjectService.delete(id);
             return ResponseEntity.status(HttpStatus.OK).body("Deleted successfully");
