@@ -47,7 +47,7 @@ public class SubjectController {
     }
 
     @GetMapping(path = "/admin/get-all-courses")
-//    @RolesAllowed("ADMIN")
+    @RolesAllowed("ADMIN")
     public String getAllCourses() {
         List<SubjectView> subjects = subjectService.getAll();
         JSONObject jsonObject = new JSONObject();
