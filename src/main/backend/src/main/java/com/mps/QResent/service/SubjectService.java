@@ -21,8 +21,8 @@ public class SubjectService {
         subjectRepository.save(subject);
     }
 
-    public void delete(Subject subject) {
-        subjectRepository.delete(subject);
+    public void delete(Long id) {
+        subjectRepository.deleteById(id);
     }
 
     public List<SubjectView> getAll(){
@@ -31,5 +31,9 @@ public class SubjectService {
 
     public Optional<Subject> findById(Long id){
         return subjectRepository.findById(id);
+    }
+
+    public List<Subject> getAllModelView(){
+        return subjectRepository.findAll();
     }
 }

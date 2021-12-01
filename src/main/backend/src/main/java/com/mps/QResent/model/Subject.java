@@ -15,10 +15,10 @@ public class Subject {
     @Column(name = "name")
     private String name;
 
-    @OneToMany(mappedBy = "subject", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "subject", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Schedule> schedule = new HashSet<>();
 
-    @ManyToMany(mappedBy = "subjects", cascade = CascadeType.PERSIST)
+    @ManyToMany(mappedBy = "subjects", cascade = CascadeType.ALL)
     private Set<User> users = new HashSet<>();
 
 
@@ -28,7 +28,7 @@ public class Subject {
     @Column(name = "grading")
     private String gradingSubject;
 
-    @OneToOne(cascade = CascadeType.PERSIST)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "key_qr_id")
     private KeyQr keyQr;
 

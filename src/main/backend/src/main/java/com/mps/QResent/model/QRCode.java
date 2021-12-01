@@ -23,11 +23,11 @@ public class QRCode {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Timestamp dateFinish;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "schedule_id")
     private Schedule schedule;
 
-    @ManyToMany(mappedBy = "qrCodes", cascade = CascadeType.PERSIST)
+    @ManyToMany(mappedBy = "qrCodes", cascade = CascadeType.ALL)
     private Set<User> users = new HashSet<>();
 
     public QRCode() {

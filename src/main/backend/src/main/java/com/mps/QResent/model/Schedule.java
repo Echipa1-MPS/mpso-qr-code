@@ -22,7 +22,7 @@ public class Schedule {
     @Max(5)
     private DayOfWeek day;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "subject_id")
     private Subject subject;
 
@@ -32,7 +32,7 @@ public class Schedule {
     @Column(name = "start_hour")
     private LocalTime startTime;
 
-    @OneToMany(mappedBy = "schedule")
+    @OneToMany(mappedBy = "schedule", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<QRCode> qrCodes = new HashSet<>();
 
     public Schedule() {

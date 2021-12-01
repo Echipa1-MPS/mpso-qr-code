@@ -25,6 +25,7 @@ import javax.annotation.security.RolesAllowed;
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @CrossOrigin(maxAge = 3600)
 @RestController
@@ -56,9 +57,23 @@ public class SubjectController {
             jsonObject1.put("Id_Course", subject.getId());
             jsonObject1.put("Name_C", subject.getName());
             subjectService.findById(subject.getId()).ifPresent(value -> jsonObject1.put("Id_Professor", userService.getProfId(value)));
-            subjectService.findById(subject.getId()).ifPresent(value -> jsonObject1.put("Id_Professor", userService.getProf(value)));
+            subjectService.findById(subject.getId()).ifPresent(value -> jsonObject1.put("Professor_Name", userService.getProf(value)));
             jsonObject1.put("Desc", subject.getInfoSubject());
             jsonObject1.put("Grading", subject.getGradingSubject());
+            JSONArray jsonArray1 = new JSONArray();
+            for(ScheduleSubjectView scheduleSubjectView: subject.getSchedule()){
+                JSONObject jsonObject2 = new JSONObject();
+                jsonObject2.put("day", scheduleSubjectView.getDay());
+                jsonObject2.put("start_h", scheduleSubjectView.getStartTime().getHour());
+                jsonObject2.put("length", scheduleSubjectView.getLength());
+                jsonArray1.add(jsonObject2);
+            }
+            JSONArray students = new JSONArray();
+            if(subjectService.findById(subject.getId()).isPresent()) {
+                students = userService.getStudents(subjectService.findById(subject.getId()).get()).stream().map(Helper::studentJSON).collect(Collectors.toCollection(JSONArray::new));
+            }
+            jsonObject1.put("Students_Enrolled", students);
+            jsonObject1.put("intervals", jsonArray1);
             jsonArray.add(jsonObject1);
         }
         jsonObject.put("Courses", jsonArray);
@@ -69,16 +84,8 @@ public class SubjectController {
     @ResponseStatus(HttpStatus.OK)
     @RolesAllowed("ADMIN")
     public ResponseEntity<?> deleteSubject(@PathVariable Long id) {
-        Optional<Subject> subject = subjectService.findById(id);
         try {
-            if (subject.isPresent()) {
-                Set<User> users = subject.get().getUsers();
-                for (User user : users) {
-                    user.getSubjects().remove(subject.get());
-                    userService.save(user);
-                }
-            }
-            subject.ifPresent(value -> subjectService.delete(value));
+            subjectService.delete(id);
             return ResponseEntity.status(HttpStatus.OK).body("Deleted successfully");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
@@ -118,7 +125,7 @@ public class SubjectController {
                             subject.ifPresent(value -> value.setName((String) request.get("nameC")));
                             continue;
                         case "idProfessor":
-                            Optional<User> user = userService.findByIdOptional(course_id);
+                            Optional<User> user = userService.findByIdOptional(Long.valueOf((Integer) request.get("idProfessor")));
                             user.ifPresent(value -> subject.ifPresent(value1 -> value1.getUsers().add(value)));
                             user.ifPresent(value -> userService.save(value));
                             continue;
@@ -162,6 +169,7 @@ public class SubjectController {
     }
 
     @GetMapping(path = "/get-next-courses-for-current-user")
+    @ResponseStatus(HttpStatus.OK)
     public String getSubjects() {
         UserSubjectView userSubjectView = userService.findUserNextCourses(userService.getCurrentUserEmail());
         JSONArray jsonArray = new JSONArray();
@@ -176,14 +184,13 @@ public class SubjectController {
         for (SubjectView subjectView : userSubjectView.getSubjects()) {
 
             for (DayOfWeek day : dayOfWeeks) {
-                for (ScheduleSubjectView subjectView1 : scheduleService.getNextSubjects(day, subjectView.getId())) {
-                    JSONObject jsonObject = new JSONObject();
-                    jsonObject.put("CourseName", subjectView1.getSubject().getName());
-                    jsonObject.put("day", subjectView1.getDay());
-                    jsonObject.put("length", subjectView1.getLength());
-                    jsonObject.put("startTime", subjectView1.getStartTime());
-                    jsonArray.add(jsonObject);
-                }
+                ScheduleSubjectView subjectView1 = scheduleService.getNextSubjects(day, subjectView.getId());
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("CourseName", subjectView1.getSubject().getName());
+                jsonObject.put("day", subjectView1.getDay());
+                jsonObject.put("length", subjectView1.getLength());
+                jsonObject.put("startTime", subjectView1.getStartTime().getHour());
+                jsonArray.add(jsonObject);
             }
         }
         JSONObject jsonObject = new JSONObject();
@@ -198,6 +205,7 @@ public class SubjectController {
     }
 
     @GetMapping(path = "/get-all-courses-for-current-user")
+    @ResponseStatus(HttpStatus.OK)
     public String getAllCoursesForCurrentUser() {
         Optional<User> user = userService.findByEmail(userService.getCurrentUserEmail());
         JSONObject jsonObject = new JSONObject();
@@ -216,7 +224,7 @@ public class SubjectController {
                     interval.put("id_interval", schedule.getId());
                     interval.put("day", schedule.getDay());
                     interval.put("length", schedule.getLength());
-                    interval.put("start_h", schedule.getStartTime());
+                    interval.put("start_h", schedule.getStartTime().getHour());
                     intervals.add(interval);
                 }
                 course.put("Intervals", intervals);
@@ -231,5 +239,79 @@ public class SubjectController {
         jsonObject.put("count", courses_enrolled.size());
         jsonObject.put("courses_enrolled", courses_enrolled);
         return jsonObject.toString();
+    }
+
+    @GetMapping(path = "/teacher/upcoming/courses")
+    @ResponseStatus(HttpStatus.OK)
+    @RolesAllowed("TEACHER")
+    public String getSubjectsBriefVersion() {
+        UserSubjectView userSubjectView = userService.findUserNextCourses(userService.getCurrentUserEmail());
+        JSONArray jsonArray = new JSONArray();
+        ArrayList<DayOfWeek> dayOfWeeks = new ArrayList<>();
+        DayOfWeek today = LocalDateTime.now().getDayOfWeek();
+        int nextDay;
+        for (int i = 0; i < 3; i++) {
+            dayOfWeeks.add(today);
+            nextDay = ((today.getValue() + 1) <= 7) ? (today.getValue() + 1) : 1;
+            today = DayOfWeek.of(nextDay);
+        }
+        for (SubjectView subjectView : userSubjectView.getSubjects()) {
+
+            for (DayOfWeek day : dayOfWeeks) {
+                ScheduleSubjectView subjectView1 = scheduleService.getNextSubjects(day, subjectView.getId());
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("name", subjectView1.getSubject().getName());
+                String interval = subjectView1.getDay() + " " + subjectView1.getStartTime().getHour() + "." +
+                        ((subjectView1.getStartTime().getMinute() < 10) ? (subjectView1.getStartTime().getMinute() + "0") : subjectView1.getStartTime().getMinute()) + "-" +
+                        subjectView1.getStartTime().plusHours(subjectView1.getLength()).getHour() + "." +
+                        ((subjectView1.getStartTime().plusHours(subjectView1.getLength()).getMinute() < 10) ? (subjectView1.getStartTime().plusHours(subjectView1.getLength()).getMinute() + "0") : subjectView1.getStartTime().plusHours(subjectView1.getLength()).getMinute());
+
+                jsonObject.put("interval", interval);
+                jsonArray.add(jsonObject);
+            }
+        }
+        return jsonArray.toJSONString();
+    }
+
+    @GetMapping(path = "/teacher/courses/brief")
+    @ResponseStatus(HttpStatus.OK)
+    @RolesAllowed("TEACHER")
+    public String getAllSubjectsBriefVersion() {
+        JSONArray jsonArray = new JSONArray();
+        for (SubjectView subjectView : subjectService.getAll()) {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("id", subjectView.getId());
+            jsonObject.put("subject", subjectView.getName());
+            jsonArray.add(jsonObject);
+        }
+        return jsonArray.toJSONString();
+    }
+
+    @GetMapping(path = "/teacher/courses/details")
+    @ResponseStatus(HttpStatus.OK)
+    @RolesAllowed("TEACHER")
+    public String getAllSubjectsDetails() {
+        JSONArray jsonArray = new JSONArray();
+        for (Subject subject : subjectService.getAllModelView()) {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("id", subject.getId());
+            jsonObject.put("title", subject.getName());
+            jsonObject.put("description", subject.getInfoSubject());
+            JSONArray jsonArray1 = new JSONArray();
+            for (Schedule schedule : subject.getSchedule()) {
+                JSONObject jsonObject1 = new JSONObject();
+                jsonObject1.put("id", schedule.getId());
+                String interval = schedule.getDay() + " " + schedule.getStartTime().getHour() + "." +
+                        ((schedule.getStartTime().getMinute() < 10) ? (schedule.getStartTime().getMinute() + "0") : schedule.getStartTime().getMinute()) + "-" +
+                        schedule.getStartTime().plusHours(schedule.getLength()).getHour() + "." +
+                        ((schedule.getStartTime().plusHours(schedule.getLength()).getMinute() < 10) ? (schedule.getStartTime().plusHours(schedule.getLength()).getMinute() + "0") : schedule.getStartTime().plusHours(schedule.getLength()).getMinute());
+                jsonObject1.put("interval", interval);
+                jsonArray1.add(jsonObject1);
+            }
+            jsonObject.put("intervals", jsonArray1);
+            jsonObject.put("grading", subject.getGradingSubject());
+            jsonArray.add(jsonObject);
+        }
+        return jsonArray.toJSONString();
     }
 }

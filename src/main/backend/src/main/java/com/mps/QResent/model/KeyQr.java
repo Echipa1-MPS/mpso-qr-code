@@ -13,7 +13,7 @@ public class KeyQr {
     @Column(name = "key_qr_value")
     private Integer keyValue;
 
-    @OneToOne(mappedBy = "keyQr", cascade = CascadeType.PERSIST)
+    @OneToOne(mappedBy = "keyQr", cascade = CascadeType.ALL, orphanRemoval = true)
     private Subject subject;
 
     public KeyQr() {
