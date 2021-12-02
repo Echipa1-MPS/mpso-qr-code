@@ -114,6 +114,49 @@ public class UserController {
         }
     }
 
+    @PatchMapping(path = "/student/update")
+    @RolesAllowed("STUDENT")
+    public ResponseEntity<?> updateStudent(@RequestBody Map<String, Object> request) {
+        try {
+            Optional<User> user = userService.findByEmail(userService.getCurrentUserEmail());
+            if (user.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Invalid user!");
+            }
+            for (Map.Entry<String, Object> entry : request.entrySet()) {
+                switch (entry.getKey()) {
+                    case "email":
+                        user.get().setEmail((String) request.get("email"));
+                        continue;
+                    case "password":
+                        user.get().setPassword(passwordEncoder.encode((String) request.get("password")));
+                        continue;
+                    case "username":
+                        user.get().setUsername((String) request.get("username"));
+                        continue;
+                    case "name":
+                        user.get().setName((String) request.get("name"));
+                        continue;
+                    case "surname":
+                        user.get().setSurname((String) request.get("surname"));
+                        continue;
+                    default:
+                        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("The " + entry.getKey() +
+                                " key cannot be modified!" +
+                                " You can only update the e-mail, password, username, name or surname if you are a" +
+                                " student.");
+                }
+            }
+            if (userService.isPresent(user.get().getEmail())) {
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("This user already exists!");
+            }
+            userService.save(user.get());
+            return ResponseEntity.status(HttpStatus.OK).body("The user has been successfully updated!");
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
     @GetMapping(path = "/admin/get-students")
     @RolesAllowed("ADMIN")
     public ResponseEntity<?> getStudents() {
