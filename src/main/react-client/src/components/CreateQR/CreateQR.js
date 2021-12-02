@@ -26,17 +26,38 @@ export default function CreateQR() {
 
     useEffect(() => {
         const fetchCourses = async () => {
-            const result = await getCoursesDetails();
-            setCoursesDetails(result);
-            setCourses(result.map(function(item, index) {  return {index: index, id: item.id, title: item.title}; }));
-            setCourseIntervals([]);
-            setChosenCourse();
-            setChosenInterval();
-            setChosenDuration(0);
-            setChosenRepeats(0);
+            getCoursesDetails(null, localStorage.getItem("user"),
+                succesfulCourseDetails,
+                failureCourseDetails);
         }
         fetchCourses();
     }, []);
+
+    const succesfulCourseDetails = (result) => {
+        const response = JSON.parse(JSON.stringify(result.data));
+        setCoursesDetails(response);
+        setCourses(response.map(function(item, index) {  
+            return { 
+                index: index, 
+                id: item.id, 
+                title: item.title}; 
+            }));
+        setCourseIntervals([]);
+        setChosenCourse();
+        setChosenInterval();
+        setChosenDuration(0);
+        setChosenRepeats(0);
+    }
+
+    const failureCourseDetails = () => {
+        setCoursesDetails();
+        setCourses([]);
+        setCourseIntervals([]);
+        setChosenCourse();
+        setChosenInterval();
+        setChosenDuration(0);
+        setChosenRepeats(0);
+    }
 
     useEffect(() => {
         if (!chosenCourse || !chosenInterval)
@@ -44,8 +65,8 @@ export default function CreateQR() {
 
         if (!receivedQrId) {
             postCreateQr({
-                schedule: 8,
-                subject: 20,
+                schedule: Number(chosenInterval.id_interval),
+                subject: Number(chosenCourse.id_curs),
                 reps: chosenRepeats,
                 offset: chosenDuration,
                 key: randomQrInt},

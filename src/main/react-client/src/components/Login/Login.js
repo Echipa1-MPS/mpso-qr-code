@@ -1,16 +1,10 @@
 import {useState, useEffect} from 'react';
 import { postLogin } from '../../helpers/apicaller';
 
-export default function Login() {
+export default function Login(props) {
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-
-    useEffect(() => {
-        if (localStorage.getItem('user')) {
-            window.location.href = '/';
-        }
-    });
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -23,8 +17,9 @@ export default function Login() {
 
     const successfulLogin = (response) => {
         if (response && response.data) {
-            localStorage.setItem('user', response.data.jwt_token);
-            window.location.href = '/';
+            // localStorage.setItem('user', response.data.jwt_token);
+            // window.location.href = '/';
+            props.onLoginSuccesful(response.data.jwt_token);
         }
     }
 

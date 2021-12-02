@@ -1,11 +1,12 @@
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Header from "./components/Header/Header";
 import Login from "./components/Login/Login";
+import Logout from "./components/Logout/Logout";
 import About from "./components/About/About";
 import CreateQR from "./components/CreateQR/CreateQR";
 import Home from './components/Home/Home';
-
-import React, {useState, useContext} from 'react';
+import Statistics from "./components/Statistics/Statistics";
+import React, {useState, useContext, useEffect } from 'react';
 
 const themes = {
   light: {
@@ -23,8 +24,20 @@ export default function App() {
 
   const [loggedIn, setLoggedIn] = useState(false);
 
-  const onLoginSuccesful = (user) => {
-    setLoggedIn(true);
+  useEffect(() => {
+    localStorage.getItem('user') ? setLoggedIn(true) : setLoggedIn(false);
+  }, []);
+
+  const onLoginSuccesful = (token) => { 
+    localStorage.setItem('user', token);
+    window.location.href = '/'; 
+    setLoggedIn(true); 
+  }
+
+  const onLogoutSuccesful = () => { 
+    localStorage.removeItem('user');
+    window.location.href = '/login'; 
+    setLoggedIn(false);
   }
 
   return (
@@ -34,14 +47,18 @@ export default function App() {
         <Router>
           <div>
             <Switch>
-              <Route path="/login">
-                <Login />
-              </Route>
-              <Route path="/about">
+              <Route exact path="/login"
+                  render = {(props) => (<Login {...props} onLoginSuccesful = {onLoginSuccesful}/>)}/>
+              <Route exact path="/logout"
+                  render = {(props) => (<Logout {...props} onLogoutSuccesful = {onLogoutSuccesful}/>)}/>
+              <Route exact path="/about">
                 <About />
               </Route>
-              <Route path="/create-qr">
+              <Route exact path="/create-qr">
                 < CreateQR/>
+              </Route>
+              <Route exact path="/statistics">
+                <Statistics />
               </Route>
               <Route path="/">
                 <Home />

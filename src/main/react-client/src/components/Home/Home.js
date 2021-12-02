@@ -15,31 +15,36 @@ export default function Home() {
 
     useEffect(() => {
         const fetchCourses = async () => {
-            const result = await getCoursesBrief();
-            console.log(result);
-            setCourses(result);
+            getCoursesBrief(null, localStorage.getItem('user'), 
+                successfulGetCoursesBrief, 
+                failureGetCoursesBrief);
         }
-        fetchCourses();
-    }, []);
-
-    useEffect(() => {
         const fetchProfile = async () => {
-            const result = await getProfile();
-            setProfile(result);
+            getProfile(null, localStorage.getItem('user'), 
+                successfulGetProfile, 
+                failureGetProfile);
         }
-        console.log(theme);
+        const fetchUpcomingCourses = async () => {
+            getUpcomingCourses(null, localStorage.getItem('user'), 
+                successfulUpcomingCourses, 
+                failureUpcomingCourses);
+        }
+        
+        fetchCourses();
         fetchProfile();
-    }, []);
-
-    useEffect(() => {
-        const fetchPpcomingCourses = async () => {
-            const result = await getUpcomingCourses();
-            setUpcomingCourses(result);
-        }
-        fetchPpcomingCourses();
+        fetchUpcomingCourses();
     }, []);
 
     const navigateToCreateQr = () => window.location.href = "/create-qr";
+
+    const successfulUpcomingCourses = (result) => setUpcomingCourses(result && result.data ? result.data : []);
+    const failureUpcomingCourses = (error) => setUpcomingCourses([]);
+
+    const successfulGetProfile = (result) => setProfile(result && result.data ? result.data : {});
+    const failureGetProfile = (error) => setProfile({});
+
+    const successfulGetCoursesBrief = (result) => setCourses(result && result.data ? JSON.parse(JSON.stringify(result.data)) : []);
+    const failureGetCoursesBrief = (error) => setCourses([]);
 
     return(
         <div className="flex-container-row-center">
@@ -49,7 +54,7 @@ export default function Home() {
                         { profile ? (
                             <div className="flex-container-column">
                                 <div style={{fontSize: '1.5rem'}}>Welcome Back,</div>
-                                <div style={{fontSize: '1.3rem', fontWeight: "bold"}}>{profile.name}</div>
+                                <div style={{fontSize: '1.3rem', fontWeight: "bold"}}>{profile.name} {profile.surname}</div>
                             </div>) : (<div style={{fontSize: "1.5rem"}}>No profile :(</div>)
                         }
                         <div>
@@ -59,17 +64,20 @@ export default function Home() {
                     </div>
 
                     <div className="upcoming-courses-container">
-                        <div className="white-text-font" style={{fontSize: "1.2rem", marginBottom: "20px"}}>Next courses list</div>
+                        <div className="white-text-font" style={{fontSize: "1.2rem", marginBottom: "20px"}}>
+                            { upcomingCourses && upcomingCourses.length > 0 ? "Upcoming Courses" : "No upcoming courses" }
+                        </div>
                         <div className="flex-container-row" style={{justifyContent: "space-between", flexWrap: "wrap"}}>
                             {
-                                upcomingCourses.length > 0 && upcomingCourses.map((course ) => {
-                                    return (
+                                upcomingCourses && upcomingCourses.length > 0 ? 
+                                    (upcomingCourses.map((course ) => {
+                                    (
                                         <div className="upcoming-courses-item" key={course.interval}>
                                             <div style={{fontWeight: "bold"}}>{course.name}</div>
                                             <div>{course.interval}</div>
                                         </div>
-                                    )
-                                })
+                                    )})) 
+                                    : ""
                             }
                         </div>
                     </div>
@@ -82,12 +90,16 @@ export default function Home() {
                 </div>
                 <div className="cornsilk-background home-sections-width">
                     <div style={{ paddingTop: "30px"}} >
-                        <div className="flex-container-row home-courses-item-container" style={{alignItems: "center", justifyContent: "space-between", fontSize: "1.3rem"}}>
-                            <div style={{fontWeight: "bold"}}>Courses list</div>
-                            <div>{courses.length}</div>
-                        </div>
+                        {
+                            courses && courses.length > 0 ?
+                                <div className="flex-container-row home-courses-item-container" style={{alignItems: "center", justifyContent: "space-between", fontSize: "1.3rem"}}>
+                                    <div style={{fontWeight: "bold"}}>Courses list</div>
+                                    <div>{courses.length}</div>
+                                </div> : ""
+                        }
+
                         <div className="white-text-font">
-                            { courses.length > 0 && courses.map((course) => {
+                            { courses && courses.length > 0 && courses.map((course) => {
                                     return <div style={{fontSize: "1.2rem"}}className="home-courses-item-container light-blue-background" key={course.id}>{course.subject}</div>
                                 })}
                             { (!courses || !courses.length) && (<div>No courses available</div>) }
