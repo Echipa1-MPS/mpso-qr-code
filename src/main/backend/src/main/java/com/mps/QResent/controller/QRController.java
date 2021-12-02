@@ -1,14 +1,8 @@
 package com.mps.QResent.controller;
 
 import com.mps.QResent.helper.Helper;
-import com.mps.QResent.model.KeyQr;
-import com.mps.QResent.model.QRCode;
-import com.mps.QResent.model.Schedule;
-import com.mps.QResent.model.Subject;
-import com.mps.QResent.service.KeyQrService;
-import com.mps.QResent.service.QRCodeService;
-import com.mps.QResent.service.ScheduleService;
-import com.mps.QResent.service.SubjectService;
+import com.mps.QResent.model.*;
+import com.mps.QResent.service.*;
 import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,8 +10,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 @CrossOrigin(maxAge = 3600)
@@ -36,6 +32,9 @@ public class QRController {
 
     @Autowired
     private ScheduleService scheduleService;
+
+    @Autowired
+    private UserService userService;
 
     @PostMapping(path = "/teacher/generate-qr-id")
     @RolesAllowed("TEACHER")
@@ -98,6 +97,65 @@ public class QRController {
                 key.setKeyValue(Integer.parseInt(String.valueOf(request.get("key"))));
                 keyQrService.save(key);
                 return ResponseEntity.status(HttpStatus.OK).body("The key was successfully updated!");
+
+            } else {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Missing required credentials!");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
+    @PostMapping(path = "/student/scan-qr")
+    @RolesAllowed("STUDENT")
+    public ResponseEntity<?> scanQr(@RequestBody Map<String, Object> request) {
+        try {
+            if (request.containsKey("subject") && request.containsKey("key") && request.containsKey("qr_id")) {
+                Long subjectId = Long.parseLong(String.valueOf(request.get("subject")));
+                Long qrId = Long.parseLong(String.valueOf(request.get("qr_id")));
+                int key = Integer.parseInt(String.valueOf(request.get("key")));
+
+                if (key == -1) {
+                    return ResponseEntity.status(HttpStatus.NOT_FOUND).body("QR session has expired!");
+                } else {
+
+                    Optional<Subject> subject = subjectService.findById(subjectId);
+                    if (subject.isEmpty()) {
+                        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("The specified course does not exist!");
+                    }
+                    Optional<User> user = userService.findByEmail(userService.getCurrentUserEmail());
+                    if (user.isEmpty()) {
+                        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Invalid user!");
+                    }
+                    QRCode qrCode = qrService.findById(qrId);
+                    if (subject.get().getUsers().contains(user.get())) {
+                        if (qrCode.getUsers().contains(user.get()) && key == qrCode.getSchedule().getSubject()
+                                .getKeyQr().getKeyValue()) {
+                            return ResponseEntity.status(HttpStatus.CONFLICT).body("You have already scanned the QR!");
+                        }
+                        Set<User> presentUsers = Collections.synchronizedSet(qrCode.getUsers());
+                        presentUsers.add(user.get());
+                        qrCode.setUsers(presentUsers);
+
+                        Set<QRCode> scannedQrs = Collections.synchronizedSet(user.get().getQrCodes());
+                        scannedQrs.add(qrCode);
+                        user.get().setQrCodes(scannedQrs);
+
+                        qrService.save(qrCode);
+                        userService.save(user.get());
+
+                        return ResponseEntity.status(HttpStatus.OK).body("You are marked as present for " +
+                                subject.get().getName() +
+                                " course");
+                    } else {
+                        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User " +
+                                user.get().getSurname() +
+                                " " + user.get().getName() +
+                                " is not enrolled at " +
+                                subject.get().getName() +
+                                " course.");
+                    }
+                }
 
             } else {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Missing required credentials!");
