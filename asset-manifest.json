@@ -1,0 +1,26 @@
+{
+  "files": {
+    "main.css": "/mpso-qr-code/static/css/main.3983a05a.chunk.css",
+    "main.js": "/mpso-qr-code/static/js/main.61cab8fc.chunk.js",
+    "main.js.map": "/mpso-qr-code/static/js/main.61cab8fc.chunk.js.map",
+    "runtime-main.js": "/mpso-qr-code/static/js/runtime-main.063c9ce0.js",
+    "runtime-main.js.map": "/mpso-qr-code/static/js/runtime-main.063c9ce0.js.map",
+    "static/js/2.3364f5b9.chunk.js": "/mpso-qr-code/static/js/2.3364f5b9.chunk.js",
+    "static/js/2.3364f5b9.chunk.js.map": "/mpso-qr-code/static/js/2.3364f5b9.chunk.js.map",
+    "index.html": "/mpso-qr-code/index.html",
+    "static/css/main.3983a05a.chunk.css.map": "/mpso-qr-code/static/css/main.3983a05a.chunk.css.map",
+    "static/js/2.3364f5b9.chunk.js.LICENSE.txt": "/mpso-qr-code/static/js/2.3364f5b9.chunk.js.LICENSE.txt",
+    "static/media/cristi_s.81c890d7.png": "/mpso-qr-code/static/media/cristi_s.81c890d7.png",
+    "static/media/maria_c.d16c0482.png": "/mpso-qr-code/static/media/maria_c.d16c0482.png",
+    "static/media/stefan_n.ce565bc5.png": "/mpso-qr-code/static/media/stefan_n.ce565bc5.png",
+    "static/media/stefan_p.46ffd688.png": "/mpso-qr-code/static/media/stefan_p.46ffd688.png",
+    "static/media/stela_j.a5ae9691.png": "/mpso-qr-code/static/media/stela_j.a5ae9691.png",
+    "static/media/tudor_c.700649db.png": "/mpso-qr-code/static/media/tudor_c.700649db.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.063c9ce0.js",
+    "static/js/2.3364f5b9.chunk.js",
+    "static/css/main.3983a05a.chunk.css",
+    "static/js/main.61cab8fc.chunk.js"
+  ]
+}
