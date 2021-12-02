@@ -10,10 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;
-import java.util.Collections;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 @CrossOrigin(maxAge = 3600)
@@ -128,25 +125,30 @@ public class QRController {
                         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Invalid user!");
                     }
                     QRCode qrCode = qrService.findById(qrId);
+
                     if (subject.get().getUsers().contains(user.get())) {
-                        if (qrCode.getUsers().contains(user.get()) && key == qrCode.getSchedule().getSubject()
-                                .getKeyQr().getKeyValue()) {
-                            return ResponseEntity.status(HttpStatus.CONFLICT).body("You have already scanned the QR!");
+                        if (key == qrCode.getSchedule().getSubject().getKeyQr().getKeyValue()) {
+                            if (!user.get().getQrCodes().contains(qrCode)) {
+                                Set<User> presentUsers = Collections.synchronizedSet(qrCode.getUsers());
+                                presentUsers.add(user.get());
+                                qrCode.setUsers(presentUsers);
+
+                                Set<QRCode> scannedQrs = Collections.synchronizedSet(user.get().getQrCodes());
+                                scannedQrs.add(qrCode);
+                                user.get().setQrCodes(scannedQrs);
+
+                                qrService.save(qrCode);
+                                userService.save(user.get());
+
+                                return ResponseEntity.status(HttpStatus.OK).body("You are marked as present for " +
+                                        subject.get().getName() +
+                                        " course");
+                            } else {
+                                return ResponseEntity.status(HttpStatus.CONFLICT).body("You have already scanned the QR!");
+                            }
+                        } else {
+                            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Incorrect key! Try again.");
                         }
-                        Set<User> presentUsers = Collections.synchronizedSet(qrCode.getUsers());
-                        presentUsers.add(user.get());
-                        qrCode.setUsers(presentUsers);
-
-                        Set<QRCode> scannedQrs = Collections.synchronizedSet(user.get().getQrCodes());
-                        scannedQrs.add(qrCode);
-                        user.get().setQrCodes(scannedQrs);
-
-                        qrService.save(qrCode);
-                        userService.save(user.get());
-
-                        return ResponseEntity.status(HttpStatus.OK).body("You are marked as present for " +
-                                subject.get().getName() +
-                                " course");
                     } else {
                         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User " +
                                 user.get().getSurname() +
