@@ -8,6 +8,7 @@ import com.mps.QResent.model.User;
 import com.mps.QResent.service.QRCodeService;
 import com.mps.QResent.service.ScheduleService;
 import com.mps.QResent.service.SubjectService;
+import com.mps.QResent.service.UserService;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +17,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;
+import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @CrossOrigin(maxAge = 3600)
 @RestController
@@ -35,6 +35,9 @@ public class ScheduleController {
 
     @Autowired
     QRCodeService qrCodeService;
+
+    @Autowired
+    UserService userService;
 
 
     @PostMapping(path = "/admin/add-schedule")
@@ -69,29 +72,74 @@ public class ScheduleController {
         }
     }
 
-    //work in progress, needs update after scan_qr function
-    @GetMapping(path = "/teacher/get-qr-users/{id}")
+    @GetMapping(path = "/teacher/get-qr-users/{id}/{date}")
     @RolesAllowed("TEACHER")
-    public ResponseEntity<?> getQRListUsers(@PathVariable Long id) {
+    public ResponseEntity<?> getQRListUsers(@PathVariable Long id, @PathVariable String date) {
         try {
             Optional<Schedule> schedule = scheduleService.findById(id);
             if (schedule.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("The specified interval does not exist!");
             }
             List<QRCode> qrCodes = qrCodeService.findAllBySchedule(schedule.get());
+            Date timestamp;
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            try {
+                timestamp = dateFormat.parse(date);
+            } catch(Exception e) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Invalid format date, format is yyyy-MM-dd"+ e.getMessage());
+            }
             JSONObject jsonObject = new JSONObject();
             JSONArray jsonArray1 = new JSONArray();
             for (QRCode qrCode : qrCodes) {
-                JSONArray jsonArray = new JSONArray();
-                for (User user : qrCode.getUsers()) {
-                    jsonArray.add(Helper.studentJSON(user));
+                Date qrCodeDate = dateFormat.parse(qrCode.getDate().toString());
+                if(qrCodeDate.equals(timestamp)) {
+                    JSONArray jsonArray = new JSONArray();
+                    for (User user : qrCode.getUsers()) {
+                        jsonArray.add(Helper.studentJSON(user));
+                    }
+                    jsonArray1.add(jsonArray);
                 }
-                jsonArray1.add(jsonArray);
             }
-            jsonObject.put("QR", jsonArray1);
+            jsonObject.put("full-strike", jsonArray1.size());
+            jsonObject.put("absent", userService.getStudents(schedule.get().getSubject()).size() - jsonArray1.size());
+            jsonObject.put("list_qr_attendance", jsonArray1);
             return ResponseEntity.status(HttpStatus.OK).body(jsonObject);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
+
+    @GetMapping(path = "/get-dates-for-intervals")
+    public String getDates(@RequestBody Map<String, Object> request){
+        JSONArray jsonArray = new JSONArray();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        ArrayList<Integer> idIntervals = (ArrayList<Integer>) request.get("id_intervals");
+        for(Integer id: idIntervals){
+            Optional<Schedule> schedule = scheduleService.findById(Long.valueOf(id));
+            if(schedule.isPresent()){
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("id_interval", schedule.get().getId());
+                JSONArray jsonArray1 = new JSONArray();
+                Set<Date> dates = new HashSet<>();
+                for(QRCode qrCode: schedule.get().getQrCodes()){
+                    try {
+                        dates.add(dateFormat.parse(qrCode.getDate().toString()));
+                    }
+                    catch (Exception ignored){
+                    }
+
+                }
+                for(Date date: dates){
+                    JSONObject jsonObject1 = new JSONObject();
+                    jsonObject1.put("date", dateFormat.format(date));
+                    jsonArray1.add(jsonObject1);
+                }
+                System.out.println(jsonArray1);
+                jsonObject.put("list_of_dates", jsonArray1);
+                jsonArray.add(jsonObject);
+            }
+        }
+        return jsonArray.toJSONString();
+    }
+
 }

@@ -178,20 +178,37 @@ public class SubjectController {
         int nextDay;
         for (int i = 0; i < 3; i++) {
             dayOfWeeks.add(today);
-            nextDay = ((today.getValue() + 1) <= 7) ? (today.getValue() + 1) : 1;
-            today = DayOfWeek.of(nextDay);
+            nextDay = today.getValue() + 1;
+            today = DayOfWeek.of((nextDay < 5) ? nextDay : 1);
         }
+        ArrayList<ScheduleSubjectView> subjectViewArrayList = new ArrayList<>();
         for (SubjectView subjectView : userSubjectView.getSubjects()) {
-
             for (DayOfWeek day : dayOfWeeks) {
-                ScheduleSubjectView subjectView1 = scheduleService.getNextSubjects(day, subjectView.getId());
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.put("CourseName", subjectView1.getSubject().getName());
-                jsonObject.put("day", subjectView1.getDay());
-                jsonObject.put("length", subjectView1.getLength());
-                jsonObject.put("startTime", subjectView1.getStartTime().getHour());
-                jsonArray.add(jsonObject);
+                List<ScheduleSubjectView> subjectViews = scheduleService.getNextSubjects(day, subjectView.getId());
+                for (ScheduleSubjectView subjectView1: subjectViews) {
+                    if (subjectView1 != null) {
+                        subjectViewArrayList.add(subjectView1);
+                    }
+                }
             }
+        }
+        subjectViewArrayList.sort((o1, o2) -> {
+            if (DayOfWeek.valueOf(o1.getDay()).equals(DayOfWeek.valueOf(o2.getDay()))) {
+                return o1.getStartTime().compareTo(o2.getStartTime());
+            } else {
+                return DayOfWeek.valueOf(o1.getDay()).compareTo(DayOfWeek.valueOf(o2.getDay()));
+            }
+        });
+        for(ScheduleSubjectView subjectView1: subjectViewArrayList) {
+            if (jsonArray.size() == 3) {
+                break;
+            }
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("CourseName", subjectView1.getSubject().getName());
+            jsonObject.put("day", subjectView1.getDay());
+            jsonObject.put("length", subjectView1.getLength());
+            jsonObject.put("startTime", subjectView1.getStartTime().getHour());
+            jsonArray.add(jsonObject);
         }
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("id_user", userSubjectView.getId());
@@ -252,23 +269,40 @@ public class SubjectController {
         int nextDay;
         for (int i = 0; i < 3; i++) {
             dayOfWeeks.add(today);
-            nextDay = ((today.getValue() + 1) <= 7) ? (today.getValue() + 1) : 1;
-            today = DayOfWeek.of(nextDay);
+            nextDay = today.getValue() + 1;
+            today = DayOfWeek.of((nextDay < 5) ? nextDay : 1);
         }
+        ArrayList<ScheduleSubjectView> subjectViewArrayList = new ArrayList<>();
         for (SubjectView subjectView : userSubjectView.getSubjects()) {
-
             for (DayOfWeek day : dayOfWeeks) {
-                ScheduleSubjectView subjectView1 = scheduleService.getNextSubjects(day, subjectView.getId());
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.put("name", subjectView1.getSubject().getName());
-                String interval = subjectView1.getDay() + " " + subjectView1.getStartTime().getHour() + "." +
-                        ((subjectView1.getStartTime().getMinute() < 10) ? (subjectView1.getStartTime().getMinute() + "0") : subjectView1.getStartTime().getMinute()) + "-" +
-                        subjectView1.getStartTime().plusHours(subjectView1.getLength()).getHour() + "." +
-                        ((subjectView1.getStartTime().plusHours(subjectView1.getLength()).getMinute() < 10) ? (subjectView1.getStartTime().plusHours(subjectView1.getLength()).getMinute() + "0") : subjectView1.getStartTime().plusHours(subjectView1.getLength()).getMinute());
-
-                jsonObject.put("interval", interval);
-                jsonArray.add(jsonObject);
+                List<ScheduleSubjectView> subjectViews = scheduleService.getNextSubjects(day, subjectView.getId());
+                for (ScheduleSubjectView subjectView1: subjectViews) {
+                    if (subjectView1 != null) {
+                        subjectViewArrayList.add(subjectView1);
+                    }
+                }
             }
+        }
+        subjectViewArrayList.sort((o1, o2) -> {
+            if (DayOfWeek.valueOf(o1.getDay()).equals(DayOfWeek.valueOf(o2.getDay()))) {
+                return o1.getStartTime().compareTo(o2.getStartTime());
+            } else {
+                return DayOfWeek.valueOf(o1.getDay()).compareTo(DayOfWeek.valueOf(o2.getDay()));
+            }
+        });
+        for(ScheduleSubjectView subjectView1: subjectViewArrayList){
+            if(jsonArray.size() == 3){
+                break;
+            }
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("name", subjectView1.getSubject().getName());
+            String interval = subjectView1.getDay() + " " + subjectView1.getStartTime().getHour() + "." +
+                    ((subjectView1.getStartTime().getMinute() < 10) ? (subjectView1.getStartTime().getMinute() + "0") : subjectView1.getStartTime().getMinute()) + "-" +
+                    subjectView1.getStartTime().plusHours(subjectView1.getLength()).getHour() + "." +
+                    ((subjectView1.getStartTime().plusHours(subjectView1.getLength()).getMinute() < 10) ? (subjectView1.getStartTime().plusHours(subjectView1.getLength()).getMinute() + "0") : subjectView1.getStartTime().plusHours(subjectView1.getLength()).getMinute());
+
+            jsonObject.put("interval", interval);
+            jsonArray.add(jsonObject);
         }
         return jsonArray.toJSONString();
     }
