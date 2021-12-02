@@ -25,9 +25,9 @@ namespace QR_Presence.Views
             InitializeComponent();
             Task.Run(async () =>
             {
-                Courses = await Services.APICalls.GetUserCoursesAsync();
-                CourseList = new ObservableCollection<CoursesEnrolled>(Courses.courses_enrolled);
-                Count = $"Number of courses enroled: {Courses.count}";
+              //  Courses = await Services.APICalls.GetUserCoursesAsync();
+                //CourseList = new ObservableCollection<CoursesEnrolled>(Courses.courses_enrolled);
+               // Count = $"Number of courses enroled: {Courses.count}";
 
             }).Wait();
             BindingContext = this;

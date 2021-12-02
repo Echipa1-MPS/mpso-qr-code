@@ -20,6 +20,8 @@ namespace QR_Presence.Services
         public static string BaseUrlSubject = "http://ec2-3-18-103-144.us-east-2.compute.amazonaws.com:8080/api/subject/";
         public static string BaseUrlSubjectAdmin = "http://ec2-3-18-103-144.us-east-2.compute.amazonaws.com:8080/api/subject/admin/";
         public static string BaseUrlSchedAdmin = "http://ec2-3-18-103-144.us-east-2.compute.amazonaws.com:8080/api/schedule/admin/";
+        public static string BaseUrlQr = "http://ec2-3-18-103-144.us-east-2.compute.amazonaws.com:8080/api/qr/student/";
+
 
         #endregion URLs
 
@@ -489,6 +491,39 @@ namespace QR_Presence.Services
                 }
 
                 return Items;
+            }
+        }
+
+        public async static Task<string> ScanQrAsync(int subject, int qr_id, int key)
+        {
+            using (var c = new HttpClient())
+            {
+                HttpClient client = new HttpClient();
+                var authHeader = new AuthenticationHeaderValue("Bearer", await SecureStorage.GetAsync("oauth_token"));
+
+                client.DefaultRequestHeaders.Authorization = authHeader;
+
+                var jsonRequest = new
+                {
+                    subject = subject,
+                    qr_id = qr_id,
+                    key = key
+                };
+
+                var serializedJsonRequest = JsonConvert.SerializeObject(jsonRequest);
+                HttpContent content = new StringContent(serializedJsonRequest, Encoding.UTF8, "application/json");
+
+                var response = await client.PostAsync(new Uri(BaseUrlQr + "scan-qr"), content);
+
+                if (response.IsSuccessStatusCode)
+                {
+
+                }
+
+                string cont = await response.Content.ReadAsStringAsync();
+                //string message = JsonConvert.DeserializeObject<string>(cont);
+                
+                return $"{cont} - {response.StatusCode}";
             }
         }
         #endregion Student
