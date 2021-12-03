@@ -22,7 +22,7 @@ namespace QR_Presence.Views.AdminPages
 
         public List<Student> Students_Selected { get; set; }
         public int SelectedItemsNumber { get; set; }
-        public CourseInfoModel Course { get; set; }
+        public Cours Course { get; set; }
         public bool IsUpdate { get; set; }
 
         //public ObservableCollection
@@ -44,7 +44,7 @@ namespace QR_Presence.Views.AdminPages
             "18:00"
         };
 
-        public ObservableCollection<IntervalPicker> ListOfIntervals { get; set; } = new ObservableCollection<IntervalPicker> { new IntervalPicker { TextButton = "plus" } };
+        public ObservableCollection<IntervalPicker> ListOfIntervals { get; set; } = new ObservableCollection<IntervalPicker>();
 
 
 
@@ -57,16 +57,19 @@ namespace QR_Presence.Views.AdminPages
                 StudentsAdmin stud = await Services.APICalls.GetStudentsAdminAsync();
                 TeachersAdmin prof = await Services.APICalls.GetProfessorsAdminAsync();
 
+
                 ListOf = new ObservableCollection<User>(stud.students);
                 Professors = new ObservableCollection<User>(prof.teachers);
             }).Wait();
 
-            Course = new CourseInfoModel();
+            ListOfIntervals  = new ObservableCollection<IntervalPicker> { new IntervalPicker { TextButton = "plus" } };
+
+            Course = new Cours();
             IsUpdate = false;
             BindingContext = this;
         }
 
-        public EditCoursePage(CourseInfoModel course)
+        public EditCoursePage(Cours course)
         {
             InitializeComponent();
 
@@ -75,10 +78,25 @@ namespace QR_Presence.Views.AdminPages
                 StudentsAdmin stud = await Services.APICalls.GetStudentsAdminAsync();
                 TeachersAdmin prof = await Services.APICalls.GetProfessorsAdminAsync();
 
+                int i = 0;
+                foreach (var item in course.intervals)
+                {
+                    string buttonTxt = i == 0 ? "plus" : "minus";
+                    i++;
+                    ListOfIntervals.Add(new IntervalPicker
+                    {
+                        Duration = item.length,
+                        StartH = item.STime,
+                        Day = item.day,
+                        TextButton = buttonTxt,
+                    });
+                }
+
+                
                 ListOf = new ObservableCollection<User>(stud.students);
                 Professors = new ObservableCollection<User>(prof.teachers);
 
-                Professor = prof.teachers.Find(x => x.MainTitleID == course.Id_Professor);
+                Professor = prof.teachers.Find(x => x.user_id == course.Id_Professor);
             }).Wait();
 
             Course = course;

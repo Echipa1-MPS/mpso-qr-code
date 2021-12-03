@@ -18,23 +18,20 @@ namespace QR_Presence.Views
         public ObservableCollection<CoursesEnrolled> CourseList { get; set; }
         public string Count { get; set; }
 
-
         public UserCourses Courses { get; set; }
         public CoursesPage()
         {
             InitializeComponent();
             Task.Run(async () =>
             {
-              //  Courses = await Services.APICalls.GetUserCoursesAsync();
-                //CourseList = new ObservableCollection<CoursesEnrolled>(Courses.courses_enrolled);
-               // Count = $"Number of courses enroled: {Courses.count}";
-
+                Courses = await Services.APICalls.GetUserCoursesAsync();
+                CourseList = new ObservableCollection<CoursesEnrolled>(Courses.courses_enrolled);
+                Count = $"Number of courses enroled: {Courses.count}";
             }).Wait();
             BindingContext = this;
         }
         private async void AccountsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
             if (e.CurrentSelection.Count == 0)
                 return;
 
@@ -44,6 +41,7 @@ namespace QR_Presence.Views
             {
                 await Application.Current.MainPage.Navigation.PushAsync(new CoursePage(course));
             }
+
             ((CollectionView)sender).SelectedItem = null;
         }
 

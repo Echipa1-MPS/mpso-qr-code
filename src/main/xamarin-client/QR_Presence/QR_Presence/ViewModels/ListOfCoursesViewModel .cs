@@ -1,4 +1,5 @@
 ﻿using QR_Presence.Models;
+using QR_Presence.Models.APIModels;
 using QR_Presence.Views;
 using QR_Presence.Views.AdminPages;
 using System;
@@ -13,13 +14,13 @@ namespace QR_Presence.ViewModels
 {
     public class ListOfCoursesViewModel : BaseViewModel
     {
-        public ObservableCollection<CourseInfoModel> ListOf { get; set; }
+        public ObservableCollection<Cours> ListOf { get; set; }
         public string PageTitle { get; set; }
-        public Command<CourseInfoModel> Delete { get; private set; }
+        public Command<Cours> Delete { get; private set; }
 
 
-        CourseInfoModel selectedElement;
-        public CourseInfoModel SelectedElement
+        Cours selectedElement;
+        public Cours SelectedElement
         {
             get
             {
@@ -64,10 +65,10 @@ namespace QR_Presence.ViewModels
             Task.Run(async () =>
             {
                 GetCoursesModel cour = await Services.APICalls.GetAllCoursesAdminAsync();
-                ListOf = new ObservableCollection<CourseInfoModel>(cour.Courses);
+                ListOf = new ObservableCollection<Cours>(cour.Courses);
             }).Wait();
 
-            Delete = new Command<CourseInfoModel>(async model =>
+            Delete = new Command<Cours>(async model =>
            {
                if (await Services.APICalls.DeleteCourseAdminAsync(model.Id_Course))
                {
@@ -93,7 +94,7 @@ namespace QR_Presence.ViewModels
             {
                 IsRefreshing = true;
                 GetCoursesModel cour = await Services.APICalls.GetAllCoursesAdminAsync();
-                ListOf = new ObservableCollection<CourseInfoModel>(cour.Courses);
+                ListOf = new ObservableCollection<Cours>(cour.Courses);
                 OnPropertyChanged(nameof(ListOf));
                 IsRefreshing = false;
                 PageTitle = $"Count {ListOf.Count}";

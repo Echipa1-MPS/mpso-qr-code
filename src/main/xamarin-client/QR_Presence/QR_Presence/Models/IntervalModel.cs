@@ -13,12 +13,18 @@ namespace QR_Presence.Models
         public string StartH => $"{StartHour}:00";
         public string StartE => $"{StartHour + Step}:00";
         public string IntervalHE => $"{StartH} - {StartE}";
-
     }
 
     public class IntervalPicker
     {
-        public List<DayOfWeek> DayOfWeekCourse { get; set; } = new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Friday };
+        public List<string> DayOfWeekCourse { get; set; } = new List<string>
+        {
+            "MONDAY",
+            "TUESDAY",
+            "WEDNESDAY",
+            "THURSDAY",
+            "FRIDAY"
+        };
         public List<int> LenghtOfCourse { get; set; } = new List<int> { 1, 2, 3, 4 };
 
         public List<string> StartHOfCourse { get; set; } = new List<string> {
@@ -34,12 +40,12 @@ namespace QR_Presence.Models
             "17:00",
             "18:00"
         };
-        public DayOfWeek Day { get; set; }
+        public string Day { get; set; }
         public int Duration { get; set; }
-        public string StartH{ get; set; }
+        public string StartH { get; set; }
 
         public bool IsVisibleButton { get; set; }
-        public string TextButton { get;set; }
+        public string TextButton { get; set; }
 
     }
 }

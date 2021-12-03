@@ -25,12 +25,12 @@ namespace QR_Presence.Models.APIModels
 
     public class Interval
     {
-        public StartTime start_h { get; set; }
+        public int start_h { get; set; }
         public int length { get; set; }
         public int id_interval { get; set; }
         public string day { get; set; }
-        public string STime => $"{start_h.hour}:00";
-        public string ETime => $"{start_h.hour + length}:00";
+        public string STime => $"{start_h}:00";
+        public string ETime => $"{start_h + length}:00";
     }
 
     public class ProfileModel

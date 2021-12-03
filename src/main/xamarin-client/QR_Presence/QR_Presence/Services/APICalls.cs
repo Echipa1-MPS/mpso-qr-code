@@ -298,7 +298,7 @@ namespace QR_Presence.Services
             }
         }
 
-        public async static Task<int> CreateCourseAdminAsync(CourseInfoModel course, int Id_Professor)
+        public async static Task<int> CreateCourseAdminAsync(Cours course, int Id_Professor)
         {
             using (var c = new HttpClient())
             {
@@ -332,7 +332,7 @@ namespace QR_Presence.Services
             }
         }
 
-        public async static Task<bool> UpdateCourseAdminAsync(CourseInfoModel course, int Id_Professor)
+        public async static Task<bool> UpdateCourseAdminAsync(Cours course, int Id_Professor)
         {
             using (var c = new HttpClient())
             {
