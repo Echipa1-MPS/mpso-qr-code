@@ -1,5 +1,6 @@
 package com.mps.QResent.controller;
 
+import com.mps.QResent.dto.ScheduleDateDTO;
 import com.mps.QResent.helper.Helper;
 import com.mps.QResent.model.QRCode;
 import com.mps.QResent.model.Schedule;
@@ -72,10 +73,12 @@ public class ScheduleController {
         }
     }
 
-    @GetMapping(path = "/teacher/get-qr-users/{id}/{date}")
+    @GetMapping(path = "/teacher/get-qr-users")
     @RolesAllowed("TEACHER")
-    public ResponseEntity<?> getQRListUsers(@PathVariable Long id, @PathVariable String date) {
+    public ResponseEntity<?> getQRListUsers(@RequestBody ScheduleDateDTO scheduleDateDTO) {
         try {
+            Long id = scheduleDateDTO.getId();
+            String date = scheduleDateDTO.getDate();
             Optional<Schedule> schedule = scheduleService.findById(id);
             if (schedule.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("The specified interval does not exist!");
