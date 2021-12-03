@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ScheduleRepository extends JpaRepository<Schedule,Long> {
-    ScheduleSubjectView findAllByDayAfterAndSubject_Id(DayOfWeek day, Long id);
+    List<ScheduleSubjectView> findByDayAfterAndSubject_Id(DayOfWeek day, Long id);
     List<ScheduleSubjectView> findAllBySubject(Subject subject);
     Optional<Schedule> findById(Long id);
     @Query(value = "SELECT * FROM schedules s WHERE s.subject_id = :subject and s.start_hour = :#{#start.toString()} and s.date = :#{#day.getValue()}", nativeQuery = true)

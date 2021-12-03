@@ -29,8 +29,8 @@ public class ScheduleService {
         return this.scheduleRepository.findById(id);
     }
 
-    public ScheduleSubjectView getNextSubjects(DayOfWeek day, Long subjectId){
-        return scheduleRepository.findAllByDayAfterAndSubject_Id(day, subjectId);
+    public List<ScheduleSubjectView> getNextSubjects(DayOfWeek day, Long subjectId){
+        return scheduleRepository.findByDayAfterAndSubject_Id(day, subjectId);
     }
 
     public List<ScheduleSubjectView> getSubjects(Subject subject){
