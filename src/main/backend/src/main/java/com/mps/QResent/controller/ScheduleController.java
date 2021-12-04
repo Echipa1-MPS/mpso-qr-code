@@ -73,8 +73,7 @@ public class ScheduleController {
         }
     }
 
-    @GetMapping(path = "/teacher/get-qr-users")
-    @RolesAllowed("TEACHER")
+    @GetMapping(path = "/get-qr-users")
     public ResponseEntity<?> getQRListUsers(@RequestBody ScheduleDateDTO scheduleDateDTO) {
         try {
             Long id = scheduleDateDTO.getId();
