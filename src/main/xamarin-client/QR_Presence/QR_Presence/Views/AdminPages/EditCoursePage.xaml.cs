@@ -62,7 +62,7 @@ namespace QR_Presence.Views.AdminPages
                 Professors = new ObservableCollection<User>(prof.teachers);
             }).Wait();
 
-            ListOfIntervals  = new ObservableCollection<IntervalPicker> { new IntervalPicker { TextButton = "plus" } };
+            ListOfIntervals = new ObservableCollection<IntervalPicker> { new IntervalPicker { TextButton = "plus" } };
 
             Course = new Cours();
             IsUpdate = false;
@@ -92,12 +92,24 @@ namespace QR_Presence.Views.AdminPages
                     });
                 }
 
-                
-                ListOf = new ObservableCollection<User>(stud.students);
+                List<User> list = new List<User>();
+
+                foreach (var stud1 in stud.students)
+                {
+                    if (!course.Students_Enrolled.Exists(x => x.name == stud1.Name))
+                    {
+                        list.Add(stud1);
+                    }
+                }
+
+
+                ListOf = new ObservableCollection<User>(list);
                 Professors = new ObservableCollection<User>(prof.teachers);
 
                 Professor = prof.teachers.Find(x => x.User_id == course.Id_Professor);
             }).Wait();
+
+
 
             Course = course;
             IsUpdate = true;

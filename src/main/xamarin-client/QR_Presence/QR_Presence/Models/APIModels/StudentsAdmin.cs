@@ -20,7 +20,7 @@ namespace QR_Presence.Models.APIModels
         public string Ldap { get; set; }
         public string SecondName { get; set; }
 
-        public string MainTitle => $"{User_id} {Name} {Surname} ";
+        public string MainTitle => $"{User_id} {Name} {Surname}";
         public string MainTitleID => $"{Name}{Surname}";
 
         public string SecondTitle => $"{Email}";

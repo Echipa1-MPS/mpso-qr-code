@@ -422,10 +422,10 @@ namespace QR_Presence.Services
                 var authHeader = new AuthenticationHeaderValue("Bearer", await SecureStorage.GetAsync("oauth_token"));
 
                 client.DefaultRequestHeaders.Authorization = authHeader;
-
+                
                 var jsonRequest = new
                 {
-                    day = interval.Day,
+                    day = interval.DayOfWeekCourse.IndexOf(interval.Day) + 1,
                     duration = interval.Duration,
                     start_time = $"{interval.StartH}:00",
                     subject = subject
