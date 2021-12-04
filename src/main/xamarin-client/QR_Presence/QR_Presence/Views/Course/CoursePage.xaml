@@ -84,7 +84,7 @@
                         <Grid RowSpacing="12" Padding="0,8,0,0">
 
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="0.6*"/>
+                                <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
@@ -95,7 +95,7 @@
                             </Grid.RowDefinitions>
 
                             <StackLayout Grid.Row="0" Grid.Column="0" Spacing="2" HorizontalOptions="Start" VerticalOptions="Center" Padding="4,16,0,0" >
-                                <Label Text="{Binding Course.name_course}" FontSize="30" CharacterSpacing="1" Style="{StaticResource TextStyle}"/>
+                                <Label Text="{Binding Course.name_course}" FontSize="40" CharacterSpacing="1" Style="{StaticResource TextStyle}"/>
                                 <Label Text="{Binding Course.name_prof}" FontSize="20" CharacterSpacing="1" Style="{StaticResource TextStyle}"/>
                             </StackLayout>
 
@@ -205,7 +205,7 @@
                                     TextColor="{AppThemeBinding Light={StaticResource BackgroundDark}, Dark={StaticResource BackgroundLight}}"
                                     TitleColor="{AppThemeBinding Light={StaticResource BackgroundDark}, Dark={StaticResource BackgroundLight}}"
                                     ItemsSource="{Binding Course.Intervals}"
-                                    ItemDisplayBinding="{Binding IntervalHE}"
+                                    ItemDisplayBinding="{Binding FullName}"
                                     SelectedItem="{Binding SelectedInterval}"/>
                                 </StackLayout>
                             </Frame>
@@ -215,8 +215,8 @@
                                     <Picker Title="Select Date" 
                                     TextColor="{AppThemeBinding Light={StaticResource BackgroundDark}, Dark={StaticResource BackgroundLight}}"
                                     TitleColor="{AppThemeBinding Light={StaticResource BackgroundDark}, Dark={StaticResource BackgroundLight}}"
-                                    ItemsSource="{Binding Dates}"
-                                    ItemDisplayBinding="{Binding .}"
+                                    ItemsSource="{Binding Dates_to_Show}"
+                                    ItemDisplayBinding="{Binding Format}"
                                     SelectedItem="{Binding SelectedDate}" />
                                 </StackLayout>
                             </Frame>
@@ -231,7 +231,7 @@
                                         FontFamily="FAS" FontSize="24"  
                                         VerticalOptions="CenterAndExpand" 
                                         HorizontalOptions="CenterAndExpand"
-                                        Clicked="Button_Clicked_3"
+                                        Command="{Binding ExportExcel}"
                                         />
                             </Frame>
 
@@ -273,7 +273,7 @@
                                                         <ColumnDefinition Width="Auto" />
                                                     </Grid.ColumnDefinitions>
 
-                                                    <Label Text="{Binding FullName}"
+                                                    <Label Text="{Binding MainTitle}"
                                                Grid.Row="0"
                                                FontAttributes="Bold"
                                                FontSize="Medium"
@@ -324,7 +324,7 @@
                                                         <ColumnDefinition Width="Auto" />
                                                     </Grid.ColumnDefinitions>
 
-                                                    <Label Text="{Binding FullName}"
+                                                    <Label Text="{Binding MainTitle}"
                                                Grid.Row="0"
                                                FontAttributes="Bold"
                                                FontSize="Medium"

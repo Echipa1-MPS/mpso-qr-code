@@ -28,6 +28,10 @@ namespace QR_Presence.Views
                 {
                     string[] vars = result.Text.Split('/');
                     isScanned = 1;
+
+                    string message = await Services.APICalls.ScanQrAsync(Int32.Parse(vars[1]), Int32.Parse(vars[0]), Int32.Parse(vars[2]));
+
+                    await DisplayAlert("Message", message, "OK");
                 }
 
                 await Navigation.PopAsync();

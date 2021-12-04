@@ -90,11 +90,11 @@ namespace QR_Presence.Views
 
             User = new User
             {
-                name = Name,
-                surname = SecondName,
-                username = words[0],
-                email =  Email ,
-                group = Group ,
+                Name = Name,
+                Surname = SecondName,
+                Username = words[0],
+                Email =  Email ,
+                Group = Group ,
                 Privilege = (int)role,
             };
             loading.IsRunning = true;

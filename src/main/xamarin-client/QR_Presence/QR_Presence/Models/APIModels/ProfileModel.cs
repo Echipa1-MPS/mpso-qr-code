@@ -16,21 +16,23 @@ namespace QR_Presence.Models.APIModels
     {
         public string CourseName { get; set; }
         public int length { get; set; }
-        public StartTime startTime { get; set; }
+        public int startTime { get; set; }
         public string day { get; set; }
-        public string STime => $"{startTime.hour}:00";
-        public string ETime => $"{startTime.hour + length}:00";
+        public string STime => $"{startTime}:00";
+        public string ETime => $"{startTime + length}:00";
 
     }
 
     public class Interval
     {
-        public StartTime start_h { get; set; }
+        public int start_h { get; set; }
         public int length { get; set; }
         public int id_interval { get; set; }
         public string day { get; set; }
-        public string STime => $"{start_h.hour}:00";
-        public string ETime => $"{start_h.hour + length}:00";
+        public string STime => $"{start_h}:00";
+        public string ETime => $"{start_h + length}:00";
+
+        public string FullName => $"{day[0]} {STime}-{ETime}";
     }
 
     public class ProfileModel

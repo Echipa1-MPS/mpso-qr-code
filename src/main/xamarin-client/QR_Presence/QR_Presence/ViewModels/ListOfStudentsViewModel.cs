@@ -67,7 +67,7 @@ namespace QR_Presence.ViewModels
 
             Delete = new Command<User>(async model =>
             {
-                if (await Services.APICalls.DeleteUserAdminAsync(model.email))
+                if (await Services.APICalls.DeleteUserAdminAsync(model.Email))
                 {
                     ListOf.Remove(model);
                     PageTitle = $"Count {ListOf.Count}";

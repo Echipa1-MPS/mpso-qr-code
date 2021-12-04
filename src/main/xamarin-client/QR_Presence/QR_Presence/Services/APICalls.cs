@@ -19,6 +19,12 @@ namespace QR_Presence.Services
 
         public static string BaseUrlSubject = "http://ec2-3-18-103-144.us-east-2.compute.amazonaws.com:8080/api/subject/";
         public static string BaseUrlSubjectAdmin = "http://ec2-3-18-103-144.us-east-2.compute.amazonaws.com:8080/api/subject/admin/";
+        public static string BaseUrlSchedAdmin = "http://ec2-3-18-103-144.us-east-2.compute.amazonaws.com:8080/api/schedule/admin/";
+        public static string BaseUrlQr = "http://ec2-3-18-103-144.us-east-2.compute.amazonaws.com:8080/api/qr/student/";
+        public static string BaseUrlQrSchedule = "http://ec2-3-18-103-144.us-east-2.compute.amazonaws.com:8080/api/schedule/";
+
+
+
         #endregion URLs
 
         #region Login/Register
@@ -30,12 +36,12 @@ namespace QR_Presence.Services
                 var client = new HttpClient();
                 var jsonRequest = new
                 {
-                    name = user.name,
+                    name = user.Name,
                     password = password,
-                    surname = user.surname,
-                    username = user.username,
-                    email = user.email,
-                    group = user.group,
+                    surname = user.Surname,
+                    username = user.Username,
+                    email = user.Email,
+                    group = user.Group,
                     role = user.Privilege,
                 };
 
@@ -83,7 +89,7 @@ namespace QR_Presence.Services
 
                     if (!await DatabaseConnection.ExistUser())
                     {
-                        user = new User { email = email };
+                        user = new User { Email = email };
                         await DatabaseConnection.AddUser(user);
                     }
                     else
@@ -208,11 +214,11 @@ namespace QR_Presence.Services
 
                 var jsonRequest = new
                 {
-                    email = user.email,
-                    name = user.name,
-                    surname = user.surname,
-                    user_id = user.user_id,
-                    group = user.group
+                    email = user.Email,
+                    name = user.Name,
+                    surname = user.Surname,
+                    user_id = user.User_id,
+                    group = user.Group
                 };
 
                 var serializedJsonRequest = JsonConvert.SerializeObject(jsonRequest);
@@ -248,11 +254,11 @@ namespace QR_Presence.Services
 
                 var jsonRequest = new
                 {
-                    email = user.email,
-                    name = user.name,
-                    surname = user.surname,
+                    email = user.Email,
+                    name = user.Name,
+                    surname = user.Surname,
                     password = password,
-                    group = user.group,
+                    group = user.Group,
                     role = user.Privilege
                 };
 
@@ -272,7 +278,6 @@ namespace QR_Presence.Services
 
         public async static Task<GetCoursesModel> GetAllCoursesAdminAsync()
         {
-
             using (var c = new HttpClient())
             {
                 HttpClient client = new HttpClient();
@@ -282,7 +287,7 @@ namespace QR_Presence.Services
 
                 var response = await client.GetAsync(new Uri(BaseUrlSubjectAdmin + "get-all-courses"));
 
-                GetCoursesModel Items = new GetCoursesModel();
+                GetCoursesModel Items = new GetCoursesModel { Courses = new List<Cours>() };
                 if (response.IsSuccessStatusCode)
                 {
                     string content = await response.Content.ReadAsStringAsync();
@@ -294,7 +299,7 @@ namespace QR_Presence.Services
             }
         }
 
-        public async static Task<bool> CreateCourseAdminAsync(CourseInfoModel course, int Id_Professor)
+        public async static Task<int> CreateCourseAdminAsync(Cours course, int Id_Professor)
         {
             using (var c = new HttpClient())
             {
@@ -318,14 +323,17 @@ namespace QR_Presence.Services
 
                 if (response.IsSuccessStatusCode)
                 {
-                    return true;
+                    string cont = await response.Content.ReadAsStringAsync();
+
+                    int id = JsonConvert.DeserializeObject<int>(cont);
+                    return id;
                 }
 
-                return false;
+                return -1;
             }
         }
 
-        public async static Task<bool> UpdateCourseAdminAsync(CourseInfoModel course, int Id_Professor)
+        public async static Task<bool> UpdateCourseAdminAsync(Cours course, int Id_Professor)
         {
             using (var c = new HttpClient())
             {
@@ -405,6 +413,39 @@ namespace QR_Presence.Services
                 return false;
             }
         }
+
+        public async static Task<bool> AddIntervalsCoursAsync(IntervalPicker interval, int subject)
+        {
+            using (var c = new HttpClient())
+            {
+                HttpClient client = new HttpClient();
+                var authHeader = new AuthenticationHeaderValue("Bearer", await SecureStorage.GetAsync("oauth_token"));
+
+                client.DefaultRequestHeaders.Authorization = authHeader;
+                
+                var jsonRequest = new
+                {
+                    day = interval.DayOfWeekCourse.IndexOf(interval.Day) + 1,
+                    duration = interval.Duration,
+                    start_time = $"{interval.StartH}:00",
+                    subject = subject
+                };
+
+                var serializedJsonRequest = JsonConvert.SerializeObject(jsonRequest);
+                HttpContent content = new StringContent(serializedJsonRequest, Encoding.UTF8, "application/json");
+
+                var response = await client.PostAsync(new Uri(BaseUrlSchedAdmin + "add-schedule"), content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return true;
+                }
+
+                return false;
+            }
+        }
+
+
         #endregion Admin
 
         #region Student
@@ -420,7 +461,7 @@ namespace QR_Presence.Services
 
                 var response = await client.GetAsync(new Uri(BaseUrlSubject + "get-all-courses-for-current-user"));
 
-                UserCourses Items = new UserCourses();
+                UserCourses Items = new UserCourses { courses_enrolled = new List<CoursesEnrolled>() };
                 if (response.IsSuccessStatusCode)
                 {
                     string content = await response.Content.ReadAsStringAsync();
@@ -451,6 +492,101 @@ namespace QR_Presence.Services
                 }
 
                 return Items;
+            }
+        }
+
+        public async static Task<List<DatesModel>> GetDatesForIntervalsAsync(List<int> id_intervals)
+        {
+            using (var c = new HttpClient())
+            {
+                HttpClient client = new HttpClient();
+                var authHeader = new AuthenticationHeaderValue("Bearer", await SecureStorage.GetAsync("oauth_token"));
+
+                client.DefaultRequestHeaders.Authorization = authHeader;
+
+                var jsonRequest = new
+                {
+                    id_intervals = id_intervals
+                };
+
+                var serializedJsonRequest = JsonConvert.SerializeObject(jsonRequest);
+                HttpContent content = new StringContent(serializedJsonRequest, Encoding.UTF8, "application/json");
+
+                var response = await client.PostAsync(new Uri(BaseUrlQrSchedule + "get-dates-for-intervals"), content);
+
+                List<DatesModel> Items = new List<DatesModel>();
+                if (response.IsSuccessStatusCode)
+                {
+                    string content1 = await response.Content.ReadAsStringAsync();
+
+                    Items = JsonConvert.DeserializeObject<List<DatesModel>>(content1);
+                }
+
+                return Items;
+            }
+        }
+        public async static Task<StatsModel> GetStatsForDate(string date, int id)
+        {
+            using (var c = new HttpClient())
+            {
+                HttpClient client = new HttpClient();
+                var authHeader = new AuthenticationHeaderValue("Bearer", await SecureStorage.GetAsync("oauth_token"));
+
+                client.DefaultRequestHeaders.Authorization = authHeader;
+
+                var jsonRequest = new
+                {
+                    id = id,
+                    date = date
+                };
+
+                var serializedJsonRequest = JsonConvert.SerializeObject(jsonRequest);
+                HttpContent content = new StringContent(serializedJsonRequest, Encoding.UTF8, "application/json");
+
+                var response = await client.PostAsync(new Uri(BaseUrlQrSchedule + "get-qr-users"), content);
+
+                StatsModel Items = new StatsModel();
+                if (response.IsSuccessStatusCode)
+                {
+                    string content1 = await response.Content.ReadAsStringAsync();
+
+                    Items = JsonConvert.DeserializeObject<StatsModel>(content1);
+                }
+
+                return Items;
+            }
+        }
+
+        public async static Task<string> ScanQrAsync(int subject, int qr_id, int key)
+        {
+            using (var c = new HttpClient())
+            {
+                HttpClient client = new HttpClient();
+                var authHeader = new AuthenticationHeaderValue("Bearer", await SecureStorage.GetAsync("oauth_token"));
+
+                client.DefaultRequestHeaders.Authorization = authHeader;
+
+                var jsonRequest = new
+                {
+                    subject = subject,
+                    qr_id = qr_id,
+                    key = key
+                };
+
+                var serializedJsonRequest = JsonConvert.SerializeObject(jsonRequest);
+                HttpContent content = new StringContent(serializedJsonRequest, Encoding.UTF8, "application/json");
+
+                var response = await client.PostAsync(new Uri(BaseUrlQr + "scan-qr"), content);
+
+                if (response.IsSuccessStatusCode)
+                {
+
+                }
+
+                string cont = await response.Content.ReadAsStringAsync();
+                //string message = JsonConvert.DeserializeObject<string>(cont);
+
+                return $"{cont} - {response.StatusCode}";
             }
         }
         #endregion Student
