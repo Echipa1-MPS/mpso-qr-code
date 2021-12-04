@@ -115,7 +115,7 @@ public class UserService implements UserDetailsService {
         String profName = "";
         for(User user: userRepository.findAllByRole(Role.TEACHER)){
             if(user.getSubjects().contains(subject)){
-                return profName + user.getName() + user.getSurname();
+                return profName + user.getName() + " " + user.getSurname();
             }
         }
         return profName;

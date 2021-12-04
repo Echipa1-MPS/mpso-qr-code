@@ -73,7 +73,7 @@ public class ScheduleController {
         }
     }
 
-    @GetMapping(path = "/get-qr-users")
+    @PostMapping(path = "/get-qr-users")
     public ResponseEntity<?> getQRListUsers(@RequestBody ScheduleDateDTO scheduleDateDTO) {
         try {
             Long id = scheduleDateDTO.getId();
@@ -111,7 +111,7 @@ public class ScheduleController {
         }
     }
 
-    @GetMapping(path = "/get-dates-for-intervals")
+    @PostMapping(path = "/get-dates-for-intervals")
     public String getDates(@RequestBody Map<String, Object> request){
         JSONArray jsonArray = new JSONArray();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");

@@ -13,7 +13,7 @@ public class Helper {
         JSONObject studentJson = new JSONObject();
         studentJson.put("name", student.getName());
         studentJson.put("secondName", student.getSurname());
-        studentJson.put("ldap", student.getEmail().split("@")[0]);
+        studentJson.put("ldap", student.getUsername());
         studentJson.put("email", student.getEmail());
         studentJson.put("group", student.getGroup());
         studentJson.put("privilege", student.getRole().ordinal());
