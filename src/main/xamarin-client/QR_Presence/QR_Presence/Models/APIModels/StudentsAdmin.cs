@@ -8,19 +8,23 @@ namespace QR_Presence.Models.APIModels
     public class User
     {
         [PrimaryKey]
-        public int user_id { get; set; }
-        public string surname { get; set; }
-        public string name { get; set; }
-        public string email { get; set; }
-        public string username { get; set; }
-        public string group { get; set; }
+        public int User_id { get; set; }
+        public string Surname { get; set; }
+        public string Name { get; set; }
+        public string Email { get; set; }
+        public string Username { get; set; }
+        public string Group { get; set; }
         public int Privilege { get;set; }
 
-        public string MainTitle => $"{user_id} {name} {surname} ";
-        public string MainTitleID => $"{name}{surname}";
 
-        public string SecondTitle => $"{email}";
-        public string EndTitle => $"{group}";
+        public string Ldap { get; set; }
+        public string SecondName { get; set; }
+
+        public string MainTitle => $"{User_id} {Name} {Surname} ";
+        public string MainTitleID => $"{Name}{Surname}";
+
+        public string SecondTitle => $"{Email}";
+        public string EndTitle => $"{Group}";
         public string Icon1 => "profilem.png";
         public string Icon2 => "envelope-open-text";
     }

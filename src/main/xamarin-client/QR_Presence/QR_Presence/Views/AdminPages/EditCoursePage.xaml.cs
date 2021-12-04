@@ -96,7 +96,7 @@ namespace QR_Presence.Views.AdminPages
                 ListOf = new ObservableCollection<User>(stud.students);
                 Professors = new ObservableCollection<User>(prof.teachers);
 
-                Professor = prof.teachers.Find(x => x.user_id == course.Id_Professor);
+                Professor = prof.teachers.Find(x => x.User_id == course.Id_Professor);
             }).Wait();
 
             Course = course;
@@ -110,7 +110,7 @@ namespace QR_Presence.Views.AdminPages
             for (int i = 0; i < e.CurrentSelection.Count; i++)
             {
                 User user = e.CurrentSelection[i] as User;
-                Students_Selected.Add(new Student { id_user = user.user_id });
+                Students_Selected.Add(new Student { id_user = user.User_id });
             }
             selectedNumber.Text = $"Selected Students: {Students_Selected.Count}";
         }
@@ -129,10 +129,10 @@ namespace QR_Presence.Views.AdminPages
 
 
             if (IsUpdate)
-                isok1 = await Services.APICalls.UpdateCourseAdminAsync(Course, Professor.user_id);
+                isok1 = await Services.APICalls.UpdateCourseAdminAsync(Course, Professor.User_id);
             else
             {
-                Course.Id_Course = await Services.APICalls.CreateCourseAdminAsync(Course, Professor.user_id);
+                Course.Id_Course = await Services.APICalls.CreateCourseAdminAsync(Course, Professor.User_id);
                 if (Course.Id_Course != -1)
                 {
                     isok1 = true;

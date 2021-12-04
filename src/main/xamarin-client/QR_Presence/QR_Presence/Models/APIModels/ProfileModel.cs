@@ -31,6 +31,8 @@ namespace QR_Presence.Models.APIModels
         public string day { get; set; }
         public string STime => $"{start_h}:00";
         public string ETime => $"{start_h + length}:00";
+
+        public string FullName => $"{day[0]} {STime}-{ETime}";
     }
 
     public class ProfileModel
