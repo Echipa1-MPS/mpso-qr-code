@@ -92,17 +92,31 @@ public class ScheduleController {
             }
             JSONObject jsonObject = new JSONObject();
             JSONArray jsonArray1 = new JSONArray();
+            HashMap<User, Integer> userHashMap  = new HashMap<>();
+            Integer qrNumber = 0;
             for (QRCode qrCode : qrCodes) {
                 Date qrCodeDate = dateFormat.parse(qrCode.getDate().toString());
                 if(qrCodeDate.equals(timestamp)) {
+                    ++qrNumber;
                     JSONArray jsonArray = new JSONArray();
                     for (User user : qrCode.getUsers()) {
                         jsonArray.add(Helper.studentJSON(user));
+                        if(userHashMap.containsKey(user)){
+                            userHashMap.put(user, userHashMap.get(user) + 1);
+                        }else {
+                            userHashMap.put(user, 1);
+                        }
                     }
                     jsonArray1.add(jsonArray);
                 }
             }
-            jsonObject.put("full-strike", jsonArray1.size());
+            Integer fullStrike = 0;
+            for(Map.Entry<User, Integer> entry: userHashMap.entrySet()){
+                if(entry.getValue() >= qrNumber){
+                    ++fullStrike;
+                }
+            }
+            jsonObject.put("full-strike", fullStrike);
             jsonObject.put("absent", userService.getStudents(schedule.get().getSubject()).size() - jsonArray1.size());
             jsonObject.put("list_qr_attendance", jsonArray1);
             return ResponseEntity.status(HttpStatus.OK).body(jsonObject);
