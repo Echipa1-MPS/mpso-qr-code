@@ -16,10 +16,10 @@ namespace QR_Presence.Models.APIModels
     {
         public string CourseName { get; set; }
         public int length { get; set; }
-        public StartTime startTime { get; set; }
+        public int startTime { get; set; }
         public string day { get; set; }
-        public string STime => $"{startTime.hour}:00";
-        public string ETime => $"{startTime.hour + length}:00";
+        public string STime => $"{startTime}:00";
+        public string ETime => $"{startTime + length}:00";
 
     }
 

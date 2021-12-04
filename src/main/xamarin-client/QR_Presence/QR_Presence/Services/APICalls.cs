@@ -276,7 +276,6 @@ namespace QR_Presence.Services
 
         public async static Task<GetCoursesModel> GetAllCoursesAdminAsync()
         {
-
             using (var c = new HttpClient())
             {
                 HttpClient client = new HttpClient();
@@ -286,7 +285,7 @@ namespace QR_Presence.Services
 
                 var response = await client.GetAsync(new Uri(BaseUrlSubjectAdmin + "get-all-courses"));
 
-                GetCoursesModel Items = new GetCoursesModel();
+                GetCoursesModel Items = new GetCoursesModel { Courses = new List<Cours>()};
                 if (response.IsSuccessStatusCode)
                 {
                     string content = await response.Content.ReadAsStringAsync();
@@ -460,7 +459,7 @@ namespace QR_Presence.Services
 
                 var response = await client.GetAsync(new Uri(BaseUrlSubject + "get-all-courses-for-current-user"));
 
-                UserCourses Items = new UserCourses();
+                UserCourses Items = new UserCourses { courses_enrolled = new List<CoursesEnrolled>()};
                 if (response.IsSuccessStatusCode)
                 {
                     string content = await response.Content.ReadAsStringAsync();
