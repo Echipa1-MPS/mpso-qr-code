@@ -68,6 +68,14 @@ namespace QR_Presence.Views.EditPages
             if (IsUpdated)
             {
                 await DisplayAlert("All Ok", "Login succesfully", "OK");
+                SecureStorage.RemoveAll();
+                if (Preferences.ContainsKey("Role"))
+                {
+                    Preferences.Remove("Role");
+                    Preferences.Remove("IsLogIn");
+
+                }
+                Application.Current.MainPage = new NavigationPage(new LoginPage());
             }
             else
             {

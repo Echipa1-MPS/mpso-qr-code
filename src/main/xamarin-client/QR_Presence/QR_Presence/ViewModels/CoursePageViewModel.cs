@@ -22,6 +22,8 @@ namespace QR_Presence.ViewModels
 
         public List<ListOfDate> Dates_to_Show { get; set; }
 
+        public bool IsProfessor { get; set; }
+
         public ListOfDate _selectedDate { get; set; }
         public ListOfDate SelectedDate
         {
@@ -77,6 +79,12 @@ namespace QR_Presence.ViewModels
 
         public CoursePageViewModel(CoursesEnrolled course)
         {
+            string role = Preferences.Get("Role", "2");
+
+            IsProfessor = role == "1"; 
+
+            OnPropertyChanged(nameof(IsProfessor));
+
             Course = course;
             ExcelService = new ExcelService();
             Course.Intervals.ForEach(i => Intervals_id.Add(i.id_interval));
@@ -123,7 +131,7 @@ namespace QR_Presence.ViewModels
                     Desc = Course.desc,
                     Grading = Course.grading,
                     intervals = Course.Intervals,
-                    Id_Course= Course.id_course
+                    Id_Course = Course.id_course
                 }));
 
             });
@@ -132,7 +140,7 @@ namespace QR_Presence.ViewModels
         #region ExportEcel
         async Task ExportToExcel()
         {
-            var fileName = $"Presence{Course.name_course}-{SelectedInterval.day}{SelectedInterval.start_h}00{SelectedDate}.xlsx";
+            var fileName = $"Presence{Course.name_course}-{SelectedInterval.day}{SelectedInterval.start_h}00{SelectedDate.Date}.xlsx";
             string filepath = ExcelService.GenerateExcel(fileName);
 
 

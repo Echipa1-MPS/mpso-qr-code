@@ -622,10 +622,7 @@ namespace QR_Presence.Services
 
                 var jsonRequest = new
                 {
-                    email = user.Email,
                     password = password,
-                    username = words[0],
-                    name = user.Name
                 };
 
                 var serializedJsonRequest = JsonConvert.SerializeObject(jsonRequest);
