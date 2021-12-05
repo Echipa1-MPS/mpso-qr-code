@@ -5,7 +5,7 @@ import random
 from typing import List
 
 names = [
-    "Anca",
+    "Anca"
     "Bianca",
     "Bogdan",
     "Claudiu",
@@ -87,7 +87,7 @@ surnames = [
     "Moisil",
     "Nedelcu",
     "Popa",
-    "Sandu",
+    "Sandu"
 ]
 
 groups = ["341C1", "342C2", "343C3", "344C4", "345C5"]
