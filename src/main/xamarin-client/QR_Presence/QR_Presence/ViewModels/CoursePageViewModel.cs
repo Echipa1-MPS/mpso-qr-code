@@ -2,6 +2,7 @@
 using QR_Presence.Models;
 using QR_Presence.Models.APIModels;
 using QR_Presence.Services;
+using QR_Presence.Views.AdminPages;
 using SkiaSharp;
 using System;
 using System.Collections.Generic;
@@ -72,6 +73,7 @@ namespace QR_Presence.ViewModels
         List<int> Intervals_id = new List<int>();
         public Command ExportExcel { get; set; }
         public Command GenerateStat { get; set; }
+        public Command EditCourseCommand { get; set; }
 
         public CoursePageViewModel(CoursesEnrolled course)
         {
@@ -111,6 +113,18 @@ namespace QR_Presence.ViewModels
                 OnPropertyChanged(nameof(PersonsPresents));
                 OnPropertyChanged(nameof(PersonsAttentive));
                 OnPropertyChanged(nameof(PersonsActives));
+
+            });
+
+            EditCourseCommand = new Command(async () =>
+            {
+                await Application.Current.MainPage.Navigation.PushAsync(new EditCoursePage(new Cours
+                {
+                    Desc = Course.desc,
+                    Grading = Course.grading,
+                    intervals = Course.Intervals,
+                    Id_Course= Course.id_course
+                }));
 
             });
         }

@@ -26,7 +26,7 @@
 
             <Grid Padding="0,0,0,4" Grid.Row="1">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="0.5*"/>
+                    <RowDefinition Height="auto"/>
                     <RowDefinition Height="*"/>
 
                     <RowDefinition Height="*"/>
@@ -35,12 +35,13 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Frame Style="{StaticResource FrameAddNews}">
+                <Frame Style="{StaticResource FrameAddNews}" IsVisible="{Binding IsVisibleOnAdmin}">
                     <Entry Text="{Binding Course.Name_C}" 
                            Style="{StaticResource EntryStyle }" 
-                           Placeholder="Course Name"/>
+                           Placeholder="Course Name"
+                           />
                 </Frame>
-                <Frame Style="{StaticResource FrameAddNews}" Grid.Column="1">
+                <Frame Style="{StaticResource FrameAddNews}" Grid.Column="1" IsVisible="{Binding IsVisibleOnAdmin}">
                     <Picker x:Name="ProfessorPicker" Grid.Column="1" 
                                 Title="Role"
                                 TextColor="{AppThemeBinding Light={StaticResource BackgroundDark}, Dark={StaticResource BackgroundLight}}"
@@ -68,7 +69,7 @@
             </Grid>
 
 
-            <StackLayout BindableLayout.ItemsSource="{Binding ListOfIntervals}"  Grid.Row="2">
+            <StackLayout BindableLayout.ItemsSource="{Binding ListOfIntervals}" IsVisible="{Binding IsVisibleOnAdmin}" Grid.Row="2">
                 <BindableLayout.ItemTemplate>
                     <DataTemplate>
                         <Grid ColumnSpacing="2">
@@ -126,6 +127,7 @@
                             SelectionMode="Multiple"
                             SelectionChanged="accountsList_SelectionChanged"
                             ItemsSource="{Binding ListOf}"
+                            
                             Grid.Row="3">
 
                 <CollectionView.ItemsLayout>
@@ -160,29 +162,7 @@
                     <ContentView>
                         <StackLayout HorizontalOptions="CenterAndExpand"
                                  VerticalOptions="CenterAndExpand">
-                            <Label Text="Go to Bill Page and "
-                                   FontAttributes="Bold"
-                                   TextColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundDark}}"
-                                   FontSize="18"
-                                   HorizontalOptions="Center"
-                                   VerticalOptions="Center"/>
-                            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Center">
-                                <Label Text="Press "
-                                   FontAttributes="Bold"
-                                   TextColor="{AppThemeBinding Light={StaticResource BackgroundDark}, Dark={StaticResource BackgroundLight}}"
-                                   FontSize="18"
-                                   HorizontalOptions="Center"
-                                   VerticalOptions="Center"/>
-
-                                <Label Text="+"
-                                   WidthRequest="20" 
-                                   TextColor="{AppThemeBinding Light={StaticResource BackgroundDark}, Dark={StaticResource BackgroundLight}}"
-                                   FontAttributes="Bold"
-                                   FontSize="34"
-                                   VerticalOptions="Center"
-                                   HorizontalOptions="Center"/>
-                            </StackLayout>
-                            <Label Text="for adding new Transaction"
+                            <Label Text="No Students to Add"
                                    FontAttributes="Bold"
                                    TextColor="{AppThemeBinding Light={StaticResource BackgroundDark}, Dark={StaticResource BackgroundLight}}"
                                    FontSize="18"
@@ -204,13 +184,13 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
-                            <Frame BackgroundColor="{StaticResource AccentDarkBlue} " CornerRadius="15" Padding="0" HorizontalOptions="CenterAndExpand" HeightRequest="45" WidthRequest="500"  Grid.Row="0">
+                            <Frame BackgroundColor="{StaticResource AccentDarkBlue} " CornerRadius="15" Padding="0" HorizontalOptions="CenterAndExpand" HeightRequest="45" WidthRequest="500"  Grid.Row="0" IsVisible="{Binding IsVisibleOnAdmin}">
                                 <Label x:Name="selectedNumber" Text="Selected Students: 0"
                                    HorizontalOptions="CenterAndExpand"
                                     TextColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundLight}}"
                                     FontAttributes="Bold"
                                     FontSize="18"
-                                    Style="{StaticResource TitleStyle}"/>
+                                    Style="{StaticResource TitleStyle}"  />
                             </Frame>
                             <Button Text="save" TextTransform="None"  
                                     Grid.Column="1"
