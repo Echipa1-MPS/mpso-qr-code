@@ -235,7 +235,7 @@ export default function CreateQR() {
                         }
                         { chosenInterval && chosenCourse ?
                             <div className="flex-container-column" style={{marginTop: "20px"}}>
-                                <div className="qr-input-header">Choose how much a QR should be available (min): </div>
+                                <div className="qr-input-header">Choose how much a QR should be available (sec): </div>
                                 <input type="number"
                                     onChange = {(e) => hasChosenDuration(e.target.value)}
                                     className="form-control" 
