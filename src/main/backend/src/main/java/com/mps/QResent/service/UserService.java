@@ -11,6 +11,7 @@ import com.mps.QResent.model.Subject;
 import com.mps.QResent.projection.UserSubjectView;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -127,11 +128,17 @@ public class UserService implements UserDetailsService {
                 return user.getId();
             }
         }
-        return 0L;
+        return null;
     }
 
     public List<User> getStudents(Subject subject){
-        return userRepository.findAllByRole(Role.STUDENT);
+        List<User> users = new ArrayList<>();
+        for(User user: userRepository.findAllByRole(Role.STUDENT)){
+            if(user.getSubjects().contains(subject)){
+                users.add(user);
+            }
+        }
+        return users;
     }
 
 }

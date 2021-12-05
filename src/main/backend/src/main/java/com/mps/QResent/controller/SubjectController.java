@@ -3,6 +3,7 @@ package com.mps.QResent.controller;
 import com.mps.QResent.dto.StudentsEnroll;
 import com.mps.QResent.dto.StudentsToEnroll;
 import com.mps.QResent.dto.SubjectDTO;
+import com.mps.QResent.enums.Role;
 import com.mps.QResent.helper.Helper;
 import com.mps.QResent.model.Schedule;
 import com.mps.QResent.model.Subject;
@@ -109,26 +110,40 @@ public class SubjectController {
         return subject.getId();
     }
 
-    @PostMapping(path = "/admin/update-course")
+    @PostMapping(path = "/update-course")
     @ResponseStatus(HttpStatus.OK)
-    @RolesAllowed("ADMIN")
+    @RolesAllowed({"ADMIN", "TEACHER"})
     public ResponseEntity<?> updateSubject(@RequestBody Map<String, Object> request) {
         try {
             if (request.get("course_id") != null) {
                 Long course_id = Long.valueOf((Integer) request.get("course_id"));
                 Optional<Subject> subject = subjectService.findById(course_id);
+                Optional<User> userRequest = userService.findByEmail(userService.getCurrentUserEmail());
+                assert userRequest.isPresent();
+                assert subject.isPresent();
                 for (Map.Entry<String, Object> entry : request.entrySet()) {
                     switch (entry.getKey()) {
                         case "course_id":
                             continue;
                         case "nameC":
-                            subject.ifPresent(value -> value.setName((String) request.get("nameC")));
-                            continue;
+                            if(userRequest.get().getRole() == Role.ADMIN) {
+                                subject.ifPresent(value -> value.setName((String) request.get("nameC")));
+                                continue;
+                            }
+                            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("The specified key cannot be modified, not an admin");
                         case "idProfessor":
-                            Optional<User> user = userService.findByIdOptional(Long.valueOf((Integer) request.get("idProfessor")));
-                            user.ifPresent(value -> subject.ifPresent(value1 -> value1.getUsers().add(value)));
-                            user.ifPresent(value -> userService.save(value));
-                            continue;
+                            if(userRequest.get().getRole() == Role.ADMIN) {
+                                if(userService.getProfId(subject.get()) != null) {
+                                    userService.findById(userService.getProfId(subject.get())).getSubjects().remove(subject.get());
+                                    subject.get().getUsers().remove(userService.findById(userService.getProfId(subject.get())));
+                                }
+                                Optional<User> user = userService.findByIdOptional(Long.valueOf((Integer) request.get("idProfessor")));
+                                user.ifPresent(value -> subject.ifPresent(value1 -> value1.getUsers().add(value)));
+                                user.ifPresent(value -> userService.save(value));
+                                continue;
+                            }
+                            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("The specified key cannot be modified, not an admin");
+
                         case "desc":
                             subject.ifPresent(value -> value.setInfoSubject((String) request.get("desc")));
                             continue;
