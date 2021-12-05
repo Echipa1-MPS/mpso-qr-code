@@ -117,7 +117,8 @@ public class ScheduleController {
                 }
             }
             jsonObject.put("full-strike", fullStrike);
-            jsonObject.put("absent", userService.getStudents(schedule.get().getSubject()).size() - jsonArray1.size());
+            Long absent =  userService.getStudents(schedule.get().getSubject()).stream().filter(user -> !userHashMap.containsKey(user)).count();
+            jsonObject.put("absent", absent);
             jsonObject.put("list_qr_attendance", jsonArray1);
             return ResponseEntity.status(HttpStatus.OK).body(jsonObject);
         } catch (Exception e) {
