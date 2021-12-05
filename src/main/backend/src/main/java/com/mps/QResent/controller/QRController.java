@@ -67,7 +67,7 @@ public class QRController {
 
                 int offset = Integer.parseInt(String.valueOf(request.get("offset")));
                 int reps = Integer.parseInt(String.valueOf(request.get("reps")));
-                qrCode.setDateFinish(new java.sql.Timestamp(sqlTime.getTime() + reps * TimeUnit.MINUTES.toMillis(offset)));
+                qrCode.setDateFinish(new java.sql.Timestamp(sqlTime.getTime() + reps * TimeUnit.SECONDS.toMillis(offset)));
 
                 qrService.save(qrCode);
 
