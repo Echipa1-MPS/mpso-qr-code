@@ -125,6 +125,9 @@ public class UserController {
             for (Map.Entry<String, Object> entry : request.entrySet()) {
                 switch (entry.getKey()) {
                     case "email":
+                        if (userService.findByEmail((String) request.get("email")).isPresent()) {
+                            return ResponseEntity.status(HttpStatus.CONFLICT).body("This user already exists!");
+                        }
                         user.get().setEmail((String) request.get("email"));
                         continue;
                     case "password":
@@ -145,9 +148,6 @@ public class UserController {
                                 " You can only update the e-mail, password, username, name or surname if you are a" +
                                 " student.");
                 }
-            }
-            if (userService.isPresent(user.get().getEmail())) {
-                return ResponseEntity.status(HttpStatus.CONFLICT).body("This user already exists!");
             }
             userService.save(user.get());
             return ResponseEntity.status(HttpStatus.OK).body("The user has been successfully updated!");
