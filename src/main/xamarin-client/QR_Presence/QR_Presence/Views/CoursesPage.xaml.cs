@@ -6,7 +6,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Windows.Input;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -18,6 +18,18 @@ namespace QR_Presence.Views
         public ObservableCollection<CoursesEnrolled> CourseList { get; set; }
         public string Count { get; set; }
 
+        //IsRefreshing="{Binding IsRefreshing}"
+        //                 Command="{Binding RefreshCommand}">
+
+        public ICommand RefreshCommand  => new Command(async ()  =>
+        {
+            refreshList.IsRefreshing = true;
+            Courses = await Services.APICalls.GetUserCoursesAsync();
+            CourseList = new ObservableCollection<CoursesEnrolled>(Courses.courses_enrolled);
+            refreshList.IsRefreshing = false;
+        });
+
+        public bool IsRefreshing { get; set; }
         public UserCourses Courses { get; set; }
         public CoursesPage()
         {
@@ -29,6 +41,13 @@ namespace QR_Presence.Views
                 Count = $"Number of courses enroled: {Courses.count}";
             }).Wait();
             BindingContext = this;
+        }
+
+        protected async override void OnAppearing()
+        {
+            base.OnAppearing();
+           
+
         }
         private async void AccountsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {

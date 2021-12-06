@@ -34,101 +34,105 @@
                     </StackLayout>
                 </Frame>
             </Frame>
-            <CollectionView x:Name="accountsList"
+            <RefreshView x:Name="refreshList" IsRefreshing="false"
+                         Command="{Binding RefreshCommand}">
+                <CollectionView x:Name="accountsList"
                             SelectionMode="Single"
                             SelectionChanged="AccountsList_SelectionChanged"
+                           
                             ItemsSource="{Binding CourseList}">
 
-                <CollectionView.ItemsLayout>
-                    <GridItemsLayout Orientation="Vertical" Span="1" HorizontalItemSpacing="7" VerticalItemSpacing="7"/>
-                </CollectionView.ItemsLayout>
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout Orientation="Vertical" Span="1" HorizontalItemSpacing="7" VerticalItemSpacing="7"/>
+                    </CollectionView.ItemsLayout>
 
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Frame Style="{StaticResource FrameList}" Padding="5,5,2,5">
-                            <Grid Padding="10,10,10,10">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Frame Style="{StaticResource FrameList}" Padding="5,5,2,5">
+                                <Grid Padding="10,10,10,10">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
 
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="1.5*" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1.5*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
 
-                                <Label Text="{Binding name_course}"
+                                    <Label Text="{Binding name_course}"
                                        Grid.Row="0"
                                        FontAttributes="Bold"
                                        FontSize="Medium"
                                        TextColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundLight}}"
                                        Style="{StaticResource TitleStyle}"/>
 
-                                <Label Grid.Column="1"
+                                    <Label Grid.Column="1"
                                        HorizontalOptions="EndAndExpand"
                                        Text="{Binding name_prof}"
                                        TextColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundLight}}"
                                        FontAttributes="Bold"
                                        FontSize="Medium"
                                        Style="{StaticResource TitleStyle}"/>
-                            </Grid>
-                        </Frame>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
+                                </Grid>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
 
-                <CollectionView.EmptyView>
-                    <ContentView>
-                        <StackLayout HorizontalOptions="CenterAndExpand"
+                    <CollectionView.EmptyView>
+                        <ContentView>
+                            <StackLayout HorizontalOptions="CenterAndExpand"
                                  VerticalOptions="CenterAndExpand">
-                            <Label Text="Go to Bill Page and "
+                                <Label Text="Go to Bill Page and "
                                    FontAttributes="Bold"
                                    TextColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundDark}}"
                                    FontSize="18"
                                    HorizontalOptions="Center"
                                    VerticalOptions="Center"/>
-                            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Center">
-                                <Label Text="Press "
+                                <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Center">
+                                    <Label Text="Press "
                                    FontAttributes="Bold"
                                    TextColor="{AppThemeBinding Light={StaticResource BackgroundDark}, Dark={StaticResource BackgroundLight}}"
                                    FontSize="18"
                                    HorizontalOptions="Center"
                                    VerticalOptions="Center"/>
 
-                                <Label Text="+"
+                                    <Label Text="+"
                                    WidthRequest="20" 
                                    TextColor="{AppThemeBinding Light={StaticResource BackgroundDark}, Dark={StaticResource BackgroundLight}}"
                                    FontAttributes="Bold"
                                    FontSize="34"
                                    VerticalOptions="Center"
                                    HorizontalOptions="Center"/>
-                            </StackLayout>
-                            <Label Text="for adding new Transaction"
+                                </StackLayout>
+                                <Label Text="for adding new Transaction"
                                    FontAttributes="Bold"
                                    TextColor="{AppThemeBinding Light={StaticResource BackgroundDark}, Dark={StaticResource BackgroundLight}}"
                                    FontSize="18"
                                    VerticalOptions="Center"
                                    HorizontalOptions="Center" />
 
-                        </StackLayout>
-                    </ContentView>
-                </CollectionView.EmptyView>
+                            </StackLayout>
+                        </ContentView>
+                    </CollectionView.EmptyView>
 
-                <CollectionView.Header>
-                    <ContentView>
-                        <StackLayout>
-                            <Frame BackgroundColor="{StaticResource AccentDarkBlue} " CornerRadius="15" Padding="0" HeightRequest="45">
-                                <Label Text="{Binding Count}"
+                    <CollectionView.Header>
+                        <ContentView>
+                            <StackLayout>
+                                <Frame BackgroundColor="{StaticResource AccentDarkBlue} " CornerRadius="15" Padding="0" HeightRequest="45">
+                                    <Label Text="{Binding Count}"
                                     HorizontalOptions="CenterAndExpand"
                                     VerticalOptions="CenterAndExpand"
                                     TextColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundLight}}"
                                     FontAttributes="Bold"
                                     FontSize="18"
                                     Style="{StaticResource TitleStyle}"/>
-                        </Frame>
-                        </StackLayout>
-                    </ContentView>
-                </CollectionView.Header>
+                                </Frame>
+                            </StackLayout>
+                        </ContentView>
+                    </CollectionView.Header>
 
-            </CollectionView>
+                </CollectionView>
+            </RefreshView>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
