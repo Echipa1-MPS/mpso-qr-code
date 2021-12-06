@@ -45,6 +45,7 @@ namespace QR_Presence.Views.AdminPages
 
         public ObservableCollection<IntervalPicker> ListOfIntervals { get; set; } = new ObservableCollection<IntervalPicker>();
 
+        public int DefaultNumbersOnUpdate { get; set; }
 
 
         public EditCoursePage()
@@ -62,6 +63,18 @@ namespace QR_Presence.Views.AdminPages
             }).Wait();
 
             ListOfIntervals = new ObservableCollection<IntervalPicker> { new IntervalPicker { TextButton = "plus" } };
+            DefaultNumbersOnUpdate = 0;
+
+            string role = Preferences.Get("Role", "2");
+
+            if (role == "0")
+            {
+                IsVisibleOnAdmin = true;
+            }
+            else
+            {
+                IsVisibleOnAdmin = false;
+            }
 
             Course = new Cours();
             IsUpdate = false;
@@ -109,6 +122,8 @@ namespace QR_Presence.Views.AdminPages
                 }
 
 
+                DefaultNumbersOnUpdate = course.intervals.Count;
+
                 ListOf = new ObservableCollection<User>(list);
                 Professors = new ObservableCollection<User>(prof.teachers);
 
@@ -151,7 +166,7 @@ namespace QR_Presence.Views.AdminPages
         {
             bool isok1 = false;
             bool isok2 = false;
-            bool isok3 = false;
+            bool isok3 = true;
 
             string role = Preferences.Get("Role", "2");
 
@@ -175,8 +190,7 @@ namespace QR_Presence.Views.AdminPages
                     isok2 = true;
                 }
 
-
-                if (ListOfIntervals[0] != new IntervalPicker { TextButton = "plus" })
+                if (DefaultNumbersOnUpdate == 0 && ListOfIntervals[0] != new IntervalPicker { TextButton = "plus" })
                 {
                     foreach (IntervalPicker pick in ListOfIntervals)
                     {
