@@ -47,23 +47,27 @@ public class ScheduleController {
         try {
             if (scheduleService.areValidCredentials(request)) {
                 Schedule schedule = new Schedule();
-                schedule.setDay(DayOfWeek.of(Integer.parseInt(String.valueOf(request.get("day")))));
-                schedule.setLength(Integer.parseInt(String.valueOf(request.get("duration"))));
-                schedule.setStartTime(LocalTime.parse(String.valueOf(request.get("start_time")), DateTimeFormatter.ofPattern("HH:mm:ss")));
                 Long subjectId = Long.parseLong(String.valueOf(request.get("subject")));
+                DayOfWeek day = DayOfWeek.of(Integer.parseInt(String.valueOf(request.get("day"))));
+                LocalTime startTime = LocalTime.parse(String.valueOf(request.get("start_time")), DateTimeFormatter.ofPattern("HH:mm:ss"));
+                int duration = Integer.parseInt(String.valueOf(request.get("duration")));
+
+                // Verify if the schedule record already exists
+                if (scheduleService.findByScheduleInfo(subjectId, startTime, day) != null) {
+                    return ResponseEntity.status(HttpStatus.CONFLICT).body("A course is already set for this interval! Choose another one!");
+                }
+
+                schedule.setDay(day);
+                schedule.setLength(duration);
+                schedule.setStartTime(startTime);
                 Optional<Subject> subject = subjectService.findById(subjectId);
                 if (subject.isEmpty()) {
                     return ResponseEntity.status(HttpStatus.NOT_FOUND).body("The specified course does not exist!");
                 }
                 schedule.setSubject(subject.get());
 
-                // Verify if the schedule record already exists
-                if (scheduleService.findByScheduleInfo(subjectId, schedule.getStartTime(), schedule.getDay()) != null) {
-                    return ResponseEntity.status(HttpStatus.CONFLICT).body("A course is already set for this interval! Choose another one!");
-                } else {
-                    scheduleService.save(schedule);
-                    return ResponseEntity.status(HttpStatus.CREATED).body("A new interval is a motherfucker!");
-                }
+                scheduleService.save(schedule);
+                return ResponseEntity.status(HttpStatus.CREATED).body("A new interval was added!");
             } else {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Missing required credentials!");
             }
