@@ -128,8 +128,10 @@
                                     FontFamily="FAS" 
                                     Grid.Row="0" Grid.Column="1" 
                                     FontSize="Large"  
-                                    WidthRequest="50"  
+                                    WidthRequest="50" 
+                                    Command="{Binding EditCourseCommand}"
                                     Clicked="Button_Clicked_1" 
+                                     IsVisible="{Binding IsProfessor}"
                                     Padding="1,1,1,1" />
 
                             <StackLayout  Grid.Row="1" Grid.ColumnSpan="2" >
@@ -193,7 +195,7 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="0.7*"/>
                                 <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="0.3*"/>
+                                <ColumnDefinition Width="auto"/>
 
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
@@ -220,7 +222,7 @@
                                     SelectedItem="{Binding SelectedDate}" />
                                 </StackLayout>
                             </Frame>
-                            <Frame Style="{StaticResource FrameList}" Grid.Row="0" Grid.Column="2" Padding="0">
+                            <Frame Style="{StaticResource FrameList}" Grid.Row="0" Grid.Column="2" Padding="0" IsVisible="{Binding IsProfessor}">
                                 <Button Text="file-download"
                                         Grid.Row="0" Grid.Column="2"
                                         Style="{StaticResource MainButtonUnChecked}"
@@ -244,7 +246,7 @@
 
                         <StackLayout Grid.Row="2">
                             <StackLayout>
-                                <Frame Style="{StaticResource FrameList}" BackgroundColor="{StaticResource AccentDarkRed}" BorderColor="{StaticResource AccentDarkRed}" Padding="1">
+                                <Frame Style="{StaticResource FrameList}" BackgroundColor="{StaticResource AccentDarkRed}" BorderColor="{StaticResource AccentDarkRed}" Padding="1" IsVisible="{Binding IsProfessor}">
                                     <StackLayout Orientation="Horizontal" Padding="12,0,0,0">
                                         <Label Text="Presence" FontSize="Medium"  TextColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundDark}}"  FontAttributes="Bold"  VerticalOptions="CenterAndExpand"/>
                                         <Button x:Name="presenceButton" Text="chevron-down"  TextColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundDark}}" FontFamily="FAS"  WidthRequest="50" VerticalOptions="CenterAndExpand" BackgroundColor="Transparent" HorizontalOptions="EndAndExpand" Clicked="Button_Clicked"/>
@@ -295,7 +297,7 @@
                             </StackLayout>
 
                             <StackLayout>
-                                <Frame Style="{StaticResource FrameList}" BackgroundColor="{StaticResource AccentDarkRed}" BorderColor="{StaticResource AccentDarkRed}" Padding="1">
+                                <Frame Style="{StaticResource FrameList}" BackgroundColor="{StaticResource AccentDarkRed}" BorderColor="{StaticResource AccentDarkRed}" Padding="1" IsVisible="{Binding IsProfessor}">
                                     <StackLayout Orientation="Horizontal" Padding="12,0,0,0">
                                         <Label Text="Student Attentive"  TextColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundDark}}" FontSize="Medium" FontAttributes="Bold"  VerticalOptions="CenterAndExpand"/>
                                         <Button x:Name="attentiveButton"  TextColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundDark}}" Text="chevron-down" FontFamily="FAS"  WidthRequest="50" VerticalOptions="CenterAndExpand" BackgroundColor="Transparent" HorizontalOptions="EndAndExpand" Clicked="Button_Clicked"/>
@@ -347,7 +349,7 @@
                             </StackLayout>
 
                             <StackLayout>
-                                <Frame Style="{StaticResource FrameList}" BackgroundColor="{StaticResource AccentDarkRed}" BorderColor="{StaticResource AccentDarkRed}" Padding="1">
+                                <Frame Style="{StaticResource FrameList}" BackgroundColor="{StaticResource AccentDarkRed}" BorderColor="{StaticResource AccentDarkRed}" Padding="1" IsVisible="{Binding IsProfessor}">
                                     <StackLayout Orientation="Horizontal" Padding="12,0,0,0">
                                         <Label Text="Actives" FontSize="Medium"  TextColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundDark}}" FontAttributes="Bold"  VerticalOptions="CenterAndExpand"/>
                                         <Button  x:Name="activesButton" Text="chevron-down"  TextColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundDark}}" FontFamily="FAS"  WidthRequest="50" VerticalOptions="CenterAndExpand" BackgroundColor="Transparent" HorizontalOptions="EndAndExpand" Clicked="Button_Clicked"/>
@@ -375,7 +377,7 @@
                                                         <ColumnDefinition Width="Auto" />
                                                     </Grid.ColumnDefinitions>
 
-                                                    <Label Text="{Binding FullName}"
+                                                    <Label Text="{Binding MainTitle}"
                                                            Grid.Row="0"
                                                            FontAttributes="Bold"
                                                            FontSize="Medium"

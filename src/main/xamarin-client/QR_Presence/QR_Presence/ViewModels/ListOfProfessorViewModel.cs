@@ -80,7 +80,7 @@ namespace QR_Presence.ViewModels
             GoToNextPage = new Command(async () =>
             {
                 if (SelectedElement != null)
-                    await Application.Current.MainPage.Navigation.PushAsync(new EditProfile { BindingContext = SelectedElement });
+                    await Application.Current.MainPage.Navigation.PushAsync(new EditProfile (SelectedElement ));
             });
 
             GoNewElementPage = new Command(async () =>

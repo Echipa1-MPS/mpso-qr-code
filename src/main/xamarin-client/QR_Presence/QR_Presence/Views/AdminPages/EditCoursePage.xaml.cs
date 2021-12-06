@@ -6,7 +6,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -24,8 +24,7 @@ namespace QR_Presence.Views.AdminPages
         public int SelectedItemsNumber { get; set; }
         public Cours Course { get; set; }
         public bool IsUpdate { get; set; }
-
-        //public ObservableCollection
+        public bool IsVisibleOnAdmin { get; set; }
 
         public List<DayOfWeek> DayOfWeekCourse { get; set; } = new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Friday };
         public List<int> LenghtOfCourse { get; set; } = new List<int> { 1, 2, 3, 4 };
@@ -46,6 +45,7 @@ namespace QR_Presence.Views.AdminPages
 
         public ObservableCollection<IntervalPicker> ListOfIntervals { get; set; } = new ObservableCollection<IntervalPicker>();
 
+        public int DefaultNumbersOnUpdate { get; set; }
 
 
         public EditCoursePage()
@@ -63,6 +63,18 @@ namespace QR_Presence.Views.AdminPages
             }).Wait();
 
             ListOfIntervals = new ObservableCollection<IntervalPicker> { new IntervalPicker { TextButton = "plus" } };
+            DefaultNumbersOnUpdate = 0;
+
+            string role = Preferences.Get("Role", "2");
+
+            if (role == "0")
+            {
+                IsVisibleOnAdmin = true;
+            }
+            else
+            {
+                IsVisibleOnAdmin = false;
+            }
 
             Course = new Cours();
             IsUpdate = false;
@@ -79,17 +91,24 @@ namespace QR_Presence.Views.AdminPages
                 TeachersAdmin prof = await Services.APICalls.GetProfessorsAdminAsync();
 
                 int i = 0;
-                foreach (var item in course.intervals)
+                if (course.intervals.Count != 0)
                 {
-                    string buttonTxt = i == 0 ? "plus" : "minus";
-                    i++;
-                    ListOfIntervals.Add(new IntervalPicker
+                    foreach (var item in course.intervals)
                     {
-                        Duration = item.length,
-                        StartH = item.STime,
-                        Day = item.day,
-                        TextButton = buttonTxt,
-                    });
+                        string buttonTxt = i == 0 ? "plus" : "minus";
+                        i++;
+                        ListOfIntervals.Add(new IntervalPicker
+                        {
+                            Duration = item.length,
+                            StartH = item.STime,
+                            Day = item.day,
+                            TextButton = buttonTxt,
+                        });
+                    }
+                }
+                else
+                {
+                    ListOfIntervals = new ObservableCollection<IntervalPicker> { new IntervalPicker { TextButton = "plus" } };
                 }
 
                 List<User> list = new List<User>();
@@ -103,13 +122,23 @@ namespace QR_Presence.Views.AdminPages
                 }
 
 
+                DefaultNumbersOnUpdate = course.intervals.Count;
+
                 ListOf = new ObservableCollection<User>(list);
                 Professors = new ObservableCollection<User>(prof.teachers);
 
                 Professor = prof.teachers.Find(x => x.User_id == course.Id_Professor);
             }).Wait();
 
+            string role = Preferences.Get("Role", "2");
 
+            if (role == "0")
+            {
+                IsVisibleOnAdmin = true;
+            }else
+            {
+                IsVisibleOnAdmin = false;
+            }
 
             Course = course;
             IsUpdate = true;
@@ -137,40 +166,53 @@ namespace QR_Presence.Views.AdminPages
         {
             bool isok1 = false;
             bool isok2 = false;
-            bool isok3 = false;
+            bool isok3 = true;
 
+            string role = Preferences.Get("Role", "2");
 
-            if (IsUpdate)
-                isok1 = await Services.APICalls.UpdateCourseAdminAsync(Course, Professor.User_id);
+            if (role == "0")
+            {
+                if (IsUpdate)
+                    isok1 = await Services.APICalls.UpdateCourseAdminAsync(Course, Professor.User_id);
+                else
+                {
+                    Course.Id_Course = await Services.APICalls.CreateCourseAdminAsync(Course, Professor.User_id);
+                    if (Course.Id_Course != -1)
+                    {
+                        isok1 = true;
+                    }
+                }
+
+                if (Students_Selected?.Count != 0)
+                    isok2 = await Services.APICalls.EnroleStudentsAdminAsync(new EnrolleStudents { id_course = Course.Id_Course, students_to_enroll = Students_Selected });
+                if (Students_Selected == null)
+                {
+                    isok2 = true;
+                }
+
+                if (DefaultNumbersOnUpdate == 0 && ListOfIntervals[0] != new IntervalPicker { TextButton = "plus" })
+                {
+                    foreach (IntervalPicker pick in ListOfIntervals)
+                    {
+                        isok3 = await Services.APICalls.AddIntervalsCoursAsync(pick, Course.Id_Course);
+                    }
+                }
+
+                if (isok1 && isok2 && isok3)
+                    await Navigation.PopAsync();
+                else
+                    await DisplayAlert("Alert!", "Error Ocured, retry", "OK");
+            }
             else
             {
-                Course.Id_Course = await Services.APICalls.CreateCourseAdminAsync(Course, Professor.User_id);
-                if (Course.Id_Course != -1)
-                {
-                    isok1 = true;
-                }
-            }
-
-            if (Students_Selected?.Count != 0)
-                isok2 = await Services.APICalls.EnroleStudentsAdminAsync(new EnrolleStudents { id_course = Course.Id_Course, students_to_enroll = Students_Selected });
-            if (Students_Selected == null)
-            {
-                isok2 = true;
+                isok1 = await Services.APICalls.UpdateCourseAdminAsync(Course, 0);
+                if (isok1)
+                    await Navigation.PopAsync();
+                else
+                    await DisplayAlert("Alert!", "Error Ocured, retry", "OK");
             }
 
 
-            if (ListOfIntervals[0] != new IntervalPicker { TextButton = "plus" })
-            {
-                foreach (IntervalPicker pick in ListOfIntervals)
-                {
-                    isok3 = await Services.APICalls.AddIntervalsCoursAsync(pick, Course.Id_Course);
-                }
-            }
-
-            if (isok1 && isok2 && isok3)
-                await Navigation.PopAsync();
-            else
-                await DisplayAlert("Alert!", "Error Ocured, retry", "OK");
         }
 
         private void Button_Clicked_2(object sender, EventArgs e)

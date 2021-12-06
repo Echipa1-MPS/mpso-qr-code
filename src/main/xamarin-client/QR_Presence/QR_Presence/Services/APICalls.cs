@@ -23,6 +23,7 @@ namespace QR_Presence.Services
         public static string BaseUrlQr = "http://ec2-3-18-103-144.us-east-2.compute.amazonaws.com:8080/api/qr/student/";
         public static string BaseUrlQrSchedule = "http://ec2-3-18-103-144.us-east-2.compute.amazonaws.com:8080/api/schedule/";
 
+        public static string BaseUrlStudent = "http://ec2-3-18-103-144.us-east-2.compute.amazonaws.com:8080/api/user/student/";
 
 
         #endregion URLs
@@ -133,7 +134,7 @@ namespace QR_Presence.Services
 
                 var response = await client.GetAsync(new Uri(BaseUrlAdmin + "get-students"));
 
-                StudentsAdmin Items = new StudentsAdmin();
+                StudentsAdmin Items = new StudentsAdmin { students = new List<User>() };
                 if (response.IsSuccessStatusCode)
                 {
                     string content = await response.Content.ReadAsStringAsync();
@@ -156,7 +157,7 @@ namespace QR_Presence.Services
 
                 var response = await client.GetAsync(new Uri(BaseUrlAdmin + "get-teachers"));
 
-                TeachersAdmin Items = new TeachersAdmin();
+                TeachersAdmin Items = new TeachersAdmin { teachers= new List<User>()};
                 if (response.IsSuccessStatusCode)
                 {
                     string content = await response.Content.ReadAsStringAsync();
@@ -342,19 +343,37 @@ namespace QR_Presence.Services
 
                 client.DefaultRequestHeaders.Authorization = authHeader;
 
-                var jsonRequest = new
-                {
-                    course_id = course.Id_Course,
-                    nameC = course.Name_C,
-                    idProfessor = Id_Professor,
-                    desc = course.Desc,
-                    grading = course.Grading
-                };
+                string role = Preferences.Get("Role", "2");
 
-                var serializedJsonRequest = JsonConvert.SerializeObject(jsonRequest);
+                string serializedJsonRequest;
+                if (role == "0")
+                {
+                    var jsonRequest1 = new
+                    {
+                        course_id = course.Id_Course,
+                        nameC = course.Name_C,
+                        idProfessor = Id_Professor,
+                        desc = course.Desc,
+                        grading = course.Grading
+                    };
+                    serializedJsonRequest = JsonConvert.SerializeObject(jsonRequest1);
+                }
+                else
+                {
+                    var jsonRequest = new
+                    {
+                        course_id = course.Id_Course,
+                        desc = course.Desc,
+                        grading = course.Grading
+                    };
+
+                    serializedJsonRequest = JsonConvert.SerializeObject(jsonRequest);
+                }
+
+
                 HttpContent content = new StringContent(serializedJsonRequest, Encoding.UTF8, "application/json");
 
-                var response = await client.PostAsync(new Uri(BaseUrlSubjectAdmin + "update-course"), content);
+                var response = await client.PostAsync(new Uri(BaseUrlSubject + "update-course"), content);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -422,7 +441,7 @@ namespace QR_Presence.Services
                 var authHeader = new AuthenticationHeaderValue("Bearer", await SecureStorage.GetAsync("oauth_token"));
 
                 client.DefaultRequestHeaders.Authorization = authHeader;
-                
+
                 var jsonRequest = new
                 {
                     day = interval.DayOfWeekCourse.IndexOf(interval.Day) + 1,
@@ -589,6 +608,46 @@ namespace QR_Presence.Services
                 return $"{cont} - {response.StatusCode}";
             }
         }
+
+        public async static Task<bool> UpdateUserStudentAsync(User user, string password)
+        {
+            using (var c = new HttpClient())
+            {
+                HttpClient client = new HttpClient();
+                var authHeader = new AuthenticationHeaderValue("Bearer", await SecureStorage.GetAsync("oauth_token"));
+
+                client.DefaultRequestHeaders.Authorization = authHeader;
+
+                string[] words = user.Email.Split('@');
+
+                var jsonRequest = new
+                {
+                    password = password,
+                };
+
+                var serializedJsonRequest = JsonConvert.SerializeObject(jsonRequest);
+                HttpContent content = new StringContent(serializedJsonRequest, Encoding.UTF8, "application/json");
+
+                var method = new HttpMethod("PATCH");
+                HttpRequestMessage request = new HttpRequestMessage
+                {
+                    Content = content,
+                    Method = method,
+                    RequestUri = new Uri(BaseUrlStudent + "update")
+                };
+
+                var response = await client.SendAsync(request);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return true;
+                }
+
+                return false;
+            }
+        }
+
+
         #endregion Student
 
     }

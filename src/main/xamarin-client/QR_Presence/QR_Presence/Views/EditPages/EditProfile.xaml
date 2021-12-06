@@ -25,9 +25,9 @@
             </StackLayout>
             <Grid ColumnSpacing="10" RowSpacing="15" Padding="0">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height=".65*" />
-                    <RowDefinition Height=".65*" />
-                    <RowDefinition Height=".65*" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
                     
                 </Grid.RowDefinitions>
 
@@ -36,35 +36,45 @@
                     <ColumnDefinition Width=".5*" />
 
                 </Grid.ColumnDefinitions>
-                <Frame Style="{StaticResource FrameAddNews}">
+                <Frame Style="{StaticResource FrameAddNews}" IsVisible="{Binding IsVisibleOnAdmin}">
                     <StackLayout Spacing="-8" >
                         <StackLayout  Style="{StaticResource StackEntry}">
                             <Label Text="Name" TextColor="{AppThemeBinding Dark={StaticResource BackgroundLight}, Light={StaticResource BackgroundDark}}"/>
                         </StackLayout>
-                        <Entry x:Name="FirstNameEntry" Text="{Binding name}" TextColor="{AppThemeBinding Dark={StaticResource BackgroundLight}, Light={StaticResource BackgroundDark}}"/>
+                        <Entry x:Name="FirstNameEntry" Text="{Binding Profile.Name}" TextColor="{AppThemeBinding Dark={StaticResource BackgroundLight}, Light={StaticResource BackgroundDark}}"/>
                     </StackLayout>
                 </Frame>
-                <Frame Grid.Column="1" Style="{StaticResource FrameAddNews}">
+                <Frame Grid.Column="1" Style="{StaticResource FrameAddNews}" IsVisible="{Binding IsVisibleOnAdmin}">
                     <StackLayout Spacing="-8" >
                         <StackLayout  Style="{StaticResource StackEntry}">
                             <Label Text="SecondName" VerticalOptions="Center" TextColor="{AppThemeBinding Dark={StaticResource BackgroundLight}, Light={StaticResource BackgroundDark}}"/>
                         </StackLayout>
-                        <Entry Grid.Column="1" x:Name="LasttNameEntry"  Text="{Binding surname}" TextColor="{AppThemeBinding Dark={StaticResource BackgroundLight}, Light={StaticResource BackgroundDark}}"/>
+                        <Entry Grid.Column="1" x:Name="LasttNameEntry"  Text="{Binding Profile.Surname}" TextColor="{AppThemeBinding Dark={StaticResource BackgroundLight}, Light={StaticResource BackgroundDark}}"/>
                     </StackLayout>
                 </Frame>
+
                 <Frame Grid.ColumnSpan="2" Grid.Row="1" Style="{StaticResource FrameAddNews}">
                     <StackLayout Spacing="-8" Grid.ColumnSpan="2" Grid.Row="1" >
                         <StackLayout  Style="{StaticResource StackEntry}">
                             <Label Text="Email" TextColor="{AppThemeBinding Dark={StaticResource BackgroundLight}, Light={StaticResource BackgroundDark}}"/>
                         </StackLayout>
-                        <Entry Grid.ColumnSpan="2" Grid.Row="1" x:Name="EmailEntry" Text="{Binding email}"  TextColor="{AppThemeBinding Dark={StaticResource BackgroundLight}, Light={StaticResource BackgroundDark}}"/>
+                        <Entry Grid.ColumnSpan="2" Grid.Row="1" x:Name="EmailEntry" Text="{Binding Profile.Email}"  TextColor="{AppThemeBinding Dark={StaticResource BackgroundLight}, Light={StaticResource BackgroundDark}}"/>
                     </StackLayout>
                 </Frame>
-                
-                <Frame  Grid.Row="2"  Grid.ColumnSpan="2"  Style="{StaticResource FrameAddNews}">
+
+                <Frame Grid.ColumnSpan="2" Grid.Row="2" Style="{StaticResource FrameAddNews}" IsVisible="{Binding IsVisibleOnStudent}">
+                    <StackLayout Spacing="-8" Grid.ColumnSpan="2" Grid.Row="1" >
+                        <StackLayout  Style="{StaticResource StackEntry}">
+                            <Label Text="Password" TextColor="{AppThemeBinding Dark={StaticResource BackgroundLight}, Light={StaticResource BackgroundDark}}"/>
+                        </StackLayout>
+                        <Entry Grid.ColumnSpan="2" Grid.Row="1" x:Name="PasswordEntry" IsPassword="true" Text="{Binding Password}"  TextColor="{AppThemeBinding Dark={StaticResource BackgroundLight}, Light={StaticResource BackgroundDark}}"/>
+                    </StackLayout>
+                </Frame>
+
+                <Frame  Grid.Row="2"  Grid.ColumnSpan="2"  Style="{StaticResource FrameAddNews}" IsVisible="{Binding IsVisibleOnAdmin}">
                     <StackLayout Padding="0,4,0,0">
                         <Label Text="Group" TextColor="{AppThemeBinding Dark={StaticResource BackgroundLight}, Light={StaticResource BackgroundDark}}"/>
-                        <Entry x:Name="HighlightsPicker" Grid.Row="2" Grid.Column="1" Text="{Binding group}" TextColor="{AppThemeBinding Dark={StaticResource BackgroundLight}, Light={StaticResource BackgroundDark}}"/>
+                        <Entry x:Name="HighlightsPicker" Grid.Row="2" Grid.Column="1" Text="{Binding Profile.Group}" TextColor="{AppThemeBinding Dark={StaticResource BackgroundLight}, Light={StaticResource BackgroundDark}}"/>
                     </StackLayout>
                 </Frame>
                 

@@ -69,10 +69,15 @@ namespace QR_Presence.Views
 
         private async void Button_Clicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new EditPages.EditProfile
-            {
-                BindingContext = User
-            });
+            await Navigation.PushAsync(new EditPages.EditProfile (new User
+                {
+                    User_id = Profile.id_user,
+                    Email = Profile.LDAP,
+                    Name = Profile.name,
+                    Surname = Profile.SecondName,
+                    Group = Profile.Group
+                }
+            ));
         }
 
         private async void Button_Clicked_1(object sender, EventArgs e)
