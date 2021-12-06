@@ -37,13 +37,15 @@ export default function Home() {
 
     const navigateToCreateQr = () => window.location.href = "/create-qr";
 
-    const successfulUpcomingCourses = (result) => setUpcomingCourses(result && result.data ? result.data : []);
+    const successfulUpcomingCourses = (result) => { 
+        setUpcomingCourses(result && result.data ? result.data : []) };
     const failureUpcomingCourses = (error) => setUpcomingCourses([]);
 
     const successfulGetProfile = (result) => setProfile(result && result.data ? result.data : {});
     const failureGetProfile = (error) => setProfile({});
 
-    const successfulGetCoursesBrief = (result) => setCourses(result && result.data ? JSON.parse(JSON.stringify(result.data)) : []);
+    const successfulGetCoursesBrief = (result) => { 
+        setCourses(result && result.data ? JSON.parse(JSON.stringify(result.data)) : []) };
     const failureGetCoursesBrief = (error) => setCourses([]);
 
     return(
@@ -69,21 +71,19 @@ export default function Home() {
                         </div>
                         <div className="flex-container-row" style={{justifyContent: "space-between", flexWrap: "wrap"}}>
                             {
-                                upcomingCourses && upcomingCourses.length > 0 ? 
-                                    (upcomingCourses.map((course ) => {
-                                    (
+                                upcomingCourses && upcomingCourses.length > 0 && upcomingCourses.map((course) => {
+                                    return (
                                         <div className="upcoming-courses-item" key={course.interval}>
                                             <div style={{fontWeight: "bold"}}>{course.name}</div>
                                             <div>{course.interval}</div>
                                         </div>
-                                    )})) 
-                                    : ""
+                                    )})
                             }
                         </div>
                     </div>
 
                     <div className="white-text-font create-qr-button-width create-qr-button-style" 
-                        style={{ backgroundColor: theme.rose_budget}}
+                        style={{ backgroundColor: theme.rose_budget, marginLeft: "20px"}}
                         onClick = {navigateToCreateQr}>
                         Create QR
                     </div>

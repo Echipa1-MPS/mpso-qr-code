@@ -17,7 +17,7 @@ export const patchUpdateQrUrl = `${apiHostUrl}/api/qr/teacher/update-qr-key`;
 // DONE (GET)
 export const getProfileUrl = `${apiHostUrl}/api/user/teacher/profile`;
 // SERVER ERROR
-export const getUpcomingCoursesUrl = `${apiHostUrl}/api/upcoming/courses`;
+export const getUpcomingCoursesUrl = `${apiHostUrl}/api/subject/teacher/upcoming/courses `;
 // DONE (GET)
 export const getCoursesBriefUrl = `${apiHostUrl}/api/subject/teacher/courses/brief`;
 // DONE (GET)
