@@ -11,32 +11,38 @@ export default class About extends Component {
     render() {
         return (
             <div className="flex-container-row-center full-height-vw">
-                <div className="flex-container-column-center" style={{maxWidth: "1000px"}}>
+                <div className="flex-container-column-center" style={{maxWidth: "1000px", paddingBottom: "200px"}}>
                     <h2 className="center-text">Authors</h2>
                     <div className="flex-container-row" style={{justifyContent: "inherit"}}>
-                        <div>
+                        <div className="authors-cell">
                             <img src={stefan_n} alt="Stefan Nedelcu" 
                                 className="avatar rounded-avatar-image author-avatar-width avatar-margin avatar-border"/>
+                            <p>Stefan Nedelcu</p>
                         </div>
-                        <div>
+                        <div className="authors-cell">
                             <img src={stefan_p} alt="Stefan Popa" 
                                 className="avatar rounded-avatar-image author-avatar-width avatar-margin avatar-border"/>
+                            <p>Stefan Popa</p>
                         </div>
-                        <div>
+                        <div className="authors-cell">
                             <img src={cristi_s} alt="Cristi Sandu" 
                                 className="avatar rounded-avatar-image author-avatar-width avatar-margin avatar-border"/>
+                            <p>Cristi Sandu</p>
                         </div>
-                        <div>
+                        <div className="authors-cell">
                             <img src={tudor_c} alt="Tudor Calafateanu" 
                                 className="avatar rounded-avatar-image author-avatar-width avatar-margin avatar-border"/>
+                            <p>Tudor Calafateanu</p>
                         </div>
-                        <div>
-                            <img src={maria_c} alt="Maria Calafateanu"
+                        <div className="authors-cell">
+                            <img src={maria_c} alt="Maria Carmina"
                                 className="avatar rounded-avatar-image author-avatar-width avatar-margin avatar-border"/>
+                            <p>Maria Carmina</p>
                         </div>
-                        <div>
-                            <img src={stela_j} alt="Stefana Josan"
+                        <div className="authors-cell">
+                            <img src={stela_j} alt="Stela Josan"
                                 className="avatar rounded-avatar-image author-avatar-width avatar-margin avatar-border"/>
+                            <p>Stela Josan</p>
                         </div>
                     </div>
                 </div>

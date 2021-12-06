@@ -21,11 +21,6 @@ export default function Header(props) {
                             ? <a className="nav-item nav-link header-options-text-size white-text-font" href="/">Home</a>
                             : ""
                     }
-                    {
-                        props.loggedIn
-                            ? <a className="nav-item nav-link header-options-text-size white-text-font" href="/statistics">Statistics</a>
-                            : ""
-                    }
                    
                     <a className="nav-item nav-link header-options-text-size white-text-font" href="/about">About</a>
                     {

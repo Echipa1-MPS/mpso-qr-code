@@ -275,14 +275,16 @@ export default function CreateQR() {
                 </div>
                 <div className="cornsilk-background 
                                 qrsection-sections-width 
-                                qrsection-section-page-height">'
-                
-                {receivedQrId && !finishedSession ? <QRCode value={receivedQrId + "/" + chosenCourse.id_curs + "/" + randomQrInt} /> : ""}
-                {receivedQrId && !finishedSession ? <p>{receivedQrId + "/" + chosenCourse.id_curs + "/" + randomQrInt}</p> : ""}
+                                qrsection-section-page-height" 
+                    style={{position: "relative"}}>
+                    <div style={{position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)"}}>
+                        {receivedQrId && !finishedSession ? <QRCode value={receivedQrId + "/" + chosenCourse.id_curs + "/" + randomQrInt} /> : ""}
+                        {receivedQrId && !finishedSession ? <p>{receivedQrId + "/" + chosenCourse.id_curs + "/" + randomQrInt}</p> : ""}
+                    </div>
                 </div>
             </div>
         </div>);
-}
+}   
 
 function CreateQrDropdown(title, items) {
 
